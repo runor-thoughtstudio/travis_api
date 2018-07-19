@@ -62,5 +62,19 @@ describe('User Tests', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should not allow same email to signup twice', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users`;
+			request.post(url, user, (error, res, body) => {
+				console.log(`${error}/${res}/${body}`);
+			});
+			request.post(url, user, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(409);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This email has already been taken!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });

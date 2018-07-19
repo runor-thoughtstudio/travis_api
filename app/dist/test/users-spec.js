@@ -76,6 +76,20 @@ describe('User Tests', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should not allow same email to signup twice', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users';
+			request.post(url, user, function (error, res, body) {
+				console.log(error + '/' + res + '/' + body);
+			});
+			request.post(url, user, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(409);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This email has already been taken!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
 //# sourceMappingURL=users-spec.js.map
