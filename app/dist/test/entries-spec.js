@@ -179,5 +179,16 @@ describe('Test Entries Routes', function () {
 			});
 		}).timeout(10000);
 	});
+
+	describe('deleteEntry()', function () {
+		it('should delete an entry', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
+			request.delete(url, function (error, res, body) {
+				expect(res.statusCode).to.be.equal(204);
+				expect(body).to.be.equal('');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
 //# sourceMappingURL=entries-spec.js.map

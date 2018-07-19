@@ -165,4 +165,15 @@ describe('Test Entries Routes', () => {
 			});
 		}).timeout(10000);
 	});
+
+	describe('deleteEntry()', () => {
+		it('should delete an entry', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
+			request.delete(url, (error, res, body) => {
+				expect(res.statusCode).to.be.equal(204);
+				expect(body).to.be.equal('');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
