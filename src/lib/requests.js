@@ -34,4 +34,13 @@ export default class Request {
 			callback(error, response, body);
 		});
 	}
+
+	delete(url, callback) {
+		this.request({
+			uri: url,
+			method: 'DELETE',
+		}, (error, response, body) => {
+			callback(error, response, body);
+		});
+	}
 }

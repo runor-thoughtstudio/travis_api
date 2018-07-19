@@ -165,4 +165,26 @@ describe('Test Entries Routes', () => {
 			});
 		}).timeout(10000);
 	});
+
+	describe('deleteEntry()', () => {
+		it('should delete an entry when id exists', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
+			request.delete(url, (error, res, body) => {
+				expect(res.statusCode).to.be.equal(204);
+				expect(body).to.be.equal('');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should show error when id doesnt exist', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/10`;
+			request.delete(url, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This entry does not exist!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });

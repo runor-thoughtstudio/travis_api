@@ -58,5 +58,18 @@ entriesRouter.put('/entries/:id', (req, res) => {
 	}
 });
 
+entriesRouter.delete('/entries/:id', (req, res) => {
+	const datastructure = req.app.get('appData');
+	if (!datastructure.entries) {
+		res.status(500).json({ error: 'Internal Server Error!' });
+	} else if
+	(datastructure.entries === undefined || datastructure.entries[req.params.id] === undefined) {
+		res.status(404).json({ error: 'This entry does not exist!' });
+	} else {
+		datastructure.entries.splice(req.params.id, 1);
+		res.status(204).json();
+	}
+});
+
 
 export default entriesRouter;
