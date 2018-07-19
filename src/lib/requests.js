@@ -43,5 +43,4 @@ export default class Request {
 			callback(error, response, body);
 		});
 	}
-	
 }
