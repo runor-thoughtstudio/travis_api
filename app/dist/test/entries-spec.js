@@ -133,6 +133,21 @@ describe('Test Entries Routes', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('show error 404 when id does not exist', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/10';
+			var formData = {
+				title: 'First Title',
+				description: 'Cool'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This entry does not exist!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
 //# sourceMappingURL=entries-spec.js.map

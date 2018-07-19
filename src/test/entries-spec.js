@@ -119,5 +119,20 @@ describe('Test Entries Routes', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('show error 404 when id does not exist', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/10`;
+			const formData = {
+				title: 'First Title',
+				description: 'Cool',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This entry does not exist!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
