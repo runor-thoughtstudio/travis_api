@@ -34,5 +34,16 @@ describe('Test Entries Routes', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should show 404 not found when id doesnt exist', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/10`;
+			request.get(url, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This entry cannot be found');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
