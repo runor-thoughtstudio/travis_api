@@ -12,15 +12,20 @@ var _requests = require('../lib/requests');
 
 var _requests2 = _interopRequireDefault(_requests);
 
+var _app = require('../app');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import nock from 'nock';
 _dotenv2.default.config();
+// import nock from 'nock';
 var expect = _chai2.default.expect;
 
 var request = new _requests2.default();
 
 describe('Test Entries Routes', function () {
+	after(function () {
+		_app.mainServer.close();
+	});
 	describe('allEntries()', function () {
 		it('should show all entries in the app', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries';
