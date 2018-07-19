@@ -59,7 +59,7 @@ describe('Test Entries Routes', () => {
 	});
 
 	describe('createEntry()', () => {
-		it('should create an entry', (done) => {
+		it('should create an entry when form data is correct', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/entries`;
 			const formData = {
 				title: 'New Title',
@@ -69,6 +69,21 @@ describe('Test Entries Routes', () => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
 				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+
+		it('validation should fail when any form field is empty', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries`;
+			const formData = {
+				title: ' ',
+				description: 'New Description',
+			};
+			request.post(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
 				done();
 			});
 		}).timeout(10000);
