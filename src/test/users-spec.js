@@ -12,3 +12,20 @@ const user = {
 	fullName: 'User Name',
 	dob: '2018-04',
 };
+
+describe('User Tests', () => {
+	after(() => {
+		mainServer.close();
+	});
+	describe('signup user()', () => {
+		it('should signup a user with correct form details', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users`;
+			request.post(url, user, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(201);
+				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+	});
+});
