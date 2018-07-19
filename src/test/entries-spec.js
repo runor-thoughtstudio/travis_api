@@ -1,5 +1,5 @@
 import chai from 'chai';
-import nock from 'nock';
+// import nock from 'nock';
 import dotenv from 'dotenv';
 import Request from '../lib/requests';
 
