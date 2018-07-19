@@ -148,6 +148,21 @@ describe('Test Entries Routes', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should give error when incorrect form data is sent', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
+			var formData = {
+				name: 'First Title',
+				body: 'Cool'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
 //# sourceMappingURL=entries-spec.js.map

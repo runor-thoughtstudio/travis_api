@@ -134,5 +134,20 @@ describe('Test Entries Routes', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should give error when incorrect form data is sent', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
+			const formData = {
+				name: 'First Title',
+				body: 'Cool',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
