@@ -38,6 +38,7 @@ describe('User Tests', function () {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
 				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('You have successfully signed up!');
 				done();
 			});
 		}).timeout(10000);
