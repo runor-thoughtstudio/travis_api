@@ -29,14 +29,14 @@ entriesRouter.get('/entries/:id', (req, res) => {
 entriesRouter.post('/entries', (req, res) => {
 	const datastructure = req.app.get('appData');
 	if (req.body.title === ' ' || req.body.description === ' ' || req.body.title.length < 1 || req.body.description < 1) {
-		res.status(422).json({ message: 'Please fill in all the fields properly!' });
+		res.status(422).json({ error: 'Please fill in all the fields properly!' });
 	} else if (!datastructure.entries) {
 		res.status(500).json({ error: 'Internal Server Error!' });
 	} else if (req.body.title && req.body.description) {
 		datastructure.entries.push(req.body);
 		res.status(201).json({ message: 'The entry has been created!' });
 	} else {
-		res.status(400).json({ message: 'Invalid request!' });
+		res.status(400).json({ error: 'Invalid request!' });
 	}
 });
 
