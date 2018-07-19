@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kampkelly/MyDiaryApi.svg?branch=all-entries-feature)](https://travis-ci.org/kampkelly/MyDiaryApi) [![Coverage Status](https://coveralls.io/repos/github/kampkelly/MyDiaryApi/badge.svg?branch=all-entries-feature)](https://coveralls.io/github/kampkelly/MyDiaryApi?branch=all-entries-feature)
+[![Build Status](https://travis-ci.org/kampkelly/MyDiaryApi.svg?branch=all-entries-feature)](https://travis-ci.org/kampkelly/MyDiaryApi) [![Coverage Status](https://coveralls.io/repos/github/kampkelly/MyDiaryApi/badge.svg?branch=all-entries-feature)](https://coveralls.io/github/kampkelly/MyDiaryApi?branch=all-entries-feature) [![Maintainability](https://api.codeclimate.com/v1/badges/6d877ab9590a243bf8db/maintainability)](https://codeclimate.com/github/kampkelly/MyDiaryApi/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/6d877ab9590a243bf8db/test_coverage)](https://codeclimate.com/github/kampkelly/MyDiaryApi/test_coverage)
 
 # MyDiary Application Api
 
