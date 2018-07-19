@@ -2,3 +2,5 @@ node_modules
 steps.txt
 .env
 **/*.map
+coverage
+.coveralls.yml
