@@ -12,7 +12,10 @@ entriesRouter.get('/entries', (req, res) => {
 
 entriesRouter.get('/entries/:id', (req, res) => {
 	const datastructure = req.app.get('appData');
-	if (datastructure.entries === undefined || datastructure.entries[req.params.id] === undefined) {
+	if (!Number.isInteger(Number(req.params.id))) {
+		res.status(400).json({ error: 'Bad Request' });
+	} else if
+	(datastructure.entries === undefined || datastructure.entries[req.params.id] === undefined) {
 		res.status(404).json({ error: 'This entry cannot be found' });
 	} else {
 		const entry = datastructure.entries[req.params.id];
