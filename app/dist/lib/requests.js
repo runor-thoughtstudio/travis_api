@@ -54,6 +54,16 @@ var Request = function () {
 				callback(error, response, body);
 			});
 		}
+	}, {
+		key: 'delete',
+		value: function _delete(url, callback) {
+			this.request({
+				uri: url,
+				method: 'DELETE'
+			}, function (error, response, body) {
+				callback(error, response, body);
+			});
+		}
 	}]);
 
 	return Request;
