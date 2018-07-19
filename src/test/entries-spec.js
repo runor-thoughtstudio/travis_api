@@ -88,5 +88,81 @@ describe('Test Entries Routes', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should give error on sending incorrect form data', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries`;
+			const formData = {
+				name: ' ',
+				body: 'New Description',
+			};
+			request.post(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
+	});
+
+	describe('updateEntry()', () => {
+		it('should update an entry on correct form data', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
+			const formData = {
+				title: 'Title',
+				description: 'Cool',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+
+		it('validation should fail when any form field is empty', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
+			const formData = {
+				title: ' ',
+				description: 'Cool',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('show error 404 when id does not exist', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/10`;
+			const formData = {
+				title: 'First Title',
+				description: 'Cool',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This entry does not exist!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should give error when incorrect form data is sent', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
+			const formData = {
+				name: 'First Title',
+				body: 'Cool',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });

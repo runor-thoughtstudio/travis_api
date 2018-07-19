@@ -102,6 +102,82 @@ describe('Test Entries Routes', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should give error on sending incorrect form data', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries';
+			var formData = {
+				name: ' ',
+				body: 'New Description'
+			};
+			request.post(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
+	});
+
+	describe('updateEntry()', function () {
+		it('should update an entry on correct form data', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
+			var formData = {
+				title: 'Title',
+				description: 'Cool'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+
+		it('validation should fail when any form field is empty', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
+			var formData = {
+				title: ' ',
+				description: 'Cool'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('show error 404 when id does not exist', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/10';
+			var formData = {
+				title: 'First Title',
+				description: 'Cool'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This entry does not exist!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should give error when incorrect form data is sent', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
+			var formData = {
+				name: 'First Title',
+				body: 'Cool'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
 //# sourceMappingURL=entries-spec.js.map

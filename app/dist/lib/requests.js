@@ -43,6 +43,17 @@ var Request = function () {
 				callback(error, response, body);
 			});
 		}
+	}, {
+		key: 'put',
+		value: function put(url, formData, callback) {
+			this.request({
+				uri: url,
+				method: 'PUT',
+				form: formData
+			}, function (error, response, body) {
+				callback(error, response, body);
+			});
+		}
 	}]);
 
 	return Request;
