@@ -89,4 +89,20 @@ describe('Test Entries Routes', () => {
 			});
 		}).timeout(10000);
 	});
+
+	describe('updateEntry()', () => {
+		it('should update an entry', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
+			const formData = {
+				title: 'Title',
+				description: 'Cool',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
