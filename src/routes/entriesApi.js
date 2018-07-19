@@ -28,7 +28,7 @@ entriesRouter.get('/entries/:id', (req, res) => {
 
 entriesRouter.post('/entries', (req, res) => {
 	const datastructure = req.app.get('appData');
-	if (req.body.title === ' ' || req.body.description === ' ' || req.body.title.length < 1 || req.body.description < 1) {
+	if (req.body.title === ' ' || req.body.description === ' ') {
 		res.status(422).json({ error: 'Please fill in all the fields properly!' });
 	} else if (!datastructure.entries) {
 		res.status(500).json({ error: 'Internal Server Error!' });
