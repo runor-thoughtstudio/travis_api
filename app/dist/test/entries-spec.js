@@ -181,11 +181,22 @@ describe('Test Entries Routes', function () {
 	});
 
 	describe('deleteEntry()', function () {
-		it('should delete an entry', function (done) {
+		it('should delete an entry when id exists', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
 			request.delete(url, function (error, res, body) {
 				expect(res.statusCode).to.be.equal(204);
 				expect(body).to.be.equal('');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should show error when id doesnt exist', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/10';
+			request.delete(url, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This entry does not exist!');
 				done();
 			});
 		}).timeout(10000);
