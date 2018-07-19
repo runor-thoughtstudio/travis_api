@@ -5,9 +5,16 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const app = express();
-
+const dataStructure = {
+	entries: [{
+		title: 'First', description: 'The description',
+	}],
+	users: [{
+		email: 'user@example.com', password: 'password', fullName: 'Example User', dob: '2018-06', reminderDate: '',
+	}],
+};
 app.set('port', process.env.PORT || 3000);
-
+app.set('appData', dataStructure);
 app.set('appVersion', '/api/v1');
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));

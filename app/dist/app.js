@@ -25,9 +25,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _dotenv2.default.config();
 var app = (0, _express2.default)();
-
+var dataStructure = {
+	entries: [{
+		title: 'First', description: 'The description'
+	}],
+	users: [{
+		email: 'user@example.com', password: 'password', fullName: 'Example User', dob: '2018-06', reminderDate: ''
+	}]
+};
 app.set('port', process.env.PORT || 3000);
-
+app.set('appData', dataStructure);
 app.set('appVersion', '/api/v1');
 app.use((0, _cors2.default)());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
