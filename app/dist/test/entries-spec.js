@@ -105,7 +105,7 @@ describe('Test Entries Routes', function () {
 	});
 
 	describe('updateEntry()', function () {
-		it('should update an entry', function (done) {
+		it('should update an entry on correct form data', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
 			var formData = {
 				title: 'Title',
@@ -115,6 +115,21 @@ describe('Test Entries Routes', function () {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+
+		it('validation should fail when any form field is empty', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
+			var formData = {
+				title: ' ',
+				description: 'Cool'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
 				done();
 			});
 		}).timeout(10000);
