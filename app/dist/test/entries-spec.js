@@ -37,5 +37,17 @@ describe('Test Entries Routes', function () {
 			});
 		}).timeout(10000);
 	});
+
+	describe('showEntry()', function () {
+		it('should show an entry when the id exists', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
+			request.get(url, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
 //# sourceMappingURL=entries-spec.js.map
