@@ -5,6 +5,8 @@
 		"main": "app/dist/app.js",
 		"scripts": {
 				"test": "grunt mochaTest",
+				"coverage": "node node_modules/.bin/istanbul cover _mocha -- -R spec app/dist/test",
+				"coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
 				"startwatch": "nodemon app/dist/app.js",
 				"start": "node app/dist/app.js",
 				"watch": "grunt watch",
