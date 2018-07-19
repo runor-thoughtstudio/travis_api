@@ -32,6 +32,17 @@ var Request = function () {
 				callback(error, response, body);
 			});
 		}
+	}, {
+		key: 'post',
+		value: function post(url, formData, callback) {
+			this.request({
+				uri: url,
+				method: 'POST',
+				form: formData
+			}, function (error, response, body) {
+				callback(error, response, body);
+			});
+		}
 	}]);
 
 	return Request;
