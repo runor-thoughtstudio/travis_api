@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kampkelly/MyDiaryApi.svg?branch=all-entries-feature)](https://travis-ci.org/kampkelly/MyDiaryApi) [![Coverage Status](https://coveralls.io/repos/github/kampkelly/MyDiaryApi/badge.svg?branch=all-entries-feature)](https://coveralls.io/github/kampkelly/MyDiaryApi?branch=all-entries-feature)
+
 # MyDiary Application Api
 
 This api is going to be used to power the MyDiary application front-end
