@@ -28,5 +28,22 @@ describe('User Tests', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should validate false on submitting empty field', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users`;
+			const tempUser = {
+				email: ' ',
+				password: 'password',
+				fullName: 'User Name',
+				dob: '2018-04',
+			};
+			request.post(url, tempUser, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });

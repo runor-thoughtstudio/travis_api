@@ -41,10 +41,10 @@ usersRouter.post('/users', function (req, res) {
 				res.status(201).json({ message: 'You have successfully signed up!' });
 			}
 		} else {
-			res.status(422).json({ message: 'Please fill in all the fields properly!' });
+			res.status(422).json({ error: 'Please fill in all the fields properly!' });
 		}
 	} else {
-		res.status(400).json({ message: 'Invalid Request!' });
+		res.status(400).json({ error: 'Invalid Request!' });
 	}
 });
 
