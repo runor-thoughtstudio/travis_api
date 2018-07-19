@@ -3,4 +3,5 @@ steps.txt
 .env
 **/*.map
 coverage
+coverage/
 .coveralls.yml
