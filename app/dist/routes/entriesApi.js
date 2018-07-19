@@ -23,9 +23,9 @@ entriesRouter.get('/entries', function (req, res) {
 entriesRouter.get('/entries/:id', function (req, res) {
 	var datastructure = req.app.get('appData');
 	if (!Number.isInteger(Number(req.params.id))) {
-		res.status(400).json({ error: 'Bad Request' });
+		res.status(400).json({ error: 'Bad Request!' });
 	} else if (datastructure.entries === undefined || datastructure.entries[req.params.id] === undefined) {
-		res.status(404).json({ error: 'This entry cannot be found' });
+		res.status(404).json({ error: 'This entry cannot be found!' });
 	} else {
 		var entry = datastructure.entries[req.params.id];
 		res.status(200).json(entry);

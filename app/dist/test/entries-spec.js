@@ -55,7 +55,18 @@ describe('Test Entries Routes', function () {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
-				expect(jsonObject.error).to.be.equal('This entry cannot be found');
+				expect(jsonObject.error).to.be.equal('This entry cannot be found!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should show 400 not id is not an integer', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries/abc';
+			request.get(url, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Bad Request!');
 				done();
 			});
 		}).timeout(10000);
