@@ -1,0 +1,63 @@
+{
+		"name": "mydiary_api",
+		"version": "1.0.0",
+		"description": "This application is used to power the front-end of mydiary application",
+		"main": "app/dist/app.js",
+		"scripts": {
+				"build": "node app/dist/app.js"
+		},
+		"repository": {
+				"type": "git",
+				"url": "git+https://runor-thoughtstudio@github.com/runor-thoughtstudio/demo_diary_api.git"
+		},
+		"keywords": [
+				"api",
+				"mydiary",
+				"journal"
+		],
+		"author": "Runor Adjekpiyede",
+		"license": "ISC",
+		"bugs": {
+				"url": "https://github.com/runor-thoughtstudio/demo_diary_api/issues"
+		},
+		"homepage": "https://github.com/runor-thoughtstudio/demo_diary_api#readme",
+		"dependencies": {
+				"axios": "^0.18.0",
+				"body-parser": "^1.18.3",
+				"chai": "^4.1.2",
+				"chai-http": "^4.0.0",
+				"cors": "^2.8.4",
+				"dotenv": "^6.0.0",
+				"express": "^4.16.3",
+				"jsonwebtoken": "^8.3.0",
+				"nock": "^9.4.2",
+				"npm": "^6.2.0",
+				"request": "^2.87.0",
+				"supertest": "^3.1.0"
+		},
+		"devDependencies": {
+				"babel-eslint": "^8.2.6",
+				"babel-polyfill": "^6.26.0",
+				"babel-preset-airbnb": "^2.5.1",
+				"babel-preset-env": "^1.7.0",
+				"babel-register": "^6.26.0",
+				"coveralls": "^3.0.2",
+				"eslint": "^4.19.1",
+				"eslint-config-airbnb": "^17.0.0",
+				"eslint-plugin-import": "^2.13.0",
+				"eslint-plugin-jsx-a11y": "^6.1.1",
+				"eslint-plugin-react": "^7.10.0",
+				"grunt": "^1.0.3",
+				"grunt-babel": "^7.0.0",
+				"grunt-contrib-watch": "^1.1.0",
+				"grunt-eslint": "^21.0.0",
+				"grunt-mocha-test": "^0.13.3",
+				"istanbul": "^0.4.5",
+				"load-grunt-tasks": "^4.0.0",
+				"mocha": "^5.2.0",
+				"nodemon": "^1.18.2"
+		},
+		"engines": {
+				"node": "8.8.1"
+		}
+}
