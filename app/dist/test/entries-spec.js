@@ -102,6 +102,21 @@ describe('Test Entries Routes', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should give error on sending incorrect form data', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries';
+			var formData = {
+				name: ' ',
+				body: 'New Description'
+			};
+			request.post(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
 	});
 
 	describe('updateEntry()', function () {

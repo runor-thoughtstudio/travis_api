@@ -88,6 +88,21 @@ describe('Test Entries Routes', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should give error on sending incorrect form data', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/entries`;
+			const formData = {
+				name: ' ',
+				body: 'New Description',
+			};
+			request.post(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
 	});
 
 	describe('updateEntry()', () => {
