@@ -9,3 +9,6 @@ cache:
     - "node_modules"
 script: npm run coverage
 after_success: 'npm run coveralls'
+env:
+  - root_url=http://localhost:3000
+  - version_url=api/v1
