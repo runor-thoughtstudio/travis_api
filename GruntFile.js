@@ -25,10 +25,17 @@ module.exports = function(grunt) {
 		      require: 'babel-register'
 		    },
 		    src: ['app/dist/test/**/*.js']
-		    // src: ['app/dist/test/users-spec.js', 'app/dist/test/entries-spec.js']
 		  }
-	   	}
+		},
+		watch: {
+			scripts: {
+				files: ["src/**/*.js"],
+				tasks: ["eslint", "babel"]
+			}
+		}
     });
 
-    grunt.registerTask("default", ["babel"]);
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.registerTask("default", ["eslint", "babel", "mochaTest"]);
 };
