@@ -14,4 +14,14 @@ export default class Request {
 			callback(error, response, body);
 		});
 	}
+
+	post(url, formData, callback) {
+		this.request({
+			uri: url,
+			method: 'POST',
+			form: formData,
+		}, (error, response, body) => {
+			callback(error, response, body);
+		});
+	}
 }

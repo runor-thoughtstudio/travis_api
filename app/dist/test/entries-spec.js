@@ -71,5 +71,37 @@ describe('Test Entries Routes', function () {
 			});
 		}).timeout(10000);
 	});
+
+	describe('createEntry()', function () {
+		it('should create an entry when form data is correct', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries';
+			var formData = {
+				title: 'New Title',
+				description: 'New Description'
+			};
+			request.post(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(201);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('The entry has been created!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('validation should fail when any form field is empty', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/entries';
+			var formData = {
+				title: ' ',
+				description: 'New Description'
+			};
+			request.post(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
 //# sourceMappingURL=entries-spec.js.map
