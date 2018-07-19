@@ -74,7 +74,7 @@ entriesRouter.delete('/entries/:id', function (req, res) {
 		res.status(404).json({ error: 'This entry does not exist!' });
 	} else {
 		datastructure.entries.splice(req.params.id, 1);
-		res.status(204).json({ message: 'Entry Deleted!' });
+		res.status(204).json();
 	}
 });
 
