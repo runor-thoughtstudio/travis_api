@@ -4,6 +4,12 @@
 		"description": "This application is used to power the front-end of mydiary application",
 		"main": "app/dist/app.js",
 		"scripts": {
+				"test": "grunt mochaTest",
+				"startwatch": "nodemon app/dist/app.js",
+				"start": "node app/dist/app.js",
+				"watch": "grunt watch",
+				"predev": "grunt",
+				"dev": "grunt & node app/dist/app.js",
 				"build": "node app/dist/app.js"
 		},
 		"repository": {
