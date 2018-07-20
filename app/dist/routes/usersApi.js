@@ -102,7 +102,7 @@ usersRouter.put('/users/:id', function (req, res) {
 	} else if (!datastructure.users) {
 		res.status(500).json({ error: 'Internal Server Error!' });
 	} else if (datastructure.users === undefined || datastructure.users[req.params.id] === undefined) {
-		res.status(404).json({ error: 'This user does not exist' });
+		res.status(404).json({ error: 'This user does not exist!' });
 	} else {
 		datastructure.users[req.params.id].email = req.body.email;
 		datastructure.users[req.params.id].fullName = req.body.fullName;

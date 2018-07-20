@@ -179,5 +179,21 @@ describe('User Tests', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should return error for user who does not exist', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/10`;
+			const formData = {
+				email: 'mynewemail@gmail.com',
+				fullName: 'New User',
+				dob: '2018-04',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This user does not exist!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
