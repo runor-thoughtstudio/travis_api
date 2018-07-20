@@ -139,4 +139,27 @@ describe('User Tests', () => {
 			});
 		}).timeout(10000);
 	});
+
+	describe('showProfile()', () => {
+		it('should show a users profile whose id is valid', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/0`;
+			request.get(url, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should show error if user id is invalid', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/10`;
+			request.get(url, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Not Found! This user does not exist!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
