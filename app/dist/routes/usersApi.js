@@ -26,17 +26,7 @@ usersRouter.post('/users/signin', function (req, res) {
 });
 
 usersRouter.get('/users/:id', function (req, res) {
-	var datastructure = req.app.get('appData');
-	if (!datastructure.users) {
-		res.status(500).json({ error: 'Internal Server Error!' });
-	} else if (datastructure.users === undefined || datastructure.users[req.params.id] === undefined) {
-		res.status(404).json({ error: 'Not Found! This user does not exist!' });
-	} else {
-		var user = datastructure.users[req.params.id];
-		user = Object.assign({}, user);
-		delete user.password;
-		res.status(200).json(user);
-	}
+	User.show(req, res);
 });
 
 usersRouter.put('/users/:id', function (req, res) {
