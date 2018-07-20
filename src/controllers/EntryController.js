@@ -27,6 +27,20 @@ class EntryController {
 			res.status(200).json(entry);
 		}
 	}
+
+	create(req, res) {
+		this.dataStructure = req.app.get('appData');
+		if (req.body.title === ' ' || req.body.description === ' ') {
+			res.status(422).json({ error: 'Please fill in all the fields properly!' });
+		} else if (!this.dataStructure.entries) {
+			res.status(500).json({ error: 'Internal Server Error!' });
+		} else if (req.body.title && req.body.description) {
+			this.dataStructure.entries.push(req.body);
+			res.status(201).json({ message: 'The entry has been created!' });
+		} else {
+			res.status(400).json({ error: 'Invalid request!' });
+		}
+	}
 }
 
 module.exports = EntryController;
