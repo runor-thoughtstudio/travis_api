@@ -18,48 +18,26 @@ var Request = function () {
 	function Request() {
 		_classCallCheck(this, Request);
 
-		console.log('entries request initiated');
 		this.request = _request2.default;
 	}
 
 	_createClass(Request, [{
-		key: 'get',
-		value: function get(url, callback) {
+		key: 'getOrDelete',
+		value: function getOrDelete(method, url, callback) {
 			this.request({
 				uri: url,
-				method: 'GET'
+				method: method
 			}, function (error, response, body) {
 				callback(error, response, body);
 			});
 		}
 	}, {
-		key: 'post',
-		value: function post(url, formData, callback) {
+		key: 'postOrPut',
+		value: function postOrPut(method, url, formData, callback) {
 			this.request({
 				uri: url,
-				method: 'POST',
+				method: method,
 				form: formData
-			}, function (error, response, body) {
-				callback(error, response, body);
-			});
-		}
-	}, {
-		key: 'put',
-		value: function put(url, formData, callback) {
-			this.request({
-				uri: url,
-				method: 'PUT',
-				form: formData
-			}, function (error, response, body) {
-				callback(error, response, body);
-			});
-		}
-	}, {
-		key: 'delete',
-		value: function _delete(url, callback) {
-			this.request({
-				uri: url,
-				method: 'DELETE'
 			}, function (error, response, body) {
 				callback(error, response, body);
 			});

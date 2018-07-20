@@ -11,7 +11,7 @@ describe('Test Entries Routes', () => {
 	describe('allEntries()', () => {
 		it('should show all entries in the app', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/entries`;
-			request.get(url, (error, res, body) => {
+			request.getOrDelete('GET', url, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('array');
@@ -23,7 +23,7 @@ describe('Test Entries Routes', () => {
 	describe('showEntry()', () => {
 		it('should show an entry when the id exists', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
-			request.get(url, (error, res, body) => {
+			request.getOrDelete('GET', url, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
@@ -33,7 +33,7 @@ describe('Test Entries Routes', () => {
 
 		it('should show 404 not found when id doesnt exist', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/entries/10`;
-			request.get(url, (error, res, body) => {
+			request.getOrDelete('GET', url, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
@@ -44,7 +44,7 @@ describe('Test Entries Routes', () => {
 
 		it('should show 400 not id is not an integer', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/entries/abc`;
-			request.get(url, (error, res, body) => {
+			request.getOrDelete('GET', url, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -61,7 +61,7 @@ describe('Test Entries Routes', () => {
 				title: 'New Title',
 				description: 'New Description',
 			};
-			request.post(url, formData, (error, res, body) => {
+			request.postOrPut('POST', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
 				expect(jsonObject).to.be.a('object');
@@ -76,7 +76,7 @@ describe('Test Entries Routes', () => {
 				title: ' ',
 				description: 'New Description',
 			};
-			request.post(url, formData, (error, res, body) => {
+			request.postOrPut('POST', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
@@ -91,7 +91,7 @@ describe('Test Entries Routes', () => {
 				name: ' ',
 				body: 'New Description',
 			};
-			request.post(url, formData, (error, res, body) => {
+			request.postOrPut('POST', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -108,7 +108,7 @@ describe('Test Entries Routes', () => {
 				title: 'Title',
 				description: 'Cool',
 			};
-			request.put(url, formData, (error, res, body) => {
+			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
@@ -122,7 +122,7 @@ describe('Test Entries Routes', () => {
 				title: ' ',
 				description: 'Cool',
 			};
-			request.put(url, formData, (error, res, body) => {
+			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
@@ -137,7 +137,7 @@ describe('Test Entries Routes', () => {
 				title: 'First Title',
 				description: 'Cool',
 			};
-			request.put(url, formData, (error, res, body) => {
+			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
@@ -152,7 +152,7 @@ describe('Test Entries Routes', () => {
 				name: 'First Title',
 				body: 'Cool',
 			};
-			request.put(url, formData, (error, res, body) => {
+			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -165,7 +165,7 @@ describe('Test Entries Routes', () => {
 	describe('deleteEntry()', () => {
 		it('should delete an entry when id exists', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/entries/0`;
-			request.delete(url, (error, res, body) => {
+			request.getOrDelete('DELETE', url, (error, res, body) => {
 				expect(res.statusCode).to.be.equal(204);
 				expect(body).to.be.equal('');
 				done();
@@ -174,7 +174,7 @@ describe('Test Entries Routes', () => {
 
 		it('should show error when id doesnt exist', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/entries/10`;
-			request.delete(url, (error, res, body) => {
+			request.getOrDelete('DELETE', url, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
