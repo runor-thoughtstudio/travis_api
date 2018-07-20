@@ -271,5 +271,19 @@ describe('User Tests', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should return error on trying to update user that does not exist', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/10/notifications`;
+			const formData = {
+				reminderTime: '10:00',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Not Found! This user does not exist!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
