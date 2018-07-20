@@ -108,5 +108,20 @@ describe('User Tests', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should show error on sending incorrect form data', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users`;
+			const tempUser = {
+				username: 'user1@example.com',
+				password: 'password',
+			};
+			request.post(url, tempUser, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid Request!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });

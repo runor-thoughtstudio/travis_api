@@ -122,6 +122,21 @@ describe('User Tests', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should show error on sending incorrect form data', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users';
+			var tempUser = {
+				username: 'user1@example.com',
+				password: 'password'
+			};
+			request.post(url, tempUser, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid Request!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
 //# sourceMappingURL=users-spec.js.map
