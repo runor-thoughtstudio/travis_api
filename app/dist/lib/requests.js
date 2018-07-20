@@ -18,7 +18,6 @@ var Request = function () {
 	function Request() {
 		_classCallCheck(this, Request);
 
-		console.log('entries request initiated');
 		this.request = _request2.default;
 	}
 

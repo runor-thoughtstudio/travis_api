@@ -34,7 +34,7 @@ describe('User Tests', function () {
 	describe('signupUser()', function () {
 		it('should signup a user with correct form details', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users';
-			request.post(url, user, function (error, res, body) {
+			request.postOrPut('POST', url, user, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
 				expect(jsonObject).to.be.a('object');
@@ -51,7 +51,7 @@ describe('User Tests', function () {
 				fullName: 'User Name',
 				dob: '2018-04'
 			};
-			request.post(url, tempUser, function (error, res, body) {
+			request.postOrPut('POST', url, tempUser, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
@@ -68,7 +68,7 @@ describe('User Tests', function () {
 				username: 'User Name',
 				dob: '2018-04'
 			};
-			request.post(url, tempUser, function (error, res, body) {
+			request.postOrPut('POST', url, tempUser, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -79,10 +79,10 @@ describe('User Tests', function () {
 
 		it('should not allow same email to signup twice', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users';
-			request.post(url, user, function (error, res, body) {
+			request.postOrPut('POST', url, user, function (error, res, body) {
 				console.log(error + '/' + res + '/' + body);
 			});
-			request.post(url, user, function (error, res, body) {
+			request.postOrPut('POST', url, user, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(409);
 				expect(jsonObject).to.be.a('object');
@@ -99,7 +99,7 @@ describe('User Tests', function () {
 				email: 'user1@example.com',
 				password: 'password'
 			};
-			request.post(url, formData, function (error, res, body) {
+			request.postOrPut('POST', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
@@ -114,7 +114,7 @@ describe('User Tests', function () {
 				email: ' ',
 				password: 'password'
 			};
-			request.post(url, tempUser, function (error, res, body) {
+			request.postOrPut('POST', url, tempUser, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
@@ -129,7 +129,7 @@ describe('User Tests', function () {
 				username: 'user1@example.com',
 				password: 'password'
 			};
-			request.post(url, tempUser, function (error, res, body) {
+			request.postOrPut('POST', url, tempUser, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -144,7 +144,7 @@ describe('User Tests', function () {
 				email: 'absentuser1@example.com',
 				password: 'password'
 			};
-			request.post(url, tempUser, function (error, res, body) {
+			request.postOrPut('POST', url, tempUser, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(401);
 				expect(jsonObject).to.be.a('object');
@@ -157,7 +157,7 @@ describe('User Tests', function () {
 	describe('showProfile()', function () {
 		it('should show a users profile whose id is valid', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users/0';
-			request.get(url, function (error, res, body) {
+			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
@@ -167,7 +167,7 @@ describe('User Tests', function () {
 
 		it('should show error if user id is invalid', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users/10';
-			request.get(url, function (error, res, body) {
+			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
@@ -185,7 +185,7 @@ describe('User Tests', function () {
 				fullName: 'New User',
 				dob: '2018-04'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
@@ -201,7 +201,7 @@ describe('User Tests', function () {
 				fullName: 'New User',
 				dob: '2018-04'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
@@ -217,7 +217,7 @@ describe('User Tests', function () {
 				fullName: 'User Name',
 				dob: '2018-04'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
@@ -233,7 +233,7 @@ describe('User Tests', function () {
 				username: 'User Name',
 				dob: '2018-04'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -249,7 +249,7 @@ describe('User Tests', function () {
 			var formData = {
 				reminderTime: '10:00'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
@@ -263,7 +263,7 @@ describe('User Tests', function () {
 			var formData = {
 				reminderTime: ' '
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
@@ -277,7 +277,7 @@ describe('User Tests', function () {
 			var formData = {
 				reminderDay: '10:00'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -291,7 +291,7 @@ describe('User Tests', function () {
 			var formData = {
 				reminderTime: '10:00'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
