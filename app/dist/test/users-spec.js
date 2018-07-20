@@ -153,5 +153,17 @@ describe('User Tests', function () {
 			});
 		}).timeout(10000);
 	});
+
+	describe('showProfile()', function () {
+		it('should show a users profile whose id is valid', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0';
+			request.get(url, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
 //# sourceMappingURL=users-spec.js.map
