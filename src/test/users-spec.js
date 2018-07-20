@@ -233,7 +233,7 @@ describe('User Tests', () => {
 		it('should save notifications when user and form data are correct', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
 			const formData = {
-				reminderDate: '2018-06',
+				reminderTime: '2018-06',
 			};
 			request.put(url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -247,7 +247,7 @@ describe('User Tests', () => {
 		it('should return error when form field is empty', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
 			const formData = {
-				reminderDate: ' ',
+				reminderTime: ' ',
 			};
 			request.put(url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);

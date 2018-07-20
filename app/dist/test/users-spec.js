@@ -247,7 +247,7 @@ describe('User Tests', function () {
 		it('should save notifications when user and form data are correct', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users/0/notifications';
 			var formData = {
-				reminderDate: '2018-06'
+				reminderTime: '2018-06'
 			};
 			request.put(url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
@@ -261,7 +261,7 @@ describe('User Tests', function () {
 		it('should return error when form field is empty', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users/0/notifications';
 			var formData = {
-				reminderDate: ' '
+				reminderTime: ' '
 			};
 			request.put(url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);

@@ -92,9 +92,9 @@ usersRouter.put('/users/:id', (req, res) => {
 
 usersRouter.put('/users/:id/notifications', (req, res) => {
 	const datastructure = req.app.get('appData');
-	if (!req.body.reminderDate) {
+	if (!req.body.reminderTime) {
 		res.status(400).json({ errror: 'Invalid request' });
-	} else if (req.body.reminderDate === ' ') {
+	} else if (req.body.reminderTime === ' ') {
 		res.status(422).json({ error: 'Please pick a date for your notification!' });
 	} else if (!datastructure.users) {
 		res.status(500).json({ error: 'Internal Server Error!' });
@@ -102,7 +102,7 @@ usersRouter.put('/users/:id/notifications', (req, res) => {
 	(datastructure.users === undefined || datastructure.users[req.params.id] === undefined) {
 		res.status(404).json({ error: 'Not Found! This user does not exist!' });
 	} else {
-		datastructure.users[req.params.id].reminderDate = req.body.reminderDate;
+		datastructure.users[req.params.id].reminderTime = req.body.reminderTime;
 		res.status(200).json({ message: 'Your notification settings has been updated!' });
 	}
 });
