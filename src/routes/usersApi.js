@@ -51,7 +51,7 @@ usersRouter.post('/users/signin', (req, res) => {
 			res.setHeader('token', token);
 			res.status(200).json({ message: 'You have successfully signed in!', user });
 		} else {
-			res.status(401).json({ message: 'Cannot log in' });
+			res.status(401).json({ error: 'Unauthorized! You are not allowed to log in!' });
 		}
 	}
 });

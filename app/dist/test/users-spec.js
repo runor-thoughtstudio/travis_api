@@ -93,7 +93,7 @@ describe('User Tests', function () {
 	});
 
 	describe('signinUser()', function () {
-		it('should signin a user with correct form data', function (done) {
+		it('should signin a user whose email is present', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users/signin';
 			var formData = {
 				email: 'user1@example.com',
@@ -124,7 +124,7 @@ describe('User Tests', function () {
 		}).timeout(10000);
 
 		it('should show error on sending incorrect form data', function (done) {
-			var url = process.env.root_url + '/' + process.env.version_url + '/users';
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/signin';
 			var tempUser = {
 				username: 'user1@example.com',
 				password: 'password'
@@ -134,6 +134,21 @@ describe('User Tests', function () {
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Invalid Request!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('do not signin user whose email is not present', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/signin';
+			var tempUser = {
+				email: 'absentuser1@example.com',
+				password: 'password'
+			};
+			request.post(url, tempUser, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(401);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Unauthorized! You are not allowed to log in!');
 				done();
 			});
 		}).timeout(10000);
