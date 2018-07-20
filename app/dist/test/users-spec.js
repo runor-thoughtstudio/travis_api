@@ -209,6 +209,22 @@ describe('User Tests', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should validate false on submitting empty field', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/10';
+			var formData = {
+				email: ' ',
+				fullName: 'User Name',
+				dob: '2018-04'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
 //# sourceMappingURL=users-spec.js.map

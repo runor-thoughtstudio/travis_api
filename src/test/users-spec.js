@@ -195,5 +195,21 @@ describe('User Tests', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should validate false on submitting empty field', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/10`;
+			const formData = {
+				email: ' ',
+				fullName: 'User Name',
+				dob: '2018-04',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });

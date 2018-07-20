@@ -96,9 +96,9 @@ usersRouter.get('/users/:id', function (req, res) {
 usersRouter.put('/users/:id', function (req, res) {
 	var datastructure = req.app.get('appData');
 	if (!req.body.email || !req.body.fullName || !req.body.dob) {
-		res.status(400).json({ message: 'Invalid request' });
+		res.status(400).json({ error: 'Invalid request' });
 	} else if (req.body.email === ' ' || req.body.fullName === ' ' || req.body.dob === ' ') {
-		res.status(422).json({ message: 'Please fill in all the fields properly!' });
+		res.status(422).json({ error: 'Please fill in all the fields properly!' });
 	} else if (!datastructure.users) {
 		res.status(500).json({ error: 'Internal Server Error!' });
 	} else if (datastructure.users === undefined || datastructure.users[req.params.id] === undefined) {
