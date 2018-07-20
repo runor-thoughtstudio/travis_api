@@ -31,7 +31,7 @@ describe('User Tests', function () {
 	after(function () {
 		_app.mainServer.close();
 	});
-	describe('signup user()', function () {
+	describe('signupUser()', function () {
 		it('should signup a user with correct form details', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users';
 			request.post(url, user, function (error, res, body) {
@@ -87,6 +87,23 @@ describe('User Tests', function () {
 				expect(res.statusCode).to.be.equal(409);
 				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('This email has already been taken!');
+				done();
+			});
+		}).timeout(10000);
+	});
+
+	describe('signinUser()', function () {
+		it('should signin a user with correct form data', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/signin';
+			var formData = {
+				email: 'user1@example.com',
+				password: 'password'
+			};
+			request.post(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('You have successfully signed in!');
 				done();
 			});
 		}).timeout(10000);

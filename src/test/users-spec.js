@@ -17,7 +17,7 @@ describe('User Tests', () => {
 	after(() => {
 		mainServer.close();
 	});
-	describe('signup user()', () => {
+	describe('signupUser()', () => {
 		it('should signup a user with correct form details', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/users`;
 			request.post(url, user, (error, res, body) => {
@@ -73,6 +73,23 @@ describe('User Tests', () => {
 				expect(res.statusCode).to.be.equal(409);
 				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('This email has already been taken!');
+				done();
+			});
+		}).timeout(10000);
+	});
+
+	describe('signinUser()', () => {
+		it('should signin a user with correct form data', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/signin`;
+			const formData = {
+				email: 'user1@example.com',
+				password: 'password',
+			};
+			request.post(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('You have successfully signed in!');
 				done();
 			});
 		}).timeout(10000);
