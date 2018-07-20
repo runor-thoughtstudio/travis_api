@@ -164,6 +164,17 @@ describe('User Tests', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should show error if user id is invalid', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/10';
+			request.get(url, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Not Found! This user does not exist!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
 //# sourceMappingURL=users-spec.js.map
