@@ -228,4 +228,62 @@ describe('User Tests', () => {
 			});
 		}).timeout(10000);
 	});
+
+	describe('saveNotifications()', () => {
+		it('should save notifications when user and form data are correct', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
+			const formData = {
+				reminderTime: '10:00',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('Your notification settings has been updated!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should return error when form field is empty', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
+			const formData = {
+				reminderTime: ' ',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please pick a date for your notification!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should return error when wrong form data is sent', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
+			const formData = {
+				reminderDay: '10:00',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should return error on trying to update user that does not exist', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/10/notifications`;
+			const formData = {
+				reminderTime: '10:00',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Not Found! This user does not exist!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });

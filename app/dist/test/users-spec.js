@@ -242,5 +242,63 @@ describe('User Tests', function () {
 			});
 		}).timeout(10000);
 	});
+
+	describe('saveNotifications()', function () {
+		it('should save notifications when user and form data are correct', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0/notifications';
+			var formData = {
+				reminderTime: '10:00'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('Your notification settings has been updated!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should return error when form field is empty', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0/notifications';
+			var formData = {
+				reminderTime: ' '
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please pick a date for your notification!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should return error when wrong form data is sent', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0/notifications';
+			var formData = {
+				reminderDay: '10:00'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should return error on trying to update user that does not exist', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/10/notifications';
+			var formData = {
+				reminderTime: '10:00'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Not Found! This user does not exist!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
 //# sourceMappingURL=users-spec.js.map

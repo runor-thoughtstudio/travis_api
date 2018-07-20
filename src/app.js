@@ -12,7 +12,7 @@ const dataStructure = {
 		title: 'First', description: 'The description',
 	}],
 	users: [{
-		email: 'user@example.com', password: 'password', fullName: 'Example User', dob: '2018-06', reminderDate: '',
+		email: 'user@example.com', password: 'password', fullName: 'Example User', dob: '2018-06', reminderTime: '',
 	}],
 };
 app.set('port', process.env.PORT || 3000);
