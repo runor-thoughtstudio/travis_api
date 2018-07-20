@@ -228,4 +228,20 @@ describe('User Tests', () => {
 			});
 		}).timeout(10000);
 	});
+
+	describe('saveNotifications()', () => {
+		it('should save notifications when user and form data are correct', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
+			const formData = {
+				reminderDate: '2018-06',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('Your notification settings has been updated!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
