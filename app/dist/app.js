@@ -49,6 +49,9 @@ app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use(_bodyParser2.default.json());
 app.use(app.get('appVersion'), _entriesApi2.default);
 app.use(app.get('appVersion'), _usersApi2.default);
+app.get('*', function (req, res) {
+	res.status(404).json({ error: 'Not Found! The page you are trying to access does not exist!' });
+});
 var server = app.listen(app.get('port'), function () {
 	// console.log('Application started. Listening :)');
 });
