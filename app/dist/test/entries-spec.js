@@ -24,7 +24,7 @@ describe('Test Entries Routes', function () {
 	describe('allEntries()', function () {
 		it('should show all entries in the app', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries';
-			request.get(url, function (error, res, body) {
+			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('array');
@@ -36,7 +36,7 @@ describe('Test Entries Routes', function () {
 	describe('showEntry()', function () {
 		it('should show an entry when the id exists', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
-			request.get(url, function (error, res, body) {
+			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
@@ -46,7 +46,7 @@ describe('Test Entries Routes', function () {
 
 		it('should show 404 not found when id doesnt exist', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries/10';
-			request.get(url, function (error, res, body) {
+			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
@@ -57,7 +57,7 @@ describe('Test Entries Routes', function () {
 
 		it('should show 400 not id is not an integer', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries/abc';
-			request.get(url, function (error, res, body) {
+			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -74,7 +74,7 @@ describe('Test Entries Routes', function () {
 				title: 'New Title',
 				description: 'New Description'
 			};
-			request.post(url, formData, function (error, res, body) {
+			request.postOrPut('POST', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
 				expect(jsonObject).to.be.a('object');
@@ -89,7 +89,7 @@ describe('Test Entries Routes', function () {
 				title: ' ',
 				description: 'New Description'
 			};
-			request.post(url, formData, function (error, res, body) {
+			request.postOrPut('POST', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
@@ -104,7 +104,7 @@ describe('Test Entries Routes', function () {
 				name: ' ',
 				body: 'New Description'
 			};
-			request.post(url, formData, function (error, res, body) {
+			request.postOrPut('POST', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -121,7 +121,7 @@ describe('Test Entries Routes', function () {
 				title: 'Title',
 				description: 'Cool'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject).to.be.a('object');
@@ -135,7 +135,7 @@ describe('Test Entries Routes', function () {
 				title: ' ',
 				description: 'Cool'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
@@ -150,7 +150,7 @@ describe('Test Entries Routes', function () {
 				title: 'First Title',
 				description: 'Cool'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
@@ -165,7 +165,7 @@ describe('Test Entries Routes', function () {
 				name: 'First Title',
 				body: 'Cool'
 			};
-			request.put(url, formData, function (error, res, body) {
+			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject).to.be.a('object');
@@ -178,7 +178,7 @@ describe('Test Entries Routes', function () {
 	describe('deleteEntry()', function () {
 		it('should delete an entry when id exists', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries/0';
-			request.delete(url, function (error, res, body) {
+			request.getOrDelete('DELETE', url, function (error, res, body) {
 				expect(res.statusCode).to.be.equal(204);
 				expect(body).to.be.equal('');
 				done();
@@ -187,7 +187,7 @@ describe('Test Entries Routes', function () {
 
 		it('should show error when id doesnt exist', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries/10';
-			request.delete(url, function (error, res, body) {
+			request.getOrDelete('DELETE', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject).to.be.a('object');
