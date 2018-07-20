@@ -1,14 +1,12 @@
 import express from 'express';
+import EntryController from '../controllers/EntryController';
 
 const entriesRouter = express.Router();
+const Entry = new EntryController();
+
 
 entriesRouter.get('/entries', (req, res) => {
-	const datastructure = req.app.get('appData');
-	if (!datastructure.entries) {
-		res.status(500).json({ error: 'Internal Server Error' });
-	} else {
-		res.status(200).json(datastructure.entries);
-	}
+	Entry.index(req, res);
 });
 
 entriesRouter.get('/entries/:id', (req, res) => {

@@ -8,17 +8,17 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
+var _EntryController = require('../controllers/EntryController');
+
+var _EntryController2 = _interopRequireDefault(_EntryController);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var entriesRouter = _express2.default.Router();
+var Entry = new _EntryController2.default();
 
 entriesRouter.get('/entries', function (req, res) {
-	var datastructure = req.app.get('appData');
-	if (!datastructure.entries) {
-		res.status(500).json({ error: 'Internal Server Error' });
-	} else {
-		res.status(200).json(datastructure.entries);
-	}
+	Entry.index(req, res);
 });
 
 entriesRouter.get('/entries/:id', function (req, res) {
