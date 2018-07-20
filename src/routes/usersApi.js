@@ -1,33 +1,11 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
+import UserController from '../controllers/UserController';
 
 const usersRouter = express.Router();
+const User = new UserController();
 
 usersRouter.post('/users', (req, res) => {
-	const datastructure = req.app.get('appData');
-	const {
-		email, password, dob, fullName,
-	} = req.body;
-	if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password < 6) {
-		res.status(422).json({ error: 'Please fill in all the fields properly!' });
-	} else if (!email || !dob || !fullName || !password) {
-		res.status(400).json({ error: 'Invalid Request!' });
-	} else if (!datastructure.users) {
-		res.status(500).json({ error: 'Internal Server Error!' });
-	} else {
-		const user = datastructure.users.filter(u => u.email === email && u.password === password);
-		if (user.length > 0 && user[0].email) {
-			res.status(409).json({ error: 'This email has already been taken!' });
-		} else {
-			datastructure.users.push(req.body);
-			const payload = {
-				email: req.body.email,
-			};
-			const token = jwt.sign(payload, '123abcd4', { expiresIn: 60000 });
-			res.setHeader('token', token);
-			res.status(201).json({ message: 'You have successfully signed up!' });
-		}
-	}
+	User.signup(req, res);
 });
 
 usersRouter.post('/users/signin', (req, res) => {
