@@ -162,4 +162,22 @@ describe('User Tests', () => {
 			});
 		}).timeout(10000);
 	});
+
+	describe('UpdateProfile()', () => {
+		it('should update a users profile who exists', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/0`;
+			const formData = {
+				email: 'mynewemail@gmail.com',
+				fullName: 'New User',
+				dob: '2018-04',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('User Profile has been updated!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });

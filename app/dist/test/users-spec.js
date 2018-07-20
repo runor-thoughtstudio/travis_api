@@ -176,5 +176,23 @@ describe('User Tests', function () {
 			});
 		}).timeout(10000);
 	});
+
+	describe('UpdateProfile()', function () {
+		it('should update a users profile who exists', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0';
+			var formData = {
+				email: 'mynewemail@gmail.com',
+				fullName: 'New User',
+				dob: '2018-04'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('User Profile has been updated!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
 //# sourceMappingURL=users-spec.js.map
