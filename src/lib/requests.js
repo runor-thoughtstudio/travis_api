@@ -6,10 +6,10 @@ export default class Request {
 		this.request = request;
 	}
 
-	get(url, callback) {
+	getOrDelete(method, url, callback) {
 		this.request({
 			uri: url,
-			method: 'GET',
+			method,
 		}, (error, response, body) => {
 			callback(error, response, body);
 		});
@@ -30,15 +30,6 @@ export default class Request {
 			uri: url,
 			method: 'PUT',
 			form: formData,
-		}, (error, response, body) => {
-			callback(error, response, body);
-		});
-	}
-
-	delete(url, callback) {
-		this.request({
-			uri: url,
-			method: 'DELETE',
 		}, (error, response, body) => {
 			callback(error, response, body);
 		});

@@ -23,11 +23,11 @@ var Request = function () {
 	}
 
 	_createClass(Request, [{
-		key: 'get',
-		value: function get(url, callback) {
+		key: 'getOrDelete',
+		value: function getOrDelete(method, url, callback) {
 			this.request({
 				uri: url,
-				method: 'GET'
+				method: method
 			}, function (error, response, body) {
 				callback(error, response, body);
 			});
@@ -50,16 +50,6 @@ var Request = function () {
 				uri: url,
 				method: 'PUT',
 				form: formData
-			}, function (error, response, body) {
-				callback(error, response, body);
-			});
-		}
-	}, {
-		key: 'delete',
-		value: function _delete(url, callback) {
-			this.request({
-				uri: url,
-				method: 'DELETE'
 			}, function (error, response, body) {
 				callback(error, response, body);
 			});
