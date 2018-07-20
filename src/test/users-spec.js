@@ -233,7 +233,7 @@ describe('User Tests', () => {
 		it('should save notifications when user and form data are correct', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
 			const formData = {
-				reminderTime: '2018-06',
+				reminderTime: '10:00',
 			};
 			request.put(url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -254,6 +254,20 @@ describe('User Tests', () => {
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Please pick a date for your notification!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should return error when wrong form data is sent', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
+			const formData = {
+				reminderDay: '10:00',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid request!');
 				done();
 			});
 		}).timeout(10000);

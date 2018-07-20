@@ -93,7 +93,7 @@ usersRouter.put('/users/:id', (req, res) => {
 usersRouter.put('/users/:id/notifications', (req, res) => {
 	const datastructure = req.app.get('appData');
 	if (!req.body.reminderTime) {
-		res.status(400).json({ errror: 'Invalid request' });
+		res.status(400).json({ error: 'Invalid request!' });
 	} else if (req.body.reminderTime === ' ') {
 		res.status(422).json({ error: 'Please pick a date for your notification!' });
 	} else if (!datastructure.users) {
