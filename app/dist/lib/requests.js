@@ -33,22 +33,11 @@ var Request = function () {
 			});
 		}
 	}, {
-		key: 'post',
-		value: function post(url, formData, callback) {
+		key: 'postOrPut',
+		value: function postOrPut(method, url, formData, callback) {
 			this.request({
 				uri: url,
-				method: 'POST',
-				form: formData
-			}, function (error, response, body) {
-				callback(error, response, body);
-			});
-		}
-	}, {
-		key: 'put',
-		value: function put(url, formData, callback) {
-			this.request({
-				uri: url,
-				method: 'PUT',
+				method: method,
 				form: formData
 			}, function (error, response, body) {
 				callback(error, response, body);
