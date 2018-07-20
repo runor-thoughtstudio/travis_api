@@ -111,5 +111,21 @@ usersRouter.put('/users/:id', function (req, res) {
 	}
 });
 
+usersRouter.put('/users/:id/notifications', function (req, res) {
+	var datastructure = req.app.get('appData');
+	if (!req.body.reminderDate) {
+		res.status(400).json({ message: 'Invalid request' });
+	} else if (req.body.reminderDate === ' ') {
+		res.status(422).json({ message: 'Please pick a date for your notification!' });
+	} else if (!datastructure.users) {
+		res.status(500).json({ error: 'Internal Server Error!' });
+	} else if (datastructure.users === undefined || datastructure.users[req.params.id] === undefined) {
+		res.status(404).json({ error: 'Not Found! This user does not exist!' });
+	} else {
+		datastructure.users[req.params.id].reminderDate = req.body.reminderDate;
+		res.status(200).json({ message: 'Your notification settings has been updated!' });
+	}
+});
+
 exports.default = usersRouter;
 //# sourceMappingURL=usersApi.js.map
