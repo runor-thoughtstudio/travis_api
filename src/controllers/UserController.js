@@ -33,6 +33,31 @@ class UserController {
 		}
 	}
 
+	signin(req, res) {
+		this.dataStructure = req.app.get('appData');
+		const { email, password } = req.body;
+		if (email === ' ' || password === ' ' || password < 6) {
+			res.status(422).json({ error: 'Please fill in all the fields properly!' });
+		} else if (!email || !password) {
+			res.status(400).json({ error: 'Invalid Request!' });
+		} else if (!this.dataStructure.users) {
+			res.status(500).json({ error: 'Internal Server Error!' });
+		} else {
+			let user = this.dataStructure.users.filter(u => u.email === email && u.password === password);
+			if (user.length > 0 && user[0].email) {
+				const payload = {
+					email: user.email,
+				};
+				user = Object.assign({}, user[0]);
+				delete user.password;
+				const token = jwt.sign(payload, '123abcd45', { expiresIn: 60000 });
+				res.setHeader('token', token);
+				res.status(200).json({ message: 'You have successfully signed in!', user });
+			} else {
+				res.status(401).json({ error: 'Unauthorized! You are not allowed to log in!' });
+			}
+		}
+	}
 }
 
 module.exports = UserController;
