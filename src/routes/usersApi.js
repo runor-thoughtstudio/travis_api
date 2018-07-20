@@ -74,7 +74,7 @@ usersRouter.get('/users/:id', (req, res) => {
 usersRouter.put('/users/:id', (req, res) => {
 	const datastructure = req.app.get('appData');
 	if (!req.body.email || !req.body.fullName || !req.body.dob) {
-		res.status(400).json({ error: 'Invalid request' });
+		res.status(400).json({ error: 'Invalid Request!' });
 	} else if (req.body.email === ' ' || req.body.fullName === ' ' || req.body.dob === ' ') {
 		res.status(422).json({ error: 'Please fill in all the fields properly!' });
 	} else if (!datastructure.users) {
