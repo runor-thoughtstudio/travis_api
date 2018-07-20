@@ -243,5 +243,19 @@ describe('User Tests', () => {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should return error when form field is empty', (done) => {
+			const url = `${process.env.root_url}/${process.env.version_url}/users/0/notifications`;
+			const formData = {
+				reminderDate: ' ',
+			};
+			request.put(url, formData, (error, res, body) => {
+				const jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please pick a date for your notification!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });

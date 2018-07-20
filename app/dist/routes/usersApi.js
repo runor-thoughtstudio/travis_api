@@ -114,9 +114,9 @@ usersRouter.put('/users/:id', function (req, res) {
 usersRouter.put('/users/:id/notifications', function (req, res) {
 	var datastructure = req.app.get('appData');
 	if (!req.body.reminderDate) {
-		res.status(400).json({ message: 'Invalid request' });
+		res.status(400).json({ errror: 'Invalid request' });
 	} else if (req.body.reminderDate === ' ') {
-		res.status(422).json({ message: 'Please pick a date for your notification!' });
+		res.status(422).json({ error: 'Please pick a date for your notification!' });
 	} else if (!datastructure.users) {
 		res.status(500).json({ error: 'Internal Server Error!' });
 	} else if (datastructure.users === undefined || datastructure.users[req.params.id] === undefined) {

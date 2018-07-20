@@ -257,6 +257,20 @@ describe('User Tests', function () {
 				done();
 			});
 		}).timeout(10000);
+
+		it('should return error when form field is empty', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0/notifications';
+			var formData = {
+				reminderDate: ' '
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please pick a date for your notification!');
+				done();
+			});
+		}).timeout(10000);
 	});
 });
 //# sourceMappingURL=users-spec.js.map
