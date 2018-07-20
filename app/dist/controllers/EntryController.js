@@ -70,6 +70,19 @@ var EntryController = function () {
 				res.status(400).json({ error: 'Invalid request!' });
 			}
 		}
+	}, {
+		key: 'delete',
+		value: function _delete(req, res) {
+			this.dataStructure = req.app.get('appData');
+			if (!this.dataStructure.entries) {
+				res.status(500).json({ error: 'Internal Server Error!' });
+			} else if (this.dataStructure.entries === undefined || this.dataStructure.entries[req.params.id] === undefined) {
+				res.status(404).json({ error: 'This entry does not exist!' });
+			} else {
+				this.dataStructure.entries.splice(req.params.id, 1);
+				res.status(204).json();
+			}
+		}
 	}]);
 
 	return EntryController;
