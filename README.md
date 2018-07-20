@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kampkelly/MyDiaryApi.svg?branch=refactor-api-routes)](https://travis-ci.org/kampkelly/MyDiaryApi) [![Coverage Status](https://coveralls.io/repos/github/kampkelly/MyDiaryApi/badge.svg?branch=refactor-api-routes)](https://coveralls.io/github/kampkelly/MyDiaryApi?branch=refactor-api-routes) [![Maintainability](https://api.codeclimate.com/v1/badges/6d877ab9590a243bf8db/maintainability)](https://codeclimate.com/github/kampkelly/MyDiaryApi/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/6d877ab9590a243bf8db/test_coverage)](https://codeclimate.com/github/kampkelly/MyDiaryApi/test_coverage)
+[![Build Status](https://travis-ci.org/kampkelly/MyDiaryApi.svg?branch=develop)](https://travis-ci.org/kampkelly/MyDiaryApi) [![Coverage Status](https://coveralls.io/repos/github/kampkelly/MyDiaryApi/badge.svg?branch=develop)](https://coveralls.io/github/kampkelly/MyDiaryApi?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/6d877ab9590a243bf8db/maintainability)](https://codeclimate.com/github/kampkelly/MyDiaryApi/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/6d877ab9590a243bf8db/test_coverage)](https://codeclimate.com/github/kampkelly/MyDiaryApi/test_coverage)
 
 # MyDiary Application Api
 
@@ -23,7 +23,7 @@ Babel, airbnb, mocha, eslint, grunt.
 * /api/v1/entries - POST - Create an entry
 * /api/v1/entries/:id - PUT - Update an entry
 * /api/v1/entries/:id - DELETE - Delete an entry
-* /api/v1/users/signin - POST - Sginin
+* /api/v1/users/signin - POST - Signin
 * /api/v1/users - POST - Signup
 * /api/v1/users/:id - GET - Show a users's profile
 * /api/v1/users/:id - PUT - Update a user's profile
