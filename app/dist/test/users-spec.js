@@ -176,5 +176,71 @@ describe('User Tests', function () {
 			});
 		}).timeout(10000);
 	});
+
+	describe('UpdateProfile()', function () {
+		it('should update a users profile who exists', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0';
+			var formData = {
+				email: 'mynewemail@gmail.com',
+				fullName: 'New User',
+				dob: '2018-04'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(200);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('User Profile has been updated!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should return error for user who does not exist', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/10';
+			var formData = {
+				email: 'mynewemail@gmail.com',
+				fullName: 'New User',
+				dob: '2018-04'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(404);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('This user does not exist!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should validate false on submitting empty field', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0';
+			var formData = {
+				email: ' ',
+				fullName: 'User Name',
+				dob: '2018-04'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(422);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
+				done();
+			});
+		}).timeout(10000);
+
+		it('should show error on sending incorrect form data', function (done) {
+			var url = process.env.root_url + '/' + process.env.version_url + '/users/0';
+			var formData = {
+				email: 'user1@example.com',
+				username: 'User Name',
+				dob: '2018-04'
+			};
+			request.put(url, formData, function (error, res, body) {
+				var jsonObject = JSON.parse(body);
+				expect(res.statusCode).to.be.equal(400);
+				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.error).to.be.equal('Invalid Request!');
+				done();
+			});
+		}).timeout(10000);
+	});
 });
 //# sourceMappingURL=users-spec.js.map
