@@ -39,7 +39,8 @@ describe('Test Entries Routes', function () {
 			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.title).to.not.be.an('undefined');
+				expect(jsonObject.description).to.not.be.an('undefined');
 				done();
 			});
 		}).timeout(10000);
@@ -49,19 +50,21 @@ describe('Test Entries Routes', function () {
 			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('This entry cannot be found!');
+				expect(jsonObject.title).to.be.an('undefined');
+				expect(jsonObject.description).to.be.an('undefined');
 				done();
 			});
 		}).timeout(10000);
 
-		it('should show 400 not id is not an integer', function (done) {
+		it('should show 400 when id is not an integer', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/entries/abc';
 			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Bad Request!');
+				expect(jsonObject.title).to.be.an('undefined');
+				expect(jsonObject.description).to.be.an('undefined');
 				done();
 			});
 		}).timeout(10000);
@@ -77,7 +80,6 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('POST', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.message).to.be.equal('The entry has been created!');
 				done();
 			});
@@ -92,7 +94,6 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('POST', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
 				done();
 			});
@@ -107,7 +108,6 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('POST', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Invalid request!');
 				done();
 			});
@@ -124,7 +124,7 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.message).to.be.equal('This entry has been updated!');
 				done();
 			});
 		}).timeout(10000);
@@ -138,7 +138,6 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
 				done();
 			});
@@ -153,7 +152,6 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('This entry does not exist!');
 				done();
 			});
@@ -168,7 +166,6 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('PUT', url, formData, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Invalid request!');
 				done();
 			});
@@ -190,7 +187,6 @@ describe('Test Entries Routes', function () {
 			request.getOrDelete('DELETE', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('This entry does not exist!');
 				done();
 			});

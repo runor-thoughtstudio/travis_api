@@ -26,7 +26,6 @@ describe('Test Global Routes', function () {
 			request.getOrDelete('GET', url, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Not Found! The page you are trying to access does not exist!');
 				done();
 			});

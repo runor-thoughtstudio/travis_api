@@ -13,7 +13,6 @@ describe('Test Global Routes', () => {
 			request.getOrDelete('GET', url, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Not Found! The page you are trying to access does not exist!');
 				done();
 			});
