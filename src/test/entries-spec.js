@@ -43,18 +43,6 @@ describe('Test Entries Routes', () => {
 				done();
 			});
 		}).timeout(10000);
-
-		it('should show 400 when id is not an integer', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/entries/abc`;
-			request.getOrDelete('GET', url, (error, res, body) => {
-				const jsonObject = JSON.parse(body);
-				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject.error).to.be.equal('Bad Request!');
-				expect(jsonObject.title).to.be.an('undefined');
-				expect(jsonObject.description).to.be.an('undefined');
-				done();
-			});
-		}).timeout(10000);
 	});
 
 	describe('createEntry()', () => {

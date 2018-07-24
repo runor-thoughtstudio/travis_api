@@ -56,18 +56,6 @@ describe('Test Entries Routes', function () {
 				done();
 			});
 		}).timeout(10000);
-
-		it('should show 400 when id is not an integer', function (done) {
-			var url = process.env.root_url + '/' + process.env.version_url + '/entries/abc';
-			request.getOrDelete('GET', url, function (error, res, body) {
-				var jsonObject = JSON.parse(body);
-				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject.error).to.be.equal('Bad Request!');
-				expect(jsonObject.title).to.be.an('undefined');
-				expect(jsonObject.description).to.be.an('undefined');
-				done();
-			});
-		}).timeout(10000);
 	});
 
 	describe('createEntry()', function () {
