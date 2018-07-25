@@ -18,8 +18,8 @@ var UserController = function () {
 	}
 
 	_createClass(UserController, [{
-		key: 'signup',
-		value: function signup(req, res) {
+		key: 'signUp',
+		value: function signUp(req, res) {
 			this.dataStructure = req.app.get('appData');
 			var _req$body = req.body,
 			    email = _req$body.email,
@@ -49,8 +49,8 @@ var UserController = function () {
 			}
 		}
 	}, {
-		key: 'signin',
-		value: function signin(req, res) {
+		key: 'signIn',
+		value: function signIn(req, res) {
 			this.dataStructure = req.app.get('appData');
 			var _req$body2 = req.body,
 			    email = _req$body2.email,

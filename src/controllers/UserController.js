@@ -5,7 +5,7 @@ class UserController {
 		this.dataStructure = '';
 	}
 
-	signup(req, res) {
+	signUp(req, res) {
 		this.dataStructure = req.app.get('appData');
 		const {
 			email, password, dob, fullName,
@@ -31,7 +31,7 @@ class UserController {
 		}
 	}
 
-	signin(req, res) {
+	signIn(req, res) {
 		this.dataStructure = req.app.get('appData');
 		const { email, password } = req.body;
 		if (email === ' ' || password === ' ' || password < 6) {
