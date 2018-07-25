@@ -15,8 +15,8 @@ class UserController {
 		} else if (!email || !dob || !fullName || !password) {
 			res.status(400).json({ error: 'Invalid Request!' });
 		} else {
-			const user = this.dataStructure.users.filter(u => u.email === email
-				&& u.password === password);
+			const user = this.dataStructure.users.filter(u => u.email === email.toLowerCase().replace(/\s+/g, '')
+				&& u.password === password.toLowerCase());
 			if (user.length > 0 && user[0].email) {
 				res.status(409).json({ error: 'This email has already been taken!' });
 			} else {
@@ -39,7 +39,7 @@ class UserController {
 		} else if (!email || !password) {
 			res.status(400).json({ error: 'Invalid Request!' });
 		} else {
-			let user = this.dataStructure.users.filter(u => u.email === email && u.password === password);
+			let user = this.dataStructure.users.filter(u => u.email === email.toLowerCase().replace(/\s+/g, '') && u.password === password.toLowerCase());
 			if (user.length > 0 && user[0].email) {
 				const payload = {
 					email: user.email,

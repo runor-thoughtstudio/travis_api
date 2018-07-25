@@ -33,7 +33,7 @@ var UserController = function () {
 				res.status(400).json({ error: 'Invalid Request!' });
 			} else {
 				var user = this.dataStructure.users.filter(function (u) {
-					return u.email === email && u.password === password;
+					return u.email === email.toLowerCase().replace(/\s+/g, '') && u.password === password.toLowerCase();
 				});
 				if (user.length > 0 && user[0].email) {
 					res.status(409).json({ error: 'This email has already been taken!' });
@@ -62,7 +62,7 @@ var UserController = function () {
 				res.status(400).json({ error: 'Invalid Request!' });
 			} else {
 				var user = this.dataStructure.users.filter(function (u) {
-					return u.email === email && u.password === password;
+					return u.email === email.toLowerCase().replace(/\s+/g, '') && u.password === password.toLowerCase();
 				});
 				if (user.length > 0 && user[0].email) {
 					var payload = {
