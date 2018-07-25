@@ -21,6 +21,10 @@ var _dotenv = require('dotenv');
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
+var _CreateSchema = require('./models/CreateSchema');
+
+var _CreateSchema2 = _interopRequireDefault(_CreateSchema);
+
 var _entriesApi = require('./routes/entriesApi');
 
 var _entriesApi2 = _interopRequireDefault(_entriesApi);
@@ -33,6 +37,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _dotenv2.default.config();
 var app = (0, _express2.default)();
+var createDb = new _CreateSchema2.default();
 var dataStructure = {
 	entries: [{
 		title: 'First', description: 'The description'
@@ -41,6 +46,7 @@ var dataStructure = {
 		email: 'user@example.com', password: 'password', fullName: 'Example User', dob: '2018-06', reminderTime: ''
 	}]
 };
+createDb.createDb();
 app.set('port', process.env.PORT || 3000);
 app.set('appData', dataStructure);
 app.set('appVersion', '/api/v1');
