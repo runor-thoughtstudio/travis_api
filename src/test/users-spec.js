@@ -23,7 +23,6 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, user, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.message).to.be.equal('You have successfully signed up!');
 				done();
 			});
@@ -40,7 +39,6 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
 				done();
 			});
@@ -57,7 +55,6 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Invalid Request!');
 				done();
 			});
@@ -71,7 +68,6 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, user, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(409);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('This email has already been taken!');
 				done();
 			});
@@ -88,7 +84,6 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.message).to.be.equal('You have successfully signed in!');
 				done();
 			});
@@ -103,7 +98,6 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
 				done();
 			});
@@ -118,7 +112,6 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Invalid Request!');
 				done();
 			});
@@ -133,7 +126,6 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(401);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Unauthorized! You are not allowed to log in!');
 				done();
 			});
@@ -146,7 +138,8 @@ describe('User Tests', () => {
 			request.getOrDelete('GET', url, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject).to.be.a('object');
+				expect(jsonObject.email).to.not.be.an('undefined');
+				expect(jsonObject.fullName).to.not.be.an('undefined');
 				done();
 			});
 		}).timeout(10000);
@@ -156,8 +149,9 @@ describe('User Tests', () => {
 			request.getOrDelete('GET', url, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Not Found! This user does not exist!');
+				expect(jsonObject.title).to.be.an('undefined');
+				expect(jsonObject.description).to.be.an('undefined');
 				done();
 			});
 		}).timeout(10000);
@@ -174,7 +168,6 @@ describe('User Tests', () => {
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.message).to.be.equal('User Profile has been updated!');
 				done();
 			});
@@ -190,7 +183,6 @@ describe('User Tests', () => {
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('This user does not exist!');
 				done();
 			});
@@ -206,7 +198,6 @@ describe('User Tests', () => {
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Please fill in all the fields properly!');
 				done();
 			});
@@ -222,7 +213,6 @@ describe('User Tests', () => {
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Invalid Request!');
 				done();
 			});
@@ -238,7 +228,6 @@ describe('User Tests', () => {
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.message).to.be.equal('Your notification settings has been updated!');
 				done();
 			});
@@ -252,7 +241,6 @@ describe('User Tests', () => {
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Please pick a date for your notification!');
 				done();
 			});
@@ -266,7 +254,6 @@ describe('User Tests', () => {
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Invalid request!');
 				done();
 			});
@@ -280,7 +267,6 @@ describe('User Tests', () => {
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject).to.be.a('object');
 				expect(jsonObject.error).to.be.equal('Not Found! This user does not exist!');
 				done();
 			});

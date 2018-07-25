@@ -18,11 +18,11 @@ var usersRouter = _express2.default.Router();
 var User = new _UserController2.default();
 
 usersRouter.post('/users', function (req, res) {
-	User.signup(req, res);
+	User.signUp(req, res);
 });
 
 usersRouter.post('/users/signin', function (req, res) {
-	User.signin(req, res);
+	User.signIn(req, res);
 });
 
 usersRouter.get('/users/:id', function (req, res) {

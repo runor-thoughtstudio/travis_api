@@ -5,11 +5,11 @@ const usersRouter = express.Router();
 const User = new UserController();
 
 usersRouter.post('/users', (req, res) => {
-	User.signup(req, res);
+	User.signUp(req, res);
 });
 
 usersRouter.post('/users/signin', (req, res) => {
-	User.signin(req, res);
+	User.signIn(req, res);
 });
 
 usersRouter.get('/users/:id', (req, res) => {
