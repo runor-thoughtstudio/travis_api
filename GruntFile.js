@@ -8,15 +8,15 @@ module.exports = function(grunt) {
 	        dist: {
 				files: [{
 			      expand: true,
-			      cwd: 'src',
+			      cwd: 'server',
 			      src: ['**/*.js'],
-			      dest: 'app/dist',
+			      dest: 'app',
 			      ext: '.js'
 			  }]
 	        }
 		},
 		eslint: {
-            target: ['src/**/*.js']
+            target: ['server/**/*.js']
        	},
 	   	mochaTest: {
 		  test: {
@@ -24,12 +24,12 @@ module.exports = function(grunt) {
 		      reporter: 'spec',
 		      require: 'babel-register'
 		    },
-		    src: ['app/dist/test/**/*.js']
+		    src: ['app/tests/**/*.js']
 		  }
 		},
 		watch: {
 			scripts: {
-				files: ["src/**/*.js"],
+				files: ["server/**/*.js"],
 				tasks: ["eslint", "babel"]
 			}
 		}
