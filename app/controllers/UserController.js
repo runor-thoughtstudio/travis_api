@@ -94,7 +94,6 @@ var UserController = function (_User) {
 						user = Object.assign({}, user);
 						delete user.password;
 						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
-						res.setHeader('token', token);
 						res.status(200).json({ message: 'You have successfully signed in!', user: user, token: token });
 					}
 				});
