@@ -6,6 +6,10 @@ var _jsonwebtoken = require('jsonwebtoken');
 
 var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
+var _dotenv = require('dotenv');
+
+var _dotenv2 = _interopRequireDefault(_dotenv);
+
 var _User2 = require('../models/User');
 
 var _User3 = _interopRequireDefault(_User2);
@@ -17,6 +21,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+_dotenv2.default.config();
 
 var UserController = function (_User) {
 	_inherits(UserController, _User);
@@ -47,16 +53,16 @@ var UserController = function (_User) {
 			} else if (!email || !dateOfBirth || !fullName || !password) {
 				res.status(400).json({ error: 'Bad Request!' });
 			} else {
-				var payload = {
-					email: req.body.email
-				};
 				req.body.email = req.body.email.toLowerCase().replace(/\s+/g, '');
 				req.body.password = req.body.password.toLowerCase();
 				this.create(req, function (error) {
 					if (error) {
 						res.status(409).json({ error: error });
 					} else {
-						var token = _jsonwebtoken2.default.sign(payload, '123abcd4', { expiresIn: 60000 });
+						var payload = {
+							email: req.body.email
+						};
+						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 						res.status(201).json({ message: 'You have successfully signed up!', token: token });
 					}
 				});
@@ -82,12 +88,12 @@ var UserController = function (_User) {
 					} else {
 						var user = response.rows[0];
 						var payload = {
-							email: user.email
+							email: response.rows[0].email,
+							id: response.rows[0].id
 						};
 						user = Object.assign({}, user);
 						delete user.password;
-						var token = _jsonwebtoken2.default.sign(payload, '123abcd45', { expiresIn: 60000 });
-						res.setHeader('token', token);
+						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 						res.status(200).json({ message: 'You have successfully signed in!', user: user, token: token });
 					}
 				});

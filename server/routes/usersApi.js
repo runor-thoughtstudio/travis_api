@@ -1,5 +1,6 @@
 import express from 'express';
 import UserController from '../controllers/UserController';
+import checkAuth from '../helpers/checkAuth';
 
 const usersRouter = express.Router();
 const User = new UserController();
@@ -12,15 +13,15 @@ usersRouter.post('/auth/login', (req, res) => {
 	User.signIn(req, res);
 });
 
-usersRouter.get('/users/:id', (req, res) => {
+usersRouter.get('/users/:id', checkAuth, (req, res) => {
 	User.show(req, res);
 });
 
-usersRouter.put('/users/:id', (req, res) => {
+usersRouter.put('/users/:id', checkAuth, (req, res) => {
 	User.update(req, res);
 });
 
-usersRouter.put('/users/:id/notifications', (req, res) => {
+usersRouter.put('/users/:id/notifications', checkAuth, (req, res) => {
 	User.saveNotification(req, res);
 });
 
