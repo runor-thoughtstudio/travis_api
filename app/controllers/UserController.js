@@ -57,7 +57,6 @@ var UserController = function (_User) {
 						res.status(409).json({ error: error });
 					} else {
 						var token = _jsonwebtoken2.default.sign(payload, '123abcd4', { expiresIn: 60000 });
-						res.setHeader('token', token);
 						res.status(201).json({ message: 'You have successfully signed up!', token: token });
 					}
 				});

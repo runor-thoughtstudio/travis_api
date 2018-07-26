@@ -28,7 +28,6 @@ class UserController extends User {
 					res.status(409).json({ error });
 				} else {
 					const token = jwt.sign(payload, '123abcd4', { expiresIn: 60000 });
-					res.setHeader('token', token);
 					res.status(201).json({ message: 'You have successfully signed up!', token });
 				}
 			});
