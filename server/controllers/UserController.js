@@ -9,23 +9,27 @@ class UserController extends User {
 
 	signUp(req, res) {
 		const {
-			email, password, dob, fullName,
+			email, password, confirmPassword, dob, fullName,
 		} = req.body;
 		if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
 			res.status(422).json({ error: 'Please fill in all the fields properly!' });
+		} else if (password !== confirmPassword) {
+			res.status(401).json({ error: 'Passwords do not match!' });
 		} else if (!email || !dob || !fullName || !password) {
-			res.status(400).json({ error: 'Invalid Request!' });
+			res.status(400).json({ error: 'Bad Request!' });
 		} else {
 			const payload = {
 				email: req.body.email,
 			};
+			req.body.email = req.body.email.toLowerCase().replace(/\s+/g, '');
+			req.body.password = req.body.password.toLowerCase();
 			this.create(req, (error) => {
 				if (error) {
 					res.status(409).json({ error });
 				} else {
 					const token = jwt.sign(payload, '123abcd4', { expiresIn: 60000 });
 					res.setHeader('token', token);
-					res.status(201).json({ message: 'You have successfully signed up!' });
+					res.status(201).json({ message: 'You have successfully signed up!', token });
 				}
 			});
 		}

@@ -36,24 +36,29 @@ var UserController = function (_User) {
 			var _req$body = req.body,
 			    email = _req$body.email,
 			    password = _req$body.password,
+			    confirmPassword = _req$body.confirmPassword,
 			    dob = _req$body.dob,
 			    fullName = _req$body.fullName;
 
 			if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
 				res.status(422).json({ error: 'Please fill in all the fields properly!' });
+			} else if (password !== confirmPassword) {
+				res.status(401).json({ error: 'Passwords do not match!' });
 			} else if (!email || !dob || !fullName || !password) {
-				res.status(400).json({ error: 'Invalid Request!' });
+				res.status(400).json({ error: 'Bad Request!' });
 			} else {
 				var payload = {
 					email: req.body.email
 				};
+				req.body.email = req.body.email.toLowerCase().replace(/\s+/g, '');
+				req.body.password = req.body.password.toLowerCase();
 				this.create(req, function (error) {
 					if (error) {
 						res.status(409).json({ error: error });
 					} else {
 						var token = _jsonwebtoken2.default.sign(payload, '123abcd4', { expiresIn: 60000 });
 						res.setHeader('token', token);
-						res.status(201).json({ message: 'You have successfully signed up!' });
+						res.status(201).json({ message: 'You have successfully signed up!', token: token });
 					}
 				});
 			}
