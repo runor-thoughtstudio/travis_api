@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const checkAuth = (req, res, next) => {
 	try {
-		const decoded = jwt.verify(req.body.token, process.env.secret_token);
+		const decoded = jwt.verify(req.headers.token, process.env.secret_token);
 		req.userData = decoded;
 		return next();
 	} catch (error) {
