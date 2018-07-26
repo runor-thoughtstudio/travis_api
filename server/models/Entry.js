@@ -1,5 +1,6 @@
 import pg from 'pg';
 import Joi from 'joi';
+import moment from 'moment';
 
 class Entry {
 	constructor() {
@@ -51,6 +52,50 @@ class Entry {
 						callback(error.detail);
 					} else {
 						callback(error);
+					}
+				});
+			}
+		});
+	}
+
+	updateEntry(req, callback) {
+		const {
+			title, description,
+		} = req.body;
+		const userId = req.userData.id;
+		Joi.validate({
+			title, description, userId,
+		}, this.schema, (err) => {
+			if (err) {
+				callback(err.details[0].message);
+			} else {
+				const sql = 'SELECT * FROM entries WHERE id=$1';
+				const values = [req.params.id];
+				this.pool.query(sql, values, (error, response) => {
+					if (error) {
+						callback(error.detail, 400);
+					} else if (response.rows.length < 1) {
+						callback('This entry does not exist!', 404);
+					} else if (!error) {
+						if (response.rows[0].user_id === userId) {
+							// its my entry
+							const time = Date.now();
+							const timeCreated = moment(response.rows[0].created_at).format('X');
+							const timeNow = moment().format('X');
+							const diff = (timeNow - timeCreated) / 86400;
+							if (diff <= 1) {
+								const updateSql = 'UPDATE entries SET title=$1, description=$2 WHERE id=$3';
+								const updateValues = [title, description, req.params.id];
+								this.pool.query(updateSql, updateValues, (updateError) => {
+									callback(updateError, 200);
+								});
+							} else if (time !== response.rows[0].created_at) {
+								callback('This entry can no longer be updated!', 403);
+							}
+						} else if (response.rows[0].user_id !== userId) {
+							// its not my entry
+							callback('You do not have permission to edit this entry!', 403);
+						}
 					}
 				});
 			}
