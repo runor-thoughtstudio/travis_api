@@ -23,6 +23,7 @@ var request = new _requests2.default();
 var user = {
 	email: 'user1@example.com',
 	password: 'password',
+	confirmPassword: 'password',
 	fullName: 'User Name',
 	dob: '2018-04'
 };
@@ -33,7 +34,7 @@ describe('User Tests', function () {
 	});
 	describe('signupUser()', function () {
 		it('should signup a user with correct form details', function (done) {
-			var url = process.env.root_url + '/' + process.env.version_url + '/users';
+			var url = process.env.root_url + '/' + process.env.version_url + '/auth/signup';
 			request.postOrPut('POST', url, user, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
@@ -43,10 +44,11 @@ describe('User Tests', function () {
 		}).timeout(10000);
 
 		it('should validate false on submitting empty field', function (done) {
-			var url = process.env.root_url + '/' + process.env.version_url + '/users';
+			var url = process.env.root_url + '/' + process.env.version_url + '/auth/signup';
 			var tempUser = {
 				email: ' ',
 				password: 'password',
+				confirmPassword: 'password',
 				fullName: 'User Name',
 				dob: '2018-04'
 			};
@@ -59,23 +61,24 @@ describe('User Tests', function () {
 		}).timeout(10000);
 
 		it('should show error on sending incorrect form data', function (done) {
-			var url = process.env.root_url + '/' + process.env.version_url + '/users';
+			var url = process.env.root_url + '/' + process.env.version_url + '/auth/signup';
 			var tempUser = {
 				email: 'user1@example.com',
 				password: 'password',
+				confirmPassword: 'password',
 				username: 'User Name',
 				dob: '2018-04'
 			};
 			request.postOrPut('POST', url, tempUser, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject.error).to.be.equal('Invalid Request!');
+				expect(jsonObject.error).to.be.equal('Bad Request!');
 				done();
 			});
 		}).timeout(10000);
 
 		it('should not allow same email to signup twice', function (done) {
-			var url = process.env.root_url + '/' + process.env.version_url + '/users';
+			var url = process.env.root_url + '/' + process.env.version_url + '/auth/signup';
 			request.postOrPut('POST', url, user, function (error, res, body) {
 				console.log(error + '/' + res + '/' + body);
 			});
@@ -92,7 +95,7 @@ describe('User Tests', function () {
 		it('should signin a user whose email is present', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/users/signin';
 			var formData = {
-				email: 'user1@example.com',
+				email: 'kamp@gmail.com',
 				password: 'password'
 			};
 			request.postOrPut('POST', url, formData, function (error, res, body) {

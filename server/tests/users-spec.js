@@ -9,6 +9,7 @@ const request = new Request();
 const user = {
 	email: 'user1@example.com',
 	password: 'password',
+	confirmPassword: 'password',
 	fullName: 'User Name',
 	dob: '2018-04',
 };
@@ -19,7 +20,7 @@ describe('User Tests', () => {
 	});
 	describe('signupUser()', () => {
 		it('should signup a user with correct form details', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/users`;
+			const url = `${process.env.root_url}/${process.env.version_url}/auth/signup`;
 			request.postOrPut('POST', url, user, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
@@ -29,10 +30,11 @@ describe('User Tests', () => {
 		}).timeout(10000);
 
 		it('should validate false on submitting empty field', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/users`;
+			const url = `${process.env.root_url}/${process.env.version_url}/auth/signup`;
 			const tempUser = {
 				email: ' ',
 				password: 'password',
+				confirmPassword: 'password',
 				fullName: 'User Name',
 				dob: '2018-04',
 			};
@@ -45,23 +47,24 @@ describe('User Tests', () => {
 		}).timeout(10000);
 
 		it('should show error on sending incorrect form data', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/users`;
+			const url = `${process.env.root_url}/${process.env.version_url}/auth/signup`;
 			const tempUser = {
 				email: 'user1@example.com',
 				password: 'password',
+				confirmPassword: 'password',
 				username: 'User Name',
 				dob: '2018-04',
 			};
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject.error).to.be.equal('Invalid Request!');
+				expect(jsonObject.error).to.be.equal('Bad Request!');
 				done();
 			});
 		}).timeout(10000);
 
 		it('should not allow same email to signup twice', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/users`;
+			const url = `${process.env.root_url}/${process.env.version_url}/auth/signup`;
 			request.postOrPut('POST', url, user, (error, res, body) => {
 				console.log(`${error}/${res}/${body}`);
 			});
@@ -78,7 +81,7 @@ describe('User Tests', () => {
 		it('should signin a user whose email is present', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/users/signin`;
 			const formData = {
-				email: 'user1@example.com',
+				email: 'kamp@gmail.com',
 				password: 'password',
 			};
 			request.postOrPut('POST', url, formData, (error, res, body) => {

@@ -6,46 +6,60 @@ var _jsonwebtoken = require('jsonwebtoken');
 
 var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
+var _User2 = require('../models/User');
+
+var _User3 = _interopRequireDefault(_User2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UserController = function () {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserController = function (_User) {
+	_inherits(UserController, _User);
+
 	function UserController() {
 		_classCallCheck(this, UserController);
 
-		this.dataStructure = '';
+		var _this = _possibleConstructorReturn(this, (UserController.__proto__ || Object.getPrototypeOf(UserController)).call(this));
+
+		_this.dataStructure = '';
+		return _this;
 	}
 
 	_createClass(UserController, [{
 		key: 'signUp',
 		value: function signUp(req, res) {
-			this.dataStructure = req.app.get('appData');
 			var _req$body = req.body,
 			    email = _req$body.email,
 			    password = _req$body.password,
+			    confirmPassword = _req$body.confirmPassword,
 			    dob = _req$body.dob,
 			    fullName = _req$body.fullName;
 
-			if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password < 6) {
+			if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
 				res.status(422).json({ error: 'Please fill in all the fields properly!' });
+			} else if (password !== confirmPassword) {
+				res.status(401).json({ error: 'Passwords do not match!' });
 			} else if (!email || !dob || !fullName || !password) {
-				res.status(400).json({ error: 'Invalid Request!' });
+				res.status(400).json({ error: 'Bad Request!' });
 			} else {
-				var user = this.dataStructure.users.filter(function (u) {
-					return u.email === email.toLowerCase().replace(/\s+/g, '') && u.password === password.toLowerCase();
+				var payload = {
+					email: req.body.email
+				};
+				req.body.email = req.body.email.toLowerCase().replace(/\s+/g, '');
+				req.body.password = req.body.password.toLowerCase();
+				this.create(req, function (error) {
+					if (error) {
+						res.status(409).json({ error: error });
+					} else {
+						var token = _jsonwebtoken2.default.sign(payload, '123abcd4', { expiresIn: 60000 });
+						res.status(201).json({ message: 'You have successfully signed up!', token: token });
+					}
 				});
-				if (user.length > 0 && user[0].email) {
-					res.status(409).json({ error: 'This email has already been taken!' });
-				} else {
-					this.dataStructure.users.push(req.body);
-					var payload = {
-						email: req.body.email
-					};
-					var token = _jsonwebtoken2.default.sign(payload, '123abcd4', { expiresIn: 60000 });
-					res.setHeader('token', token);
-					res.status(201).json({ message: 'You have successfully signed up!' });
-				}
 			}
 		}
 	}, {
@@ -128,7 +142,7 @@ var UserController = function () {
 	}]);
 
 	return UserController;
-}();
+}(_User3.default);
 
 module.exports = UserController;
 //# sourceMappingURL=UserController.js.map
