@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var usersRouter = _express2.default.Router();
 var User = new _UserController2.default();
 
-usersRouter.post('/users', function (req, res) {
+usersRouter.post('/auth/signup', function (req, res) {
 	User.signUp(req, res);
 });
 

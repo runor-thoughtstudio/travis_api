@@ -4,7 +4,7 @@ import UserController from '../controllers/UserController';
 const usersRouter = express.Router();
 const User = new UserController();
 
-usersRouter.post('/users', (req, res) => {
+usersRouter.post('/auth/signup', (req, res) => {
 	User.signUp(req, res);
 });
 

@@ -1,5 +1,7 @@
 import pg from 'pg';
+import dotenv from 'dotenv';
 
+dotenv.config();
 class User {
 	constructor() {
 		this.pool = new pg.Pool({
@@ -9,8 +11,20 @@ class User {
 			password: process.env.password,
 			port: 5432,
 		});
-		this.pool.query('CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, fullName VARCHAR(40) NOT NULL, email VARCHAR(40) NOT NULL UNIQUE, password VARCHAR(40) NOT NULL, dob DATE NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_DATE, updated_at TIMESTAMP DEFAULT CURRENT_DATE)', () => {
-			this.pool.end();
+	}
+
+	create(req, callback) {
+		const {
+			email, fullName, password, dob,
+		} = req.body;
+		const sql = 'INSERT INTO users(fullName, email, password, dob) VALUES($1, $2, $3, $4)';
+		const values = [fullName, email, password, dob];
+		this.pool.query(sql, values, (error) => {
+			if (error) {
+				callback(error.detail);
+			} else {
+				callback(error);
+			}
 		});
 	}
 }

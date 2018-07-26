@@ -1,33 +1,33 @@
 import jwt from 'jsonwebtoken';
+import User from '../models/User';
 
-class UserController {
+class UserController extends User {
 	constructor() {
+		super();
 		this.dataStructure = '';
 	}
 
 	signUp(req, res) {
-		this.dataStructure = req.app.get('appData');
 		const {
 			email, password, dob, fullName,
 		} = req.body;
-		if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password < 6) {
+		if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
 			res.status(422).json({ error: 'Please fill in all the fields properly!' });
 		} else if (!email || !dob || !fullName || !password) {
 			res.status(400).json({ error: 'Invalid Request!' });
 		} else {
-			const user = this.dataStructure.users.filter(u => u.email === email.toLowerCase().replace(/\s+/g, '')
-				&& u.password === password.toLowerCase());
-			if (user.length > 0 && user[0].email) {
-				res.status(409).json({ error: 'This email has already been taken!' });
-			} else {
-				this.dataStructure.users.push(req.body);
-				const payload = {
-					email: req.body.email,
-				};
-				const token = jwt.sign(payload, '123abcd4', { expiresIn: 60000 });
-				res.setHeader('token', token);
-				res.status(201).json({ message: 'You have successfully signed up!' });
-			}
+			const payload = {
+				email: req.body.email,
+			};
+			this.create(req, (error) => {
+				if (error) {
+					res.status(409).json({ error });
+				} else {
+					const token = jwt.sign(payload, '123abcd4', { expiresIn: 60000 });
+					res.setHeader('token', token);
+					res.status(201).json({ message: 'You have successfully signed up!' });
+				}
+			});
 		}
 	}
 
