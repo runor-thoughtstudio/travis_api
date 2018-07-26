@@ -19,17 +19,13 @@ class EntryController extends Entry {
 	}
 
 	show(req, res) {
-		this.dataStructure = req.app.get('appData');
-		if (this.dataStructure.entries === undefined
-			|| this.dataStructure.entries[req.params.id] === undefined) {
-			res.status(404).json({ error: 'This entry cannot be found!' });
-		} else if (this.dataStructure.entries !== undefined
-			|| this.dataStructure.entries[req.params.id] !== undefined) {
-			const entry = this.dataStructure.entries[req.params.id];
-			res.status(200).json(entry);
-		} else {
-			res.status(400).json({ error: 'Bad Request!' });
-		}
+		this.showEntry(req, (error, code, response) => {
+			if (error) {
+				res.status(code).json({ error });
+			} else {
+				res.status(200).json(response.rows[0]);
+			}
+		});
 	}
 
 	create(req, res) {

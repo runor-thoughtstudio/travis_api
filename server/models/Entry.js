@@ -58,6 +58,28 @@ class Entry {
 		});
 	}
 
+	showEntry(req, callback) {
+		const userId = req.userData.id;
+		const sql = 'SELECT * FROM entries WHERE id=$1';
+		const values = [req.params.id];
+		this.pool.query(sql, values, (error, response) => {
+			if (error) {
+				callback(error, 400, false);
+			} else {
+				const res = response;
+				if (response.rows.length >= 1) {
+					if (res.rows[0].user_id === userId) {
+						callback(error, 200, res);
+					} else {
+						callback('You do not have permission to view this entry!', 403, false);
+					}
+				} else {
+					callback('No entry found!', 404, false);
+				}
+			}
+		});
+	}
+
 	updateEntry(req, callback) {
 		const {
 			title, description,

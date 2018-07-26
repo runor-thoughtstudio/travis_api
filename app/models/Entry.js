@@ -81,6 +81,29 @@ var Entry = function () {
 			});
 		}
 	}, {
+		key: 'showEntry',
+		value: function showEntry(req, callback) {
+			var userId = req.userData.id;
+			var sql = 'SELECT * FROM entries WHERE id=$1';
+			var values = [req.params.id];
+			this.pool.query(sql, values, function (error, response) {
+				if (error) {
+					callback(error, 400, false);
+				} else {
+					var res = response;
+					if (response.rows.length >= 1) {
+						if (res.rows[0].user_id === userId) {
+							callback(error, 200, res);
+						} else {
+							callback('You do not have permission to view this entry!', 403, false);
+						}
+					} else {
+						callback('No entry found!', 404, false);
+					}
+				}
+			});
+		}
+	}, {
 		key: 'updateEntry',
 		value: function updateEntry(req, callback) {
 			var _this2 = this;
