@@ -1,5 +1,10 @@
-class EntryController {
+import dotenv from 'dotenv';
+import Entry from '../models/Entry';
+
+dotenv.config();
+class EntryController extends Entry {
 	constructor() {
+		super();
 		this.dataStructure = '';
 	}
 
@@ -27,12 +32,16 @@ class EntryController {
 	}
 
 	create(req, res) {
-		this.dataStructure = req.app.get('appData');
 		if (req.body.title === ' ' || req.body.description === ' ') {
 			res.status(422).json({ error: 'Please fill in all the fields properly!' });
 		} else if (req.body.title && req.body.description) {
-			this.dataStructure.entries.push(req.body);
-			res.status(201).json({ message: 'The entry has been created!' });
+			this.createEntry(req, (error) => {
+				if (error) {
+					res.status(409).json({ error });
+				} else {
+					res.status(201).json({ message: 'The entry has been created!' });
+				}
+			});
 		} else {
 			res.status(400).json({ error: 'Invalid request!' });
 		}
