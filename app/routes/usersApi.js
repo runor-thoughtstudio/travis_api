@@ -21,7 +21,7 @@ usersRouter.post('/auth/signup', function (req, res) {
 	User.signUp(req, res);
 });
 
-usersRouter.post('/users/signin', function (req, res) {
+usersRouter.post('/auth/login', function (req, res) {
 	User.signIn(req, res);
 });
 

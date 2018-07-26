@@ -20,16 +20,16 @@ class User {
 			confirmPassword: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).uppercase().trim()
 				.min(6),
 			fullName: Joi.string(),
-			dob: Joi.string(),
+			dateOfBirth: Joi.string(),
 		};
 	}
 
 	create(req, callback) {
 		const {
-			email, fullName, password, dob,
+			email, fullName, password, dateOfBirth,
 		} = req.body;
 		Joi.validate({
-			email, password, fullName, dob,
+			email, password, fullName, dateOfBirth,
 		}, this.schema, (err) => {
 			if (err) {
 				callback(err.details[0].message);
@@ -37,8 +37,8 @@ class User {
 				const saltRounds = 10;
 				const salt = bcryptjs.genSaltSync(saltRounds);
 				const hash = bcryptjs.hashSync(password, salt);
-				const sql = 'INSERT INTO users(fullName, email, password, dob) VALUES($1, $2, $3, $4)';
-				const values = [fullName, email, hash, dob];
+				const sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4)';
+				const values = [fullName, email, hash, dateOfBirth];
 				this.pool.query(sql, values, (error) => {
 					if (error) {
 						callback(error.detail);
@@ -46,6 +46,35 @@ class User {
 						callback(error);
 					}
 				});
+			}
+		});
+	}
+
+	loginUser(req, callback) {
+		let {
+			email, password,
+		} = req.body;
+		password = password.toLowerCase();
+		email = email.toLowerCase().replace(/\s+/g, '');
+		const sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
+		const values = [email];
+		this.pool.query(sql, values, (err, res) => {
+			if (err !== undefined) {
+				callback(err, res);
+			} else if (err === undefined) {
+				if (!res.rows[0]) {
+					callback(err, false);
+				} else {
+					const hash = res.rows[0].password;
+					bcryptjs.compare(password, hash, (errOnHash, resOnHash) => {
+						if (resOnHash === true) {
+							console.log(errOnHash, resOnHash);
+							callback(err, res);
+						} else {
+							callback(err, resOnHash);
+						}
+					});
+				}
 			}
 		});
 	}

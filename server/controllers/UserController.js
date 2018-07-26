@@ -9,13 +9,13 @@ class UserController extends User {
 
 	signUp(req, res) {
 		const {
-			email, password, confirmPassword, dob, fullName,
+			email, password, confirmPassword, dateOfBirth, fullName,
 		} = req.body;
-		if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
+		if (email === ' ' || dateOfBirth === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
 			res.status(422).json({ error: 'Please fill in all the fields properly!' });
 		} else if (password !== confirmPassword) {
 			res.status(401).json({ error: 'Passwords do not match!' });
-		} else if (!email || !dob || !fullName || !password) {
+		} else if (!email || !dateOfBirth || !fullName || !password) {
 			res.status(400).json({ error: 'Bad Request!' });
 		} else {
 			const payload = {
@@ -35,26 +35,29 @@ class UserController extends User {
 	}
 
 	signIn(req, res) {
-		this.dataStructure = req.app.get('appData');
 		const { email, password } = req.body;
 		if (email === ' ' || password === ' ' || password < 6) {
 			res.status(422).json({ error: 'Please fill in all the fields properly!' });
 		} else if (!email || !password) {
-			res.status(400).json({ error: 'Invalid Request!' });
+			res.status(400).json({ error: 'Bad Request!' });
 		} else {
-			let user = this.dataStructure.users.filter(u => u.email === email.toLowerCase().replace(/\s+/g, '') && u.password === password.toLowerCase());
-			if (user.length > 0 && user[0].email) {
-				const payload = {
-					email: user.email,
-				};
-				user = Object.assign({}, user[0]);
-				delete user.password;
-				const token = jwt.sign(payload, '123abcd45', { expiresIn: 60000 });
-				res.setHeader('token', token);
-				res.status(200).json({ message: 'You have successfully signed in!', user });
-			} else {
-				res.status(401).json({ error: 'Unauthorized! You are not allowed to log in!' });
-			}
+			this.loginUser(req, (err, response) => {
+				if (err) {
+					res.status(500).json({ error: 'Server Error!' });
+				} else if (!response.rows || response.rows[0] === undefined) {
+					res.status(401).json({ error: 'Unauthorized! You are not allowed to log in!' });
+				} else {
+					let user = response.rows[0];
+					const payload = {
+						email: user.email,
+					};
+					user = Object.assign({}, user);
+					delete user.password;
+					const token = jwt.sign(payload, '123abcd45', { expiresIn: 60000 });
+					res.setHeader('token', token);
+					res.status(200).json({ message: 'You have successfully signed in!', user, token });
+				}
+			});
 		}
 	}
 
