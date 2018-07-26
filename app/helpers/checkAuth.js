@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _dotenv2.default.config();
 var checkAuth = function checkAuth(req, res, next) {
 	try {
-		var decoded = _jsonwebtoken2.default.verify(req.body.token, process.env.secret_token);
+		var decoded = _jsonwebtoken2.default.verify(req.headers.token, process.env.secret_token);
 		req.userData = decoded;
 		return next();
 	} catch (error) {

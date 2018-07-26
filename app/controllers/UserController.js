@@ -63,7 +63,8 @@ var UserController = function (_User) {
 							email: req.body.email
 						};
 						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
-						res.status(201).json({ message: 'You have successfully signed up!', token: token });
+						res.setHeader('token', token);
+						res.status(201).json({ message: 'You have successfully signed up!' });
 					}
 				});
 			}
@@ -94,7 +95,8 @@ var UserController = function (_User) {
 						user = Object.assign({}, user);
 						delete user.password;
 						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
-						res.status(200).json({ message: 'You have successfully signed in!', user: user, token: token });
+						res.setHeader('token', token);
+						res.status(200).json({ message: 'You have successfully signed in!', user: user });
 					}
 				});
 			}

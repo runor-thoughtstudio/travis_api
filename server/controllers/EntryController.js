@@ -9,12 +9,13 @@ class EntryController extends Entry {
 	}
 
 	index(req, res) {
-		this.dataStructure = req.app.get('appData');
-		if (this.dataStructure.entries) {
-			res.status(200).json(this.dataStructure.entries);
-		} else {
-			res.status(400).json({ error: 'Bad Request' });
-		}
+		this.allEntries(req, (error, response) => {
+			if (error) {
+				res.status(409).json({ error });
+			} else {
+				res.status(201).json(response.rows);
+			}
+		});
 	}
 
 	show(req, res) {

@@ -35,12 +35,13 @@ var EntryController = function (_Entry) {
 	_createClass(EntryController, [{
 		key: 'index',
 		value: function index(req, res) {
-			this.dataStructure = req.app.get('appData');
-			if (this.dataStructure.entries) {
-				res.status(200).json(this.dataStructure.entries);
-			} else {
-				res.status(400).json({ error: 'Bad Request' });
-			}
+			this.allEntries(req, function (error, response) {
+				if (error) {
+					res.status(409).json({ error: error });
+				} else {
+					res.status(201).json(response.rows);
+				}
+			});
 		}
 	}, {
 		key: 'show',

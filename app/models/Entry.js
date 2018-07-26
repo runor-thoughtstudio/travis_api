@@ -33,6 +33,22 @@ var Entry = function () {
 	}
 
 	_createClass(Entry, [{
+		key: 'allEntries',
+		value: function allEntries(req, callback) {
+			var userId = req.userData.id;
+			var sql = 'SELECT * FROM entries WHERE user_id=$1';
+			var values = [userId];
+			this.pool.query(sql, values, function (error, res) {
+				if (error) {
+					callback(error.detail, res);
+				} else {
+					console.log(res);
+					console.log(userId);
+					callback(error, res);
+				}
+			});
+		}
+	}, {
 		key: 'createEntry',
 		value: function createEntry(req, callback) {
 			var _this = this;

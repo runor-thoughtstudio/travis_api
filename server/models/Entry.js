@@ -18,6 +18,21 @@ class Entry {
 		};
 	}
 
+	allEntries(req, callback) {
+		const userId = req.userData.id;
+		const sql = 'SELECT * FROM entries WHERE user_id=$1';
+		const values = [userId];
+		this.pool.query(sql, values, (error, res) => {
+			if (error) {
+				callback(error.detail, res);
+			} else {
+				console.log(res);
+				console.log(userId);
+				callback(error, res);
+			}
+		});
+	}
+
 	createEntry(req, callback) {
 		const {
 			title, description,
