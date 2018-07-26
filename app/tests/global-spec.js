@@ -8,7 +8,7 @@ var _dotenv = require('dotenv');
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
-var _requests = require('../lib/requests');
+var _requests = require('../helpers/requests');
 
 var _requests2 = _interopRequireDefault(_requests);
 
