@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import User from '../models/User';
 
+
+dotenv.config();
 class UserController extends User {
 	constructor() {
 		super();
@@ -18,16 +21,16 @@ class UserController extends User {
 		} else if (!email || !dateOfBirth || !fullName || !password) {
 			res.status(400).json({ error: 'Bad Request!' });
 		} else {
-			const payload = {
-				email: req.body.email,
-			};
 			req.body.email = req.body.email.toLowerCase().replace(/\s+/g, '');
 			req.body.password = req.body.password.toLowerCase();
 			this.create(req, (error) => {
 				if (error) {
 					res.status(409).json({ error });
 				} else {
-					const token = jwt.sign(payload, '123abcd4', { expiresIn: 60000 });
+					const payload = {
+						email: req.body.email,
+					};
+					const token = jwt.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 					res.status(201).json({ message: 'You have successfully signed up!', token });
 				}
 			});
@@ -49,11 +52,12 @@ class UserController extends User {
 				} else {
 					let user = response.rows[0];
 					const payload = {
-						email: user.email,
+						email: response.rows[0].email,
+						id: response.rows[0].id,
 					};
 					user = Object.assign({}, user);
 					delete user.password;
-					const token = jwt.sign(payload, '123abcd45', { expiresIn: 60000 });
+					const token = jwt.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 					res.setHeader('token', token);
 					res.status(200).json({ message: 'You have successfully signed in!', user, token });
 				}

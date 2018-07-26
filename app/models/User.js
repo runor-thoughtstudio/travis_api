@@ -97,7 +97,6 @@ var User = function () {
 						var hash = res.rows[0].password;
 						_bcryptjs2.default.compare(password, hash, function (errOnHash, resOnHash) {
 							if (resOnHash === true) {
-								console.log(errOnHash, resOnHash);
 								callback(err, res);
 							} else {
 								callback(err, resOnHash);

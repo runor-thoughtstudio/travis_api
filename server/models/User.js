@@ -68,7 +68,6 @@ class User {
 					const hash = res.rows[0].password;
 					bcryptjs.compare(password, hash, (errOnHash, resOnHash) => {
 						if (resOnHash === true) {
-							console.log(errOnHash, resOnHash);
 							callback(err, res);
 						} else {
 							callback(err, resOnHash);

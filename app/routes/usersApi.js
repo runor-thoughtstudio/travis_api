@@ -12,6 +12,10 @@ var _UserController = require('../controllers/UserController');
 
 var _UserController2 = _interopRequireDefault(_UserController);
 
+var _checkAuth = require('../helpers/checkAuth');
+
+var _checkAuth2 = _interopRequireDefault(_checkAuth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var usersRouter = _express2.default.Router();
@@ -25,15 +29,15 @@ usersRouter.post('/auth/login', function (req, res) {
 	User.signIn(req, res);
 });
 
-usersRouter.get('/users/:id', function (req, res) {
+usersRouter.get('/users/:id', _checkAuth2.default, function (req, res) {
 	User.show(req, res);
 });
 
-usersRouter.put('/users/:id', function (req, res) {
+usersRouter.put('/users/:id', _checkAuth2.default, function (req, res) {
 	User.update(req, res);
 });
 
-usersRouter.put('/users/:id/notifications', function (req, res) {
+usersRouter.put('/users/:id/notifications', _checkAuth2.default, function (req, res) {
 	User.saveNotification(req, res);
 });
 
