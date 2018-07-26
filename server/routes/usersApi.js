@@ -8,7 +8,7 @@ usersRouter.post('/auth/signup', (req, res) => {
 	User.signUp(req, res);
 });
 
-usersRouter.post('/users/signin', (req, res) => {
+usersRouter.post('/auth/login', (req, res) => {
 	User.signIn(req, res);
 });
 

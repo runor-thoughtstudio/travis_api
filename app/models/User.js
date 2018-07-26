@@ -40,7 +40,7 @@ var User = function () {
 			password: _joi2.default.string().trim().min(6),
 			confirmPassword: _joi2.default.string().regex(/^[a-zA-Z0-9]{3,30}$/).uppercase().trim().min(6),
 			fullName: _joi2.default.string(),
-			dob: _joi2.default.string()
+			dateOfBirth: _joi2.default.string()
 		};
 	}
 
@@ -53,10 +53,10 @@ var User = function () {
 			    email = _req$body.email,
 			    fullName = _req$body.fullName,
 			    password = _req$body.password,
-			    dob = _req$body.dob;
+			    dateOfBirth = _req$body.dateOfBirth;
 
 			_joi2.default.validate({
-				email: email, password: password, fullName: fullName, dob: dob
+				email: email, password: password, fullName: fullName, dateOfBirth: dateOfBirth
 			}, this.schema, function (err) {
 				if (err) {
 					callback(err.details[0].message);
@@ -64,8 +64,8 @@ var User = function () {
 					var saltRounds = 10;
 					var salt = _bcryptjs2.default.genSaltSync(saltRounds);
 					var hash = _bcryptjs2.default.hashSync(password, salt);
-					var sql = 'INSERT INTO users(fullName, email, password, dob) VALUES($1, $2, $3, $4)';
-					var values = [fullName, email, hash, dob];
+					var sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4)';
+					var values = [fullName, email, hash, dateOfBirth];
 					_this.pool.query(sql, values, function (error) {
 						if (error) {
 							callback(error.detail);
@@ -73,6 +73,37 @@ var User = function () {
 							callback(error);
 						}
 					});
+				}
+			});
+		}
+	}, {
+		key: 'loginUser',
+		value: function loginUser(req, callback) {
+			var _req$body2 = req.body,
+			    email = _req$body2.email,
+			    password = _req$body2.password;
+
+			password = password.toLowerCase();
+			email = email.toLowerCase().replace(/\s+/g, '');
+			var sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
+			var values = [email];
+			this.pool.query(sql, values, function (err, res) {
+				if (err !== undefined) {
+					callback(err, res);
+				} else if (err === undefined) {
+					if (!res.rows[0]) {
+						callback(err, false);
+					} else {
+						var hash = res.rows[0].password;
+						_bcryptjs2.default.compare(password, hash, function (errOnHash, resOnHash) {
+							if (resOnHash === true) {
+								console.log(errOnHash, resOnHash);
+								callback(err, res);
+							} else {
+								callback(err, resOnHash);
+							}
+						});
+					}
 				}
 			});
 		}

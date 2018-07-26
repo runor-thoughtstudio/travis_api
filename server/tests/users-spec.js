@@ -11,7 +11,7 @@ const user = {
 	password: 'password',
 	confirmPassword: 'password',
 	fullName: 'User Name',
-	dob: '2018-04',
+	dateOfBirth: '2018-04',
 };
 
 describe('User Tests', () => {
@@ -36,7 +36,7 @@ describe('User Tests', () => {
 				password: 'password',
 				confirmPassword: 'password',
 				fullName: 'User Name',
-				dob: '2018-04',
+				dateOfBirth: '2018-04',
 			};
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -53,7 +53,7 @@ describe('User Tests', () => {
 				password: 'password',
 				confirmPassword: 'password',
 				username: 'User Name',
-				dob: '2018-04',
+				dateOfBirth: '2018-04',
 			};
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -79,7 +79,7 @@ describe('User Tests', () => {
 
 	describe('signinUser()', () => {
 		it('should signin a user whose email is present', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/users/signin`;
+			const url = `${process.env.root_url}/${process.env.version_url}/auth/login`;
 			const formData = {
 				email: 'kamp@gmail.com',
 				password: 'password',
@@ -93,7 +93,7 @@ describe('User Tests', () => {
 		}).timeout(10000);
 
 		it('should validate false on submitting empty field', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/users/signin`;
+			const url = `${process.env.root_url}/${process.env.version_url}/auth/login`;
 			const tempUser = {
 				email: ' ',
 				password: 'password',
@@ -107,7 +107,7 @@ describe('User Tests', () => {
 		}).timeout(10000);
 
 		it('should show error on sending incorrect form data', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/users/signin`;
+			const url = `${process.env.root_url}/${process.env.version_url}/auth/login`;
 			const tempUser = {
 				username: 'user1@example.com',
 				password: 'password',
@@ -115,13 +115,13 @@ describe('User Tests', () => {
 			request.postOrPut('POST', url, tempUser, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
-				expect(jsonObject.error).to.be.equal('Invalid Request!');
+				expect(jsonObject.error).to.be.equal('Bad Request!');
 				done();
 			});
 		}).timeout(10000);
 
 		it('do not signin user whose email is not present', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/users/signin`;
+			const url = `${process.env.root_url}/${process.env.version_url}/auth/login`;
 			const tempUser = {
 				email: 'absentuser1@example.com',
 				password: 'password',
@@ -166,7 +166,7 @@ describe('User Tests', () => {
 			const formData = {
 				email: 'mynewemail@gmail.com',
 				fullName: 'New User',
-				dob: '2018-04',
+				dateOfBirth: '2018-04',
 			};
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -181,7 +181,7 @@ describe('User Tests', () => {
 			const formData = {
 				email: 'mynewemail@gmail.com',
 				fullName: 'New User',
-				dob: '2018-04',
+				dateOfBirth: '2018-04',
 			};
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -196,7 +196,7 @@ describe('User Tests', () => {
 			const formData = {
 				email: ' ',
 				fullName: 'User Name',
-				dob: '2018-04',
+				dateOfBirth: '2018-04',
 			};
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -211,7 +211,7 @@ describe('User Tests', () => {
 			const formData = {
 				email: 'user1@example.com',
 				username: 'User Name',
-				dob: '2018-04',
+				dateOfBirth: '2018-04',
 			};
 			request.postOrPut('PUT', url, formData, (error, res, body) => {
 				const jsonObject = JSON.parse(body);

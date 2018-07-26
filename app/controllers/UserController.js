@@ -37,14 +37,14 @@ var UserController = function (_User) {
 			    email = _req$body.email,
 			    password = _req$body.password,
 			    confirmPassword = _req$body.confirmPassword,
-			    dob = _req$body.dob,
+			    dateOfBirth = _req$body.dateOfBirth,
 			    fullName = _req$body.fullName;
 
-			if (email === ' ' || dob === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
+			if (email === ' ' || dateOfBirth === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
 				res.status(422).json({ error: 'Please fill in all the fields properly!' });
 			} else if (password !== confirmPassword) {
 				res.status(401).json({ error: 'Passwords do not match!' });
-			} else if (!email || !dob || !fullName || !password) {
+			} else if (!email || !dateOfBirth || !fullName || !password) {
 				res.status(400).json({ error: 'Bad Request!' });
 			} else {
 				var payload = {
@@ -65,7 +65,6 @@ var UserController = function (_User) {
 	}, {
 		key: 'signIn',
 		value: function signIn(req, res) {
-			this.dataStructure = req.app.get('appData');
 			var _req$body2 = req.body,
 			    email = _req$body2.email,
 			    password = _req$body2.password;
@@ -73,23 +72,25 @@ var UserController = function (_User) {
 			if (email === ' ' || password === ' ' || password < 6) {
 				res.status(422).json({ error: 'Please fill in all the fields properly!' });
 			} else if (!email || !password) {
-				res.status(400).json({ error: 'Invalid Request!' });
+				res.status(400).json({ error: 'Bad Request!' });
 			} else {
-				var user = this.dataStructure.users.filter(function (u) {
-					return u.email === email.toLowerCase().replace(/\s+/g, '') && u.password === password.toLowerCase();
+				this.loginUser(req, function (err, response) {
+					if (err) {
+						res.status(500).json({ error: 'Server Error!' });
+					} else if (!response.rows || response.rows[0] === undefined) {
+						res.status(401).json({ error: 'Unauthorized! You are not allowed to log in!' });
+					} else {
+						var user = response.rows[0];
+						var payload = {
+							email: user.email
+						};
+						user = Object.assign({}, user);
+						delete user.password;
+						var token = _jsonwebtoken2.default.sign(payload, '123abcd45', { expiresIn: 60000 });
+						res.setHeader('token', token);
+						res.status(200).json({ message: 'You have successfully signed in!', user: user, token: token });
+					}
 				});
-				if (user.length > 0 && user[0].email) {
-					var payload = {
-						email: user.email
-					};
-					user = Object.assign({}, user[0]);
-					delete user.password;
-					var token = _jsonwebtoken2.default.sign(payload, '123abcd45', { expiresIn: 60000 });
-					res.setHeader('token', token);
-					res.status(200).json({ message: 'You have successfully signed in!', user: user });
-				} else {
-					res.status(401).json({ error: 'Unauthorized! You are not allowed to log in!' });
-				}
 			}
 		}
 	}, {
