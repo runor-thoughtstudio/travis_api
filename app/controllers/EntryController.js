@@ -46,15 +46,13 @@ var EntryController = function (_Entry) {
 	}, {
 		key: 'show',
 		value: function show(req, res) {
-			this.dataStructure = req.app.get('appData');
-			if (this.dataStructure.entries === undefined || this.dataStructure.entries[req.params.id] === undefined) {
-				res.status(404).json({ error: 'This entry cannot be found!' });
-			} else if (this.dataStructure.entries !== undefined || this.dataStructure.entries[req.params.id] !== undefined) {
-				var entry = this.dataStructure.entries[req.params.id];
-				res.status(200).json(entry);
-			} else {
-				res.status(400).json({ error: 'Bad Request!' });
-			}
+			this.showEntry(req, function (error, code, response) {
+				if (error) {
+					res.status(code).json({ error: error });
+				} else {
+					res.status(200).json(response.rows[0]);
+				}
+			});
 		}
 	}, {
 		key: 'create',
