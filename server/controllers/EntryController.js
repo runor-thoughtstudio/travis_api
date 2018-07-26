@@ -49,18 +49,16 @@ class EntryController extends Entry {
 	}
 
 	update(req, res) {
-		this.dataStructure = req.app.get('appData');
 		if (req.body.title === ' ' || req.body.description === ' ') {
 			res.status(422).json({ error: 'Please fill in all the fields properly!' });
-		} else if
-		(this.dataStructure.entries === undefined
-			|| this.dataStructure.entries[req.params.id] === undefined) {
-			res.status(404).json({ error: 'This entry does not exist!' });
 		} else if (req.body.title && req.body.description) {
-			const data = this.dataStructure;
-			data.entries[req.params.id].title = req.body.title;
-			data.entries[req.params.id].description = req.body.description;
-			res.status(200).json({ message: 'This entry has been updated!' });
+			this.updateEntry(req, (error, code) => {
+				if (error) {
+					res.status(code).json({ error });
+				} else {
+					res.status(200).json({ message: 'This entry has been updated!' });
+				}
+			});
 		} else {
 			res.status(400).json({ error: 'Invalid request!' });
 		}

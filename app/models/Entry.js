@@ -10,6 +10,10 @@ var _joi = require('joi');
 
 var _joi2 = _interopRequireDefault(_joi);
 
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -71,6 +75,54 @@ var Entry = function () {
 							callback(error.detail);
 						} else {
 							callback(error);
+						}
+					});
+				}
+			});
+		}
+	}, {
+		key: 'updateEntry',
+		value: function updateEntry(req, callback) {
+			var _this2 = this;
+
+			var _req$body2 = req.body,
+			    title = _req$body2.title,
+			    description = _req$body2.description;
+
+			var userId = req.userData.id;
+			_joi2.default.validate({
+				title: title, description: description, userId: userId
+			}, this.schema, function (err) {
+				if (err) {
+					callback(err.details[0].message);
+				} else {
+					var sql = 'SELECT * FROM entries WHERE id=$1';
+					var values = [req.params.id];
+					_this2.pool.query(sql, values, function (error, response) {
+						if (error) {
+							callback(error.detail, 400);
+						} else if (response.rows.length < 1) {
+							callback('This entry does not exist!', 404);
+						} else if (!error) {
+							if (response.rows[0].user_id === userId) {
+								// its my entry
+								var time = Date.now();
+								var timeCreated = (0, _moment2.default)(response.rows[0].created_at).format('X');
+								var timeNow = (0, _moment2.default)().format('X');
+								var diff = (timeNow - timeCreated) / 86400;
+								if (diff <= 1) {
+									var updateSql = 'UPDATE entries SET title=$1, description=$2 WHERE id=$3';
+									var updateValues = [title, description, req.params.id];
+									_this2.pool.query(updateSql, updateValues, function (updateError) {
+										callback(updateError, 200);
+									});
+								} else if (time !== response.rows[0].created_at) {
+									callback('This entry can no longer be updated!', 403);
+								}
+							} else if (response.rows[0].user_id !== userId) {
+								// its not my entry
+								callback('You do not have permission to edit this entry!', 403);
+							}
 						}
 					});
 				}
