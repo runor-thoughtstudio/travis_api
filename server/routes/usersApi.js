@@ -17,7 +17,7 @@ usersRouter.get('/user/profile', checkAuth, (req, res) => {
 	User.show(req, res);
 });
 
-usersRouter.put('/users/:id', checkAuth, (req, res) => {
+usersRouter.put('/user/profile', checkAuth, (req, res) => {
 	User.update(req, res);
 });
 
