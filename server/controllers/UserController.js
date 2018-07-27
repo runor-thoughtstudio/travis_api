@@ -96,19 +96,18 @@ class UserController extends User {
 	}
 
 	saveNotification(req, res) {
-		this.dataStructure = req.app.get('appData');
 		if (!req.body.reminderTime) {
-			res.status(400).json({ error: 'Invalid request!' });
+			res.status(400).json({ error: 'Bad request!' });
 		} else if (req.body.reminderTime === ' ') {
 			res.status(422).json({ error: 'Please pick a date for your notification!' });
-		} else if
-		(this.dataStructure.users === undefined
-			|| this.dataStructure.users[req.params.id] === undefined) {
-			res.status(404).json({ error: 'Not Found! This user does not exist!' });
 		} else {
-			const data = this.dataStructure;
-			data.users[req.params.id].reminderTime = req.body.reminderTime;
-			res.status(200).json({ message: 'Your notification settings has been updated!' });
+			this.setReminder(req, (err) => {
+				if (err) {
+					res.status(400).json({ error: err });
+				} else {
+					res.status(200).json({ message: 'Your notification settings has been updated!' });
+				}
+			});
 		}
 	}
 }

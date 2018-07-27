@@ -98,6 +98,15 @@ class User {
 			callback(err, res);
 		});
 	}
+
+	setReminder(req, callback) {
+		const userId = req.userData.id;
+		const sql = 'UPDATE users SET reminderTime=$1 WHERE id=$2';
+		const values = [req.body.reminderTime, userId];
+		this.pool.query(sql, values, (err, res) => {
+			callback(err, res);
+		});
+	}
 }
 
 module.exports = User;

@@ -21,7 +21,7 @@ usersRouter.put('/user/profile', checkAuth, (req, res) => {
 	User.update(req, res);
 });
 
-usersRouter.put('/users/:id/notifications', checkAuth, (req, res) => {
+usersRouter.put('/user/notifications', checkAuth, (req, res) => {
 	User.saveNotification(req, res);
 });
 

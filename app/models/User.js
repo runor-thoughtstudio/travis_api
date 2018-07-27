@@ -131,6 +131,16 @@ var User = function () {
 				callback(err, res);
 			});
 		}
+	}, {
+		key: 'setReminder',
+		value: function setReminder(req, callback) {
+			var userId = req.userData.id;
+			var sql = 'UPDATE users SET reminderTime=$1 WHERE id=$2';
+			var values = [req.body.reminderTime, userId];
+			this.pool.query(sql, values, function (err, res) {
+				callback(err, res);
+			});
+		}
 	}]);
 
 	return User;
