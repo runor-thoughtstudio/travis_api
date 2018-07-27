@@ -104,15 +104,16 @@ var UserController = function (_User) {
 	}, {
 		key: 'show',
 		value: function show(req, res) {
-			this.dataStructure = req.app.get('appData');
-			if (this.dataStructure.users === undefined || this.dataStructure.users[req.params.id] === undefined) {
-				res.status(404).json({ error: 'Not Found! This user does not exist!' });
-			} else {
-				var user = this.dataStructure.users[req.params.id];
-				user = Object.assign({}, user);
-				delete user.password;
-				res.status(200).json(user);
-			}
+			this.showUser(req, function (err, response) {
+				if (err) {
+					res.status(400).json({ error: err });
+				} else {
+					var user = response.rows[0];
+					user = Object.assign({}, user);
+					delete user.password;
+					res.status(200).json(user);
+				}
+			});
 		}
 	}, {
 		key: 'update',

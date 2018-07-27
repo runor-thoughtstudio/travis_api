@@ -29,7 +29,7 @@ usersRouter.post('/auth/login', function (req, res) {
 	User.signIn(req, res);
 });
 
-usersRouter.get('/users/:id', _checkAuth2.default, function (req, res) {
+usersRouter.get('/user/profile', _checkAuth2.default, function (req, res) {
 	User.show(req, res);
 });
 
