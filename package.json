@@ -7,7 +7,7 @@
 				"test": "grunt mochaTest",
 				"coverage": "node node_modules/.bin/istanbul cover _mocha -- -R spec app/dist/test",
 				"coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-				"start": "nodemon app/app.js",
+				"start": "node app/app.js",
 				"watch": "grunt watch",
 				"build": "node app/dist/app.js"
 		},
