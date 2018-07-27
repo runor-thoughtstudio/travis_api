@@ -37,7 +37,7 @@ usersRouter.put('/user/profile', _checkAuth2.default, function (req, res) {
 	User.update(req, res);
 });
 
-usersRouter.put('/users/:id/notifications', _checkAuth2.default, function (req, res) {
+usersRouter.put('/user/notifications', _checkAuth2.default, function (req, res) {
 	User.saveNotification(req, res);
 });
 
