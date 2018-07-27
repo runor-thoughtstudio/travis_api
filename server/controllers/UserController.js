@@ -69,7 +69,7 @@ class UserController extends User {
 	show(req, res) {
 		this.showUser(req, (err, response) => {
 			if (err) {
-				res.status(400).json(err);
+				res.status(400).json({ error: err });
 			} else {
 				let user = response.rows[0];
 				user = Object.assign({}, user);

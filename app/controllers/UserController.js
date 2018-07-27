@@ -106,7 +106,7 @@ var UserController = function (_User) {
 		value: function show(req, res) {
 			this.showUser(req, function (err, response) {
 				if (err) {
-					res.status(400).json(err);
+					res.status(400).json({ error: err });
 				} else {
 					var user = response.rows[0];
 					user = Object.assign({}, user);
