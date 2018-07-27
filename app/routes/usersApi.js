@@ -33,7 +33,7 @@ usersRouter.get('/user/profile', _checkAuth2.default, function (req, res) {
 	User.show(req, res);
 });
 
-usersRouter.put('/users/:id', _checkAuth2.default, function (req, res) {
+usersRouter.put('/user/profile', _checkAuth2.default, function (req, res) {
 	User.update(req, res);
 });
 

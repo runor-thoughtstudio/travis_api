@@ -86,6 +86,18 @@ class User {
 			callback(err, res);
 		});
 	}
+
+	updateUser(req, callback) {
+		const userId = req.userData.id;
+		const {
+			email, fullName, dateOfBirth,
+		} = req.body;
+		const sql = 'UPDATE users SET email=$1, fullName=$2, dateOfBirth=$3 WHERE id=$4';
+		const values = [email, fullName, dateOfBirth, userId];
+		this.pool.query(sql, values, (err, res) => {
+			callback(err, res);
+		});
+	}
 }
 
 module.exports = User;
