@@ -13,7 +13,7 @@ usersRouter.post('/auth/login', (req, res) => {
 	User.signIn(req, res);
 });
 
-usersRouter.get('/users/:id', checkAuth, (req, res) => {
+usersRouter.get('/user/profile', checkAuth, (req, res) => {
 	User.show(req, res);
 });
 

@@ -77,6 +77,15 @@ class User {
 			}
 		});
 	}
+
+	showUser(req, callback) {
+		const userId = req.userData.id;
+		const sql = 'SELECT * FROM users WHERE id=$1 LIMIT 1';
+		const values = [userId];
+		this.pool.query(sql, values, (err, res) => {
+			callback(err, res);
+		});
+	}
 }
 
 module.exports = User;

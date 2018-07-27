@@ -106,6 +106,16 @@ var User = function () {
 				}
 			});
 		}
+	}, {
+		key: 'showUser',
+		value: function showUser(req, callback) {
+			var userId = req.userData.id;
+			var sql = 'SELECT * FROM users WHERE id=$1 LIMIT 1';
+			var values = [userId];
+			this.pool.query(sql, values, function (err, res) {
+				callback(err, res);
+			});
+		}
 	}]);
 
 	return User;

@@ -67,16 +67,16 @@ class UserController extends User {
 	}
 
 	show(req, res) {
-		this.dataStructure = req.app.get('appData');
-		if (this.dataStructure.users === undefined
-			|| this.dataStructure.users[req.params.id] === undefined) {
-			res.status(404).json({ error: 'Not Found! This user does not exist!' });
-		} else {
-			let user = this.dataStructure.users[req.params.id];
-			user = Object.assign({}, user);
-			delete user.password;
-			res.status(200).json(user);
-		}
+		this.showUser(req, (err, response) => {
+			if (err) {
+				res.status(400).json(err);
+			} else {
+				let user = response.rows[0];
+				user = Object.assign({}, user);
+				delete user.password;
+				res.status(200).json(user);
+			}
+		});
 	}
 
 	update(req, res) {
