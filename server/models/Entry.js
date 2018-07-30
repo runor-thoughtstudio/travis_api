@@ -1,15 +1,18 @@
 import pg from 'pg';
 import Joi from 'joi';
 import moment from 'moment';
+import dotenv from 'dotenv';
 
+dotenv.config();
 class Entry {
 	constructor() {
+		if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+			this.connectionString = process.env.DATABASE_URL;
+		} else if (process.env.NODE_ENV === 'test') {
+			this.connectionString = process.env.test_DATABASE_URL;
+		}
 		this.pool = new pg.Pool({
-			user: process.env.username,
-			host: process.env.host,
-			database: process.env.database,
-			password: process.env.password,
-			port: 5432,
+			connectionString: this.connectionString,
 		});
 		this.schema = {
 			title: Joi.string().min(2),
@@ -27,8 +30,6 @@ class Entry {
 			if (error) {
 				callback(error.detail, res);
 			} else {
-				console.log(res);
-				console.log(userId);
 				callback(error, res);
 			}
 		});
@@ -45,11 +46,13 @@ class Entry {
 			if (err) {
 				callback(err.details[0].message);
 			} else {
+				console.log(err);
+				console.log('am creating');
 				const sql = 'INSERT INTO entries(title, description, user_id) VALUES($1, $2, $3)';
 				const values = [title, description, userId];
 				this.pool.query(sql, values, (error) => {
 					if (error) {
-						callback(error.detail);
+						callback(error);
 					} else {
 						callback(error);
 					}

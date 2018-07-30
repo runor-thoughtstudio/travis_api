@@ -10,7 +10,10 @@ describe('Test Global Routes', () => {
 	describe('visitInvalidRoute()', () => {
 		it('should show not found when a user visits a mispelt address', (done) => {
 			const url = `${process.env.root_url}/${process.env.version_url}/no_entries`;
-			request.getOrDelete('GET', url, (error, res, body) => {
+			const headers = {
+				'Content-Type': 'application/json',
+			};
+			request.getOrDelete('GET', url, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject.error).to.be.equal('Not Found! The page you are trying to access does not exist!');

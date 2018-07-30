@@ -17,7 +17,11 @@ var checkAuth = function checkAuth(req, res, next) {
 		req.userData = decoded;
 		return next();
 	} catch (error) {
-		return res.status(401).json({ error: 'Unauthorized! You are not allowed to log in!' });
+		return res.status(401).json({
+			message: 'Unauthorized! You are not allowed to log in!',
+			status: 'Failed',
+			data: []
+		});
 	}
 };
 

@@ -62,34 +62,63 @@ var EntryController = function (_Entry) {
 		key: 'create',
 		value: function create(req, res) {
 			if (req.body.title === ' ' || req.body.description === ' ') {
-				res.status(422).json({ error: 'Please fill in all the fields properly!' });
+				res.status(422).json({
+					message: 'Please fill in all the fields properly!',
+					status: 'Failed',
+					data: []
+				});
 			} else if (req.body.title && req.body.description) {
 				this.createEntry(req, function (error) {
+					console.log(error);
 					if (error) {
 						res.status(409).json({ error: error });
 					} else {
-						res.status(201).json({ message: 'The entry has been created!' });
+						res.status(201).json({
+							message: 'The entry has been created!',
+							status: 'Success',
+							data: []
+						});
 					}
 				});
 			} else {
-				res.status(400).json({ error: 'Invalid request!' });
+				res.status(400).json({
+					message: 'Bad request!',
+					status: 'Failed',
+					data: []
+				});
 			}
 		}
 	}, {
 		key: 'update',
 		value: function update(req, res) {
 			if (req.body.title === ' ' || req.body.description === ' ') {
-				res.status(422).json({ error: 'Please fill in all the fields properly!' });
+				res.status(422).json({
+					message: 'Please fill in all the fields properly!',
+					status: 'Failed',
+					data: []
+				});
 			} else if (req.body.title && req.body.description) {
 				this.updateEntry(req, function (error, code) {
 					if (error) {
-						res.status(code).json({ error: error });
+						res.status(code).json({
+							message: error,
+							status: 'Failed',
+							data: []
+						});
 					} else {
-						res.status(200).json({ message: 'This entry has been updated!' });
+						res.status(200).json({
+							message: 'This entry has been updated!',
+							status: 'Success',
+							data: []
+						});
 					}
 				});
 			} else {
-				res.status(400).json({ error: 'Invalid request!' });
+				res.status(400).json({
+					message: 'Bad request!',
+					status: 'Failed',
+					data: []
+				});
 			}
 		}
 	}, {
@@ -97,9 +126,17 @@ var EntryController = function (_Entry) {
 		value: function _delete(req, res) {
 			this.deleteEntry(req, function (error) {
 				if (error) {
-					res.status(400).json({ error: error });
+					res.status(400).json({
+						message: error,
+						status: 'Failed',
+						data: []
+					});
 				} else {
-					res.status(200).json({ message: 'Entry Deleted!' });
+					res.status(204).json({
+						message: 'Entry Deleted!',
+						status: 'Success',
+						data: []
+					});
 				}
 			});
 		}

@@ -28,12 +28,13 @@ var User = function () {
 	function User() {
 		_classCallCheck(this, User);
 
+		if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+			this.connectionString = process.env.DATABASE_URL;
+		} else if (process.env.NODE_ENV === 'test') {
+			this.connectionString = process.env.test_DATABASE_URL;
+		}
 		this.pool = new _pg2.default.Pool({
-			user: process.env.username,
-			host: process.env.host,
-			database: process.env.database,
-			password: process.env.password,
-			port: 5432
+			connectionString: this.connectionString
 		});
 		this.schema = {
 			email: _joi2.default.string().email().uppercase().trim(),
