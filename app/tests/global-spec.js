@@ -32,7 +32,7 @@ describe('Test Global Routes', function () {
 				expect(jsonObject.error).to.be.equal('Not Found! The page you are trying to access does not exist!');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 });
 //# sourceMappingURL=global-spec.js.map

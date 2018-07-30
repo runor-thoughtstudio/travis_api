@@ -55,7 +55,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
@@ -73,7 +73,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
@@ -91,7 +91,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		// it('should not allow same email to signup twice', (done) => {
 		// 	const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
@@ -119,7 +119,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
@@ -134,7 +134,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
@@ -149,7 +149,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('do not signin user whose email is not present', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
@@ -164,7 +164,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('showProfile()', function () {
@@ -177,7 +177,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error if token is invalid', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
@@ -188,7 +188,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('UpdateProfile()', function () {
@@ -206,7 +206,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
@@ -222,7 +222,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
@@ -238,7 +238,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('saveNotifications()', function () {
@@ -267,7 +267,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should return error when wrong form data is sent', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/notifications';
@@ -281,7 +281,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 });
 //# sourceMappingURL=users-spec.js.map

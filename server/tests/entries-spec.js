@@ -31,7 +31,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should give error on sending incorrect form data', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/entries`;
@@ -46,7 +46,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('updateEntry()', () => {
@@ -63,7 +63,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('show error 404 when id does not exist', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/entries/0`;
@@ -78,7 +78,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should give error when incorrect form data is sent', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/entries/4`;
@@ -93,7 +93,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('showEntry()', () => {
@@ -107,7 +107,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.description).to.be.an('undefined');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('allEntries()', () => {
@@ -121,7 +121,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.data).to.be.a('array');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('deleteEntry()', () => {
@@ -134,6 +134,6 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 });
