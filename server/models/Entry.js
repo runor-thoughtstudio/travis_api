@@ -123,6 +123,28 @@ class Entry {
 			}
 		});
 	}
+
+	deleteEntry(req, callback) {
+		const userId = req.userData.id;
+		const sql = 'SELECT * FROM entries WHERE id=$1 AND user_id=$2';
+		const values = [req.params.id, userId];
+		this.pool.query(sql, values, (error, response) => {
+			if (error) {
+				callback(error);
+			} else {
+				const res = response;
+				if (res.rows.length >= 1) {
+					const deleteSql = 'DELETE FROM entries WHERE id=$1';
+					const deleteValues = [req.params.id];
+					this.pool.query(deleteSql, deleteValues, (deleteError) => {
+						callback(deleteError);
+					});
+				} else {
+					callback('This entry does not exist or you do not have permission to delete it!');
+				}
+			}
+		});
+	}
 }
 
 module.exports = Entry;

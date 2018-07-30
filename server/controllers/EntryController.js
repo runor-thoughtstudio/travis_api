@@ -13,7 +13,11 @@ class EntryController extends Entry {
 			if (error) {
 				res.status(409).json({ error });
 			} else {
-				res.status(201).json(response.rows);
+				res.status(200).json({
+					message: 'Retrieved',
+					status: 'Success',
+					data: response.rows,
+				});
 			}
 		});
 	}
@@ -61,14 +65,13 @@ class EntryController extends Entry {
 	}
 
 	delete(req, res) {
-		this.dataStructure = req.app.get('appData');
-		if (this.dataStructure.entries === undefined
-			|| this.dataStructure.entries[req.params.id] === undefined) {
-			res.status(404).json({ error: 'This entry does not exist!' });
-		} else {
-			this.dataStructure.entries.splice(req.params.id, 1);
-			res.status(204).json();
-		}
+		this.deleteEntry(req, (error) => {
+			if (error) {
+				res.status(400).json({ error });
+			} else {
+				res.status(200).json({ message: 'Entry Deleted!' });
+			}
+		});
 	}
 }
 
