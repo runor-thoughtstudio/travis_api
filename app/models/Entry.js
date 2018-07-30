@@ -151,6 +151,31 @@ var Entry = function () {
 				}
 			});
 		}
+	}, {
+		key: 'deleteEntry',
+		value: function deleteEntry(req, callback) {
+			var _this3 = this;
+
+			var userId = req.userData.id;
+			var sql = 'SELECT * FROM entries WHERE id=$1 AND user_id=$2';
+			var values = [req.params.id, userId];
+			this.pool.query(sql, values, function (error, response) {
+				if (error) {
+					callback(error);
+				} else {
+					var res = response;
+					if (res.rows.length >= 1) {
+						var deleteSql = 'DELETE FROM entries WHERE id=$1';
+						var deleteValues = [req.params.id];
+						_this3.pool.query(deleteSql, deleteValues, function (deleteError) {
+							callback(deleteError);
+						});
+					} else {
+						callback('This entry does not exist or you do not have permission to delete it!');
+					}
+				}
+			});
+		}
 	}]);
 
 	return Entry;
