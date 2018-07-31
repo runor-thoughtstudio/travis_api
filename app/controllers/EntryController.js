@@ -37,7 +37,11 @@ var EntryController = function (_Entry) {
 		value: function index(req, res) {
 			this.allEntries(req, function (error, response) {
 				if (error) {
-					res.status(409).json({ error: error });
+					res.status(409).json({
+						message: error,
+						status: 'Failed',
+						data: []
+					});
 				} else {
 					res.status(200).json({
 						message: 'Retrieved',
@@ -52,9 +56,17 @@ var EntryController = function (_Entry) {
 		value: function show(req, res) {
 			this.showEntry(req, function (error, code, response) {
 				if (error) {
-					res.status(code).json({ error: error });
+					res.status(code).json({
+						message: error,
+						status: 'Failed',
+						data: []
+					});
 				} else {
-					res.status(200).json(response.rows[0]);
+					res.status(200).json({
+						message: 'Retrieved',
+						status: 'Failed',
+						data: response.rows[0]
+					});
 				}
 			});
 		}
@@ -71,7 +83,11 @@ var EntryController = function (_Entry) {
 				this.createEntry(req, function (error) {
 					console.log(error);
 					if (error) {
-						res.status(409).json({ error: error });
+						res.status(409).json({
+							message: error,
+							status: 'Failed',
+							data: { error: error }
+						});
 					} else {
 						res.status(201).json({
 							message: 'The entry has been created!',

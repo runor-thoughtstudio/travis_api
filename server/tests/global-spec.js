@@ -19,6 +19,6 @@ describe('Test Global Routes', () => {
 				expect(jsonObject.error).to.be.equal('Not Found! The page you are trying to access does not exist!');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(20000);
 	});
 });

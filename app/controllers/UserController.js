@@ -75,14 +75,10 @@ var UserController = function (_User) {
 							data: []
 						});
 					} else {
-						var payload = {
-							email: req.body.email
-						};
-						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 						res.status(201).json({
 							message: 'You have successfully signed up!',
 							status: 'Success',
-							data: [token]
+							data: []
 						});
 					}
 				});
@@ -133,7 +129,7 @@ var UserController = function (_User) {
 						res.status(200).json({
 							message: 'You have successfully signed in!',
 							status: 'Success',
-							data: [user, token]
+							data: { user: user, token: token }
 						});
 					}
 				});
@@ -156,7 +152,7 @@ var UserController = function (_User) {
 					res.status(200).json({
 						message: 'Retrieved!',
 						status: 'Success',
-						data: [user]
+						data: { user: user }
 					});
 				}
 			});

@@ -38,7 +38,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
@@ -56,7 +56,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
@@ -74,18 +74,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
-
-		// it('should not allow same email to signup twice', (done) => {
-		// 	const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
-		// 	request.postOrPut('POST', url, user, headers, (error, res, body) => {
-		// 		console.log(`${error}/${res}/${body}`);
-		// 		const jsonObject = JSON.parse(body);
-		// 		expect(res.statusCode).to.be.equal(409);
-		// 		expect(jsonObject.error).to.be.equal('This email has already been taken!');
-		// 		done();
-		// 	});
-		// }).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('signinUser()', () => {
@@ -102,7 +91,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/auth/login`;
@@ -117,7 +106,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/auth/login`;
@@ -132,7 +121,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('do not signin user whose email is not present', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/auth/login`;
@@ -147,7 +136,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('showProfile()', () => {
@@ -160,7 +149,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error if token is invalid', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/user/profile`;
@@ -171,7 +160,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('UpdateProfile()', () => {
@@ -189,7 +178,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/user/profile`;
@@ -205,7 +194,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/user/profile`;
@@ -221,23 +210,10 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('saveNotifications()', () => {
-		// it('should save notifications when user and form data are correct', (done) => {
-		// 	const url = `${process.env.root_url}${process.env.version_url}/user/notifications`;
-		// 	const formData = {
-		// 		reminderTime: '10:00',
-		// 	};
-		// 	request.postOrPut('PUT', url, headers, formData, (error, res, body) => {
-		// 		const jsonObject = JSON.parse(body);
-		// 		expect(res.statusCode).to.be.equal(200);
-		// 		expect(jsonObject.message).to.be.equal('Your notification settings has been updated!');
-		// 		done();
-		// 	});
-		// }).timeout(10000);
-
 		it('should return error when form field is empty', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/user/notifications`;
 			const formData = {
@@ -250,7 +226,7 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should return error when wrong form data is sent', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/user/notifications`;
@@ -264,6 +240,6 @@ describe('User Tests', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 });

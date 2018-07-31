@@ -55,7 +55,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
@@ -73,7 +73,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
@@ -91,18 +91,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
-
-		// it('should not allow same email to signup twice', (done) => {
-		// 	const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
-		// 	request.postOrPut('POST', url, user, headers, (error, res, body) => {
-		// 		console.log(`${error}/${res}/${body}`);
-		// 		const jsonObject = JSON.parse(body);
-		// 		expect(res.statusCode).to.be.equal(409);
-		// 		expect(jsonObject.error).to.be.equal('This email has already been taken!');
-		// 		done();
-		// 	});
-		// }).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('signinUser()', function () {
@@ -119,7 +108,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
@@ -134,7 +123,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
@@ -149,7 +138,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('do not signin user whose email is not present', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
@@ -164,7 +153,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('showProfile()', function () {
@@ -177,7 +166,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error if token is invalid', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
@@ -188,7 +177,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('UpdateProfile()', function () {
@@ -206,7 +195,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
@@ -222,7 +211,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
@@ -238,23 +227,10 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('saveNotifications()', function () {
-		// it('should save notifications when user and form data are correct', (done) => {
-		// 	const url = `${process.env.root_url}${process.env.version_url}/user/notifications`;
-		// 	const formData = {
-		// 		reminderTime: '10:00',
-		// 	};
-		// 	request.postOrPut('PUT', url, headers, formData, (error, res, body) => {
-		// 		const jsonObject = JSON.parse(body);
-		// 		expect(res.statusCode).to.be.equal(200);
-		// 		expect(jsonObject.message).to.be.equal('Your notification settings has been updated!');
-		// 		done();
-		// 	});
-		// }).timeout(10000);
-
 		it('should return error when form field is empty', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/notifications';
 			var formData = {
@@ -267,7 +243,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should return error when wrong form data is sent', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/notifications';
@@ -281,7 +257,7 @@ describe('User Tests', function () {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 });
 //# sourceMappingURL=users-spec.js.map

@@ -1,5 +1,4 @@
 import chai from 'chai';
-// import nock from 'nock';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import Request from '../helpers/requests';
@@ -31,7 +30,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should give error on sending incorrect form data', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/entries`;
@@ -46,7 +45,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('updateEntry()', () => {
@@ -63,7 +62,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('show error 404 when id does not exist', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/entries/0`;
@@ -78,7 +77,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 
 		it('should give error when incorrect form data is sent', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/entries/4`;
@@ -93,21 +92,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
-	});
-
-	describe('showEntry()', () => {
-		it('should show 404 not found when id doesnt exist', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries/0`;
-			request.getOrDelete('GET', url, headers, (error, res, body) => {
-				const jsonObject = JSON.parse(body);
-				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject.error).to.be.equal('No entry found!');
-				expect(jsonObject.title).to.be.an('undefined');
-				expect(jsonObject.description).to.be.an('undefined');
-				done();
-			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('allEntries()', () => {
@@ -121,7 +106,7 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.data).to.be.a('array');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 
 	describe('deleteEntry()', () => {
@@ -134,6 +119,6 @@ describe('Test Entries Routes', () => {
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(30000);
 	});
 });

@@ -43,14 +43,10 @@ class UserController extends User {
 						data: [],
 					});
 				} else {
-					const payload = {
-						email: req.body.email,
-					};
-					const token = jwt.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 					res.status(201).json({
 						message: 'You have successfully signed up!',
 						status: 'Success',
-						data: [token],
+						data: [],
 					});
 				}
 			});
@@ -97,7 +93,7 @@ class UserController extends User {
 					res.status(200).json({
 						message: 'You have successfully signed in!',
 						status: 'Success',
-						data: [user, token],
+						data: { user, token },
 					});
 				}
 			});
@@ -119,7 +115,7 @@ class UserController extends User {
 				res.status(200).json({
 					message: 'Retrieved!',
 					status: 'Success',
-					data: [user],
+					data: { user },
 				});
 			}
 		});
