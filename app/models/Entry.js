@@ -14,20 +14,27 @@ var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _dotenv = require('dotenv');
+
+var _dotenv2 = _interopRequireDefault(_dotenv);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+_dotenv2.default.config();
 
 var Entry = function () {
 	function Entry() {
 		_classCallCheck(this, Entry);
 
+		if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+			this.connectionString = process.env.DATABASE_URL;
+		} else if (process.env.NODE_ENV === 'test') {
+			this.connectionString = process.env.test_DATABASE_URL;
+		}
 		this.pool = new _pg2.default.Pool({
-			user: process.env.username,
-			host: process.env.host,
-			database: process.env.database,
-			password: process.env.password,
-			port: 5432
+			connectionString: this.connectionString
 		});
 		this.schema = {
 			title: _joi2.default.string().min(2),
@@ -46,8 +53,6 @@ var Entry = function () {
 				if (error) {
 					callback(error.detail, res);
 				} else {
-					console.log(res);
-					console.log(userId);
 					callback(error, res);
 				}
 			});
@@ -68,11 +73,13 @@ var Entry = function () {
 				if (err) {
 					callback(err.details[0].message);
 				} else {
+					console.log(err);
+					console.log('am creating');
 					var sql = 'INSERT INTO entries(title, description, user_id) VALUES($1, $2, $3)';
 					var values = [title, description, userId];
 					_this.pool.query(sql, values, function (error) {
 						if (error) {
-							callback(error.detail);
+							callback(error);
 						} else {
 							callback(error);
 						}

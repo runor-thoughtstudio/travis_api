@@ -23,21 +23,23 @@ var Request = function () {
 
 	_createClass(Request, [{
 		key: 'getOrDelete',
-		value: function getOrDelete(method, url, callback) {
+		value: function getOrDelete(method, url, headers, callback) {
 			this.request({
 				uri: url,
-				method: method
+				method: method,
+				headers: headers
 			}, function (error, response, body) {
 				callback(error, response, body);
 			});
 		}
 	}, {
 		key: 'postOrPut',
-		value: function postOrPut(method, url, formData, callback) {
+		value: function postOrPut(method, url, formData, headers, callback) {
 			this.request({
 				uri: url,
 				method: method,
-				form: formData
+				form: formData,
+				headers: headers
 			}, function (error, response, body) {
 				callback(error, response, body);
 			});

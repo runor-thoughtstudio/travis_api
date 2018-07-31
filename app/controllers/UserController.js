@@ -47,24 +47,39 @@ var UserController = function (_User) {
 			    fullName = _req$body.fullName;
 
 			if (email === ' ' || dateOfBirth === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
-				res.status(422).json({ error: 'Please fill in all the fields properly!' });
+				res.status(422).json({
+					message: 'Please fill in all the fields properly!',
+					status: 'Failed',
+					data: []
+				});
 			} else if (password !== confirmPassword) {
-				res.status(401).json({ error: 'Passwords do not match!' });
+				res.status(401).json({
+					message: 'Passwords do not match!',
+					status: 'Failed',
+					data: []
+				});
 			} else if (!email || !dateOfBirth || !fullName || !password) {
-				res.status(400).json({ error: 'Bad Request!' });
+				res.status(400).json({
+					message: 'Bad Request!',
+					status: 'Failed',
+					data: []
+				});
 			} else {
 				req.body.email = req.body.email.toLowerCase().replace(/\s+/g, '');
 				req.body.password = req.body.password.toLowerCase();
 				this.create(req, function (error) {
 					if (error) {
-						res.status(409).json({ error: error });
+						res.status(409).json({
+							message: error,
+							status: 'Failed',
+							data: []
+						});
 					} else {
-						var payload = {
-							email: req.body.email
-						};
-						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
-						res.setHeader('token', token);
-						res.status(201).json({ message: 'You have successfully signed up!' });
+						res.status(201).json({
+							message: 'You have successfully signed up!',
+							status: 'Success',
+							data: []
+						});
 					}
 				});
 			}
@@ -77,15 +92,31 @@ var UserController = function (_User) {
 			    password = _req$body2.password;
 
 			if (email === ' ' || password === ' ' || password < 6) {
-				res.status(422).json({ error: 'Please fill in all the fields properly!' });
+				res.status(422).json({
+					message: 'Please fill in all the fields properly!',
+					status: 'Failed',
+					data: []
+				});
 			} else if (!email || !password) {
-				res.status(400).json({ error: 'Bad Request!' });
+				res.status(400).json({
+					message: 'Bad Request!',
+					status: 'Failed',
+					data: []
+				});
 			} else {
 				this.loginUser(req, function (err, response) {
 					if (err) {
-						res.status(500).json({ error: 'Server Error!' });
+						res.status(500).json({
+							message: 'Server Error!',
+							status: 'Failed',
+							data: []
+						});
 					} else if (!response.rows || response.rows[0] === undefined) {
-						res.status(401).json({ error: 'Unauthorized! You are not allowed to log in!' });
+						res.status(401).json({
+							message: 'Unauthorized! You are not allowed to log in!',
+							status: 'Failed',
+							data: []
+						});
 					} else {
 						var user = response.rows[0];
 						var payload = {
@@ -95,8 +126,11 @@ var UserController = function (_User) {
 						user = Object.assign({}, user);
 						delete user.password;
 						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
-						res.setHeader('token', token);
-						res.status(200).json({ message: 'You have successfully signed in!', user: user });
+						res.status(200).json({
+							message: 'You have successfully signed in!',
+							status: 'Success',
+							data: { user: user, token: token }
+						});
 					}
 				});
 			}
@@ -106,12 +140,20 @@ var UserController = function (_User) {
 		value: function show(req, res) {
 			this.showUser(req, function (err, response) {
 				if (err) {
-					res.status(400).json({ error: err });
+					res.status(400).json({
+						message: err,
+						status: 'Failed',
+						data: []
+					});
 				} else {
 					var user = response.rows[0];
 					user = Object.assign({}, user);
 					delete user.password;
-					res.status(200).json(user);
+					res.status(200).json({
+						message: 'Retrieved!',
+						status: 'Success',
+						data: { user: user }
+					});
 				}
 			});
 		}
@@ -119,15 +161,31 @@ var UserController = function (_User) {
 		key: 'update',
 		value: function update(req, res) {
 			if (!req.body.email || !req.body.fullName || !req.body.dateOfBirth) {
-				res.status(400).json({ error: 'Bad Request!' });
+				res.status(400).json({
+					message: 'Bad Request!',
+					status: 'Failed',
+					data: []
+				});
 			} else if (req.body.email === ' ' || req.body.fullName === ' ' || req.body.dateOfBirth === ' ') {
-				res.status(422).json({ error: 'Please fill in all the fields properly!' });
+				res.status(422).json({
+					message: 'Please fill in all the fields properly!',
+					status: 'Failed',
+					data: []
+				});
 			} else {
 				this.updateUser(req, function (err) {
 					if (err) {
-						res.status(400).json({ error: 'Error! Could not update profile to database' });
+						res.status(400).json({
+							message: 'Error! Could not update profile to database!',
+							status: 'Failed',
+							data: []
+						});
 					} else {
-						res.status(200).json({ message: 'Your Profile has been updated!' });
+						res.status(200).json({
+							message: 'Your Profile has been updated!',
+							status: 'Success',
+							data: []
+						});
 					}
 				});
 			}
@@ -136,15 +194,31 @@ var UserController = function (_User) {
 		key: 'saveNotification',
 		value: function saveNotification(req, res) {
 			if (!req.body.reminderTime) {
-				res.status(400).json({ error: 'Bad request!' });
+				res.status(400).json({
+					message: 'Bad Request!',
+					status: 'Failed',
+					data: []
+				});
 			} else if (req.body.reminderTime === ' ') {
-				res.status(422).json({ error: 'Please pick a date for your notification!' });
+				res.status(422).json({
+					message: 'Please pick a date for your notification!',
+					status: 'Failed',
+					data: []
+				});
 			} else {
 				this.setReminder(req, function (err) {
 					if (err) {
-						res.status(400).json({ error: err });
+						res.status(400).json({
+							message: err,
+							status: 'Failed',
+							data: []
+						});
 					} else {
-						res.status(200).json({ message: 'Your notification settings has been updated!' });
+						res.status(422).json({
+							message: 'Your notification settings has been updated!',
+							status: 'Success',
+							data: []
+						});
 					}
 				});
 			}

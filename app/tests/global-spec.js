@@ -23,13 +23,16 @@ describe('Test Global Routes', function () {
 	describe('visitInvalidRoute()', function () {
 		it('should show not found when a user visits a mispelt address', function (done) {
 			var url = process.env.root_url + '/' + process.env.version_url + '/no_entries';
-			request.getOrDelete('GET', url, function (error, res, body) {
+			var headers = {
+				'Content-Type': 'application/json'
+			};
+			request.getOrDelete('GET', url, headers, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(404);
 				expect(jsonObject.error).to.be.equal('Not Found! The page you are trying to access does not exist!');
 				done();
 			});
-		}).timeout(10000);
+		}).timeout(20000);
 	});
 });
 //# sourceMappingURL=global-spec.js.map
