@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _pg = require('pg');
@@ -60,7 +64,7 @@ var User = function () {
 				email: email, password: password, fullName: fullName, dateOfBirth: dateOfBirth
 			}, this.schema, function (err) {
 				if (err) {
-					callback(err.details[0].message);
+					callback('The email must be a valid email!');
 				} else {
 					var saltRounds = 10;
 					var salt = _bcryptjs2.default.genSaltSync(saltRounds);
@@ -69,7 +73,7 @@ var User = function () {
 					var values = [fullName, email, hash, dateOfBirth];
 					_this.pool.query(sql, values, function (error) {
 						if (error) {
-							callback(error.detail);
+							callback('A user with this email already exists!');
 						} else {
 							callback(error);
 						}
@@ -147,5 +151,5 @@ var User = function () {
 	return User;
 }();
 
-module.exports = User;
+exports.default = User;
 //# sourceMappingURL=User.js.map

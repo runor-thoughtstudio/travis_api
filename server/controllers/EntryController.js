@@ -128,4 +128,4 @@ class EntryController extends Entry {
 	}
 }
 
-module.exports = EntryController;
+export default EntryController;

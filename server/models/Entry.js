@@ -103,7 +103,6 @@ class Entry {
 						callback('This entry does not exist!', 404);
 					} else if (!error) {
 						if (response.rows[0].user_id === userId) {
-							// its my entry
 							const time = Date.now();
 							const timeCreated = moment(response.rows[0].created_at).format('X');
 							const timeNow = moment().format('X');
@@ -118,7 +117,6 @@ class Entry {
 								callback('This entry can no longer be updated!', 403);
 							}
 						} else if (response.rows[0].user_id !== userId) {
-							// its not my entry
 							callback('You do not have permission to edit this entry!', 403);
 						}
 					}
@@ -150,4 +148,4 @@ class Entry {
 	}
 }
 
-module.exports = Entry;
+export default Entry;

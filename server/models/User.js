@@ -33,7 +33,7 @@ class User {
 			email, password, fullName, dateOfBirth,
 		}, this.schema, (err) => {
 			if (err) {
-				callback(err.details[0].message);
+				callback('The email must be a valid email!');
 			} else {
 				const saltRounds = 10;
 				const salt = bcryptjs.genSaltSync(saltRounds);
@@ -42,7 +42,7 @@ class User {
 				const values = [fullName, email, hash, dateOfBirth];
 				this.pool.query(sql, values, (error) => {
 					if (error) {
-						callback(error.detail);
+						callback('A user with this email already exists!');
 					} else {
 						callback(error);
 					}
@@ -110,4 +110,4 @@ class User {
 	}
 }
 
-module.exports = User;
+export default User;
