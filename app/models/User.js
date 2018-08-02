@@ -73,7 +73,6 @@ var User = function () {
 					var values = [fullName, email, hash, dateOfBirth];
 					_this.pool.query(sql, values, function (error, res) {
 						if (error) {
-							console.log(error);
 							callback('A user with this email already exists!', res);
 						} else {
 							callback(error, res);

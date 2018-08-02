@@ -42,7 +42,6 @@ class User {
 				const values = [fullName, email, hash, dateOfBirth];
 				this.pool.query(sql, values, (error, res) => {
 					if (error) {
-						console.log(error);
 						callback('A user with this email already exists!', res);
 					} else {
 						callback(error, res);
