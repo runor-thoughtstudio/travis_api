@@ -51,8 +51,15 @@ var Entry = function () {
 		key: 'allEntries',
 		value: function allEntries(req, callback) {
 			var userId = req.userData.id;
-			var sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC';
-			var values = [userId];
+			var sql = void 0;
+			var values = void 0;
+			if (req.query.limit) {
+				sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC LIMIT $2';
+				values = [userId, req.query.limit];
+			} else {
+				sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC';
+				values = [userId];
+			}
 			this.pool.query(sql, values, function (error, res) {
 				if (error) {
 					callback(error.detail, res);
@@ -77,8 +84,6 @@ var Entry = function () {
 				if (err) {
 					callback(err.details[0].message);
 				} else {
-					console.log(err);
-					console.log('am creating');
 					var sql = 'INSERT INTO entries(title, description, user_id) VALUES($1, $2, $3)';
 					var values = [title, description, userId];
 					_this.pool.query(sql, values, function (error) {

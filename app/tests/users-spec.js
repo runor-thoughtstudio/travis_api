@@ -49,7 +49,6 @@ describe('User Tests', function () {
 			process.env.NODE_ENV = 'test';
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
 			request.postOrPut('POST', url, user, headers, function (error, res, body) {
-				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
 				expect(jsonObject.message).to.be.equal('You have successfully signed up and signed in!');

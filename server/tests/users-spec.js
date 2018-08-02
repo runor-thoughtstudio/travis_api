@@ -32,7 +32,6 @@ describe('User Tests', () => {
 			process.env.NODE_ENV = 'test';
 			const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
 			request.postOrPut('POST', url, user, headers, (error, res, body) => {
-				console.log(error);
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
 				expect(jsonObject.message).to.be.equal('You have successfully signed up and signed in!');

@@ -24,8 +24,15 @@ class Entry {
 
 	allEntries(req, callback) {
 		const userId = req.userData.id;
-		const sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC';
-		const values = [userId];
+		let sql;
+		let values;
+		if (req.query.limit) {
+			sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC LIMIT $2';
+			values = [userId, req.query.limit];
+		} else {
+			sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC';
+			values = [userId];
+		}
 		this.pool.query(sql, values, (error, res) => {
 			if (error) {
 				callback(error.detail, res);
@@ -46,8 +53,6 @@ class Entry {
 			if (err) {
 				callback(err.details[0].message);
 			} else {
-				console.log(err);
-				console.log('am creating');
 				const sql = 'INSERT INTO entries(title, description, user_id) VALUES($1, $2, $3)';
 				const values = [title, description, userId];
 				this.pool.query(sql, values, (error) => {
