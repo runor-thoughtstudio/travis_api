@@ -89,6 +89,7 @@ class UserController extends User {
 		} else {
 			this.loginUser(req, (err, response) => {
 				if (err) {
+					console.log(err);
 					res.status(500).json({
 						message: err,
 						status: 'Failed',

@@ -129,6 +129,7 @@ var UserController = function (_User) {
 			} else {
 				this.loginUser(req, function (err, response) {
 					if (err) {
+						console.log(err);
 						res.status(500).json({
 							message: err,
 							status: 'Failed',
