@@ -23,7 +23,7 @@ var expect = _chai2.default.expect;
 
 var request = new _requests2.default();
 var payload = {
-	email: 'kamp@gmail.com',
+	email: 'mynewemail@gmail.com',
 	id: 1
 };
 var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 6000 });
@@ -42,7 +42,7 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('POST', url, formData, headers, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject.message).to.be.equal('Please fill in all the fields properly!');
+				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
@@ -74,14 +74,14 @@ describe('Test Entries Routes', function () {
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject.message).to.be.equal('Please fill in all the fields properly!');
+				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
 		}).timeout(30000);
 
 		it('show error 404 when id does not exist', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/entries/0';
+			var url = '' + process.env.root_url + process.env.version_url + '/entries/200';
 			var formData = {
 				title: 'First Title',
 				description: 'Cool'

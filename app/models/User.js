@@ -69,13 +69,14 @@ var User = function () {
 					var saltRounds = 10;
 					var salt = _bcryptjs2.default.genSaltSync(saltRounds);
 					var hash = _bcryptjs2.default.hashSync(password, salt);
-					var sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4)';
+					var sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4) RETURNING id';
 					var values = [fullName, email, hash, dateOfBirth];
-					_this.pool.query(sql, values, function (error) {
+					_this.pool.query(sql, values, function (error, res) {
 						if (error) {
-							callback('A user with this email already exists!');
+							console.log(error);
+							callback('A user with this email already exists!', res);
 						} else {
-							callback(error);
+							callback(error, res);
 						}
 					});
 				}

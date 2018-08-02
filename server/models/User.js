@@ -38,13 +38,14 @@ class User {
 				const saltRounds = 10;
 				const salt = bcryptjs.genSaltSync(saltRounds);
 				const hash = bcryptjs.hashSync(password, salt);
-				const sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4)';
+				const sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4) RETURNING id';
 				const values = [fullName, email, hash, dateOfBirth];
-				this.pool.query(sql, values, (error) => {
+				this.pool.query(sql, values, (error, res) => {
 					if (error) {
-						callback('A user with this email already exists!');
+						console.log(error);
+						callback('A user with this email already exists!', res);
 					} else {
-						callback(error);
+						callback(error, res);
 					}
 				});
 			}
