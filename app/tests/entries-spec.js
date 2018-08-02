@@ -40,6 +40,7 @@ describe('Test Entries Routes', function () {
 				description: 'New Description'
 			};
 			request.postOrPut('POST', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
@@ -55,6 +56,7 @@ describe('Test Entries Routes', function () {
 				body: 'New Description'
 			};
 			request.postOrPut('POST', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject.message).to.be.equal('Bad request!');
@@ -72,6 +74,7 @@ describe('Test Entries Routes', function () {
 				description: 'Cool'
 			};
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
@@ -87,6 +90,7 @@ describe('Test Entries Routes', function () {
 				body: 'Cool'
 			};
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject.message).to.be.equal('Bad request!');
@@ -100,6 +104,7 @@ describe('Test Entries Routes', function () {
 		it('should show error when id doesnt exist', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/entries/700';
 			request.getOrDelete('DELETE', url, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject.message).to.be.equal('This entry does not exist or you do not have permission to delete it!');

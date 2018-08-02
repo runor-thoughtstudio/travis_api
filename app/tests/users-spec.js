@@ -49,6 +49,7 @@ describe('User Tests', function () {
 			process.env.NODE_ENV = 'test';
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
 			request.postOrPut('POST', url, user, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
 				expect(jsonObject.message).to.be.equal('You have successfully signed up and signed in!');
@@ -67,6 +68,7 @@ describe('User Tests', function () {
 				dateOfBirth: '2018-04-02'
 			};
 			request.postOrPut('POST', url, tempUser, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
@@ -85,6 +87,7 @@ describe('User Tests', function () {
 				dateOfBirth: '2018-04-02'
 			};
 			request.postOrPut('POST', url, tempUser, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject.message).to.be.equal('Bad Request!');
@@ -102,6 +105,7 @@ describe('User Tests', function () {
 				password: 'password'
 			};
 			request.postOrPut('POST', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject.message).to.be.equal('You have signed in successfully!');
@@ -117,6 +121,7 @@ describe('User Tests', function () {
 				password: 'password'
 			};
 			request.postOrPut('POST', url, tempUser, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
@@ -132,6 +137,7 @@ describe('User Tests', function () {
 				password: 'password'
 			};
 			request.postOrPut('POST', url, tempUser, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject.message).to.be.equal('Bad Request!');
@@ -147,6 +153,7 @@ describe('User Tests', function () {
 				password: 'password'
 			};
 			request.postOrPut('POST', url, tempUser, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(401);
 				expect(jsonObject.message).to.be.equal('Unauthorized! You are not allowed to log in!');
@@ -160,6 +167,7 @@ describe('User Tests', function () {
 		it('should show a users profile who is signed in', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
 			request.getOrDelete('GET', url, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject.message).to.not.be.an('Retrieved!');
@@ -171,6 +179,7 @@ describe('User Tests', function () {
 		it('should show error if token is invalid', function (done) {
 			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
 			request.getOrDelete('GET', url, 'nnuio', function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(401);
 				expect(jsonObject.message).to.be.equal('Unauthorized! You are not allowed to log in!');
@@ -189,6 +198,7 @@ describe('User Tests', function () {
 				dateOfBirth: '2018-04-02'
 			};
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
 				expect(jsonObject.message).to.be.equal('Your Profile has been updated!');
@@ -205,6 +215,7 @@ describe('User Tests', function () {
 				dateOfBirth: '2018-04-02'
 			};
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
@@ -221,6 +232,7 @@ describe('User Tests', function () {
 				dateOfBirth: '2018-04-02'
 			};
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject.message).to.be.equal('Bad Request!');
@@ -237,6 +249,7 @@ describe('User Tests', function () {
 				reminderTime: ' '
 			};
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
 				expect(jsonObject.message).to.be.equal('Please pick a date for your notification!');
@@ -251,6 +264,7 @@ describe('User Tests', function () {
 				reminderDay: '10:00'
 			};
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
 				expect(jsonObject.message).to.be.equal('Bad Request!');
