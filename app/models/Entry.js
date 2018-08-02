@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _pg = require('pg');
@@ -47,7 +51,7 @@ var Entry = function () {
 		key: 'allEntries',
 		value: function allEntries(req, callback) {
 			var userId = req.userData.id;
-			var sql = 'SELECT * FROM entries WHERE user_id=$1';
+			var sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC';
 			var values = [userId];
 			this.pool.query(sql, values, function (error, res) {
 				if (error) {
@@ -135,7 +139,6 @@ var Entry = function () {
 							callback('This entry does not exist!', 404);
 						} else if (!error) {
 							if (response.rows[0].user_id === userId) {
-								// its my entry
 								var time = Date.now();
 								var timeCreated = (0, _moment2.default)(response.rows[0].created_at).format('X');
 								var timeNow = (0, _moment2.default)().format('X');
@@ -147,10 +150,9 @@ var Entry = function () {
 										callback(updateError, 200);
 									});
 								} else if (time !== response.rows[0].created_at) {
-									callback('This entry can no longer be updated!', 403);
+									callback('This entry is old and can no longer be updated!', 403);
 								}
 							} else if (response.rows[0].user_id !== userId) {
-								// its not my entry
 								callback('You do not have permission to edit this entry!', 403);
 							}
 						}
@@ -188,5 +190,5 @@ var Entry = function () {
 	return Entry;
 }();
 
-module.exports = Entry;
+exports.default = Entry;
 //# sourceMappingURL=Entry.js.map

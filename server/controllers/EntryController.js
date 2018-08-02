@@ -37,7 +37,7 @@ class EntryController extends Entry {
 			} else {
 				res.status(200).json({
 					message: 'Retrieved',
-					status: 'Failed',
+					status: 'Success',
 					data: response.rows[0],
 				});
 			}
@@ -47,7 +47,7 @@ class EntryController extends Entry {
 	create(req, res) {
 		if (req.body.title === ' ' || req.body.description === ' ') {
 			res.status(422).json({
-				message: 'Please fill in all the fields properly!',
+				message: 'Please fill all the input fields!',
 				status: 'Failed',
 				data: [],
 			});
@@ -62,7 +62,7 @@ class EntryController extends Entry {
 					});
 				} else {
 					res.status(201).json({
-						message: 'The entry has been created!',
+						message: 'Entry has been created!',
 						status: 'Success',
 						data: [],
 					});
@@ -80,7 +80,7 @@ class EntryController extends Entry {
 	update(req, res) {
 		if (req.body.title === ' ' || req.body.description === ' ') {
 			res.status(422).json({
-				message: 'Please fill in all the fields properly!',
+				message: 'Please fill all the input fields!',
 				status: 'Failed',
 				data: [],
 			});
@@ -128,4 +128,4 @@ class EntryController extends Entry {
 	}
 }
 
-module.exports = EntryController;
+export default EntryController;

@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _pg = require('pg');
@@ -60,18 +64,18 @@ var User = function () {
 				email: email, password: password, fullName: fullName, dateOfBirth: dateOfBirth
 			}, this.schema, function (err) {
 				if (err) {
-					callback(err.details[0].message);
+					callback('The email must be a valid email!');
 				} else {
 					var saltRounds = 10;
 					var salt = _bcryptjs2.default.genSaltSync(saltRounds);
 					var hash = _bcryptjs2.default.hashSync(password, salt);
-					var sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4)';
+					var sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4) RETURNING id';
 					var values = [fullName, email, hash, dateOfBirth];
-					_this.pool.query(sql, values, function (error) {
+					_this.pool.query(sql, values, function (error, res) {
 						if (error) {
-							callback(error.detail);
+							callback('A user with this email already exists!', res);
 						} else {
-							callback(error);
+							callback(error, res);
 						}
 					});
 				}
@@ -80,30 +84,40 @@ var User = function () {
 	}, {
 		key: 'loginUser',
 		value: function loginUser(req, callback) {
+			var _this2 = this;
+
 			var _req$body2 = req.body,
 			    email = _req$body2.email,
 			    password = _req$body2.password;
 
 			password = password.toLowerCase();
 			email = email.toLowerCase().replace(/\s+/g, '');
-			var sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
-			var values = [email];
-			this.pool.query(sql, values, function (err, res) {
-				if (err !== undefined) {
-					callback(err, res);
-				} else if (err === undefined) {
-					if (!res.rows[0]) {
-						callback(err, false);
-					} else {
-						var hash = res.rows[0].password;
-						_bcryptjs2.default.compare(password, hash, function (errOnHash, resOnHash) {
-							if (resOnHash === true) {
-								callback(err, res);
+			_joi2.default.validate({
+				email: email, password: password
+			}, this.schema, function (error) {
+				if (error) {
+					callback('The email must be a valid email!');
+				} else {
+					var sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
+					var values = [email];
+					_this2.pool.query(sql, values, function (err, res) {
+						if (err !== undefined) {
+							callback(err, res);
+						} else if (err === undefined) {
+							if (!res.rows[0]) {
+								callback(err, false);
 							} else {
-								callback(err, resOnHash);
+								var hash = res.rows[0].password;
+								_bcryptjs2.default.compare(password, hash, function (errOnHash, resOnHash) {
+									if (resOnHash === true) {
+										callback(err, res);
+									} else {
+										callback(err, resOnHash);
+									}
+								});
 							}
-						});
-					}
+						}
+					});
 				}
 			});
 		}
@@ -147,5 +161,5 @@ var User = function () {
 	return User;
 }();
 
-module.exports = User;
+exports.default = User;
 //# sourceMappingURL=User.js.map

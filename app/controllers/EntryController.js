@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dotenv = require('dotenv');
@@ -64,7 +68,7 @@ var EntryController = function (_Entry) {
 				} else {
 					res.status(200).json({
 						message: 'Retrieved',
-						status: 'Failed',
+						status: 'Success',
 						data: response.rows[0]
 					});
 				}
@@ -75,7 +79,7 @@ var EntryController = function (_Entry) {
 		value: function create(req, res) {
 			if (req.body.title === ' ' || req.body.description === ' ') {
 				res.status(422).json({
-					message: 'Please fill in all the fields properly!',
+					message: 'Please fill all the input fields!',
 					status: 'Failed',
 					data: []
 				});
@@ -90,7 +94,7 @@ var EntryController = function (_Entry) {
 						});
 					} else {
 						res.status(201).json({
-							message: 'The entry has been created!',
+							message: 'Entry has been created!',
 							status: 'Success',
 							data: []
 						});
@@ -109,7 +113,7 @@ var EntryController = function (_Entry) {
 		value: function update(req, res) {
 			if (req.body.title === ' ' || req.body.description === ' ') {
 				res.status(422).json({
-					message: 'Please fill in all the fields properly!',
+					message: 'Please fill all the input fields!',
 					status: 'Failed',
 					data: []
 				});
@@ -161,5 +165,5 @@ var EntryController = function (_Entry) {
 	return EntryController;
 }(_Entry3.default);
 
-module.exports = EntryController;
+exports.default = EntryController;
 //# sourceMappingURL=EntryController.js.map

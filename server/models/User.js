@@ -33,18 +33,18 @@ class User {
 			email, password, fullName, dateOfBirth,
 		}, this.schema, (err) => {
 			if (err) {
-				callback(err.details[0].message);
+				callback('The email must be a valid email!');
 			} else {
 				const saltRounds = 10;
 				const salt = bcryptjs.genSaltSync(saltRounds);
 				const hash = bcryptjs.hashSync(password, salt);
-				const sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4)';
+				const sql = 'INSERT INTO users(fullName, email, password, dateOfBirth) VALUES($1, $2, $3, $4) RETURNING id';
 				const values = [fullName, email, hash, dateOfBirth];
-				this.pool.query(sql, values, (error) => {
+				this.pool.query(sql, values, (error, res) => {
 					if (error) {
-						callback(error.detail);
+						callback('A user with this email already exists!', res);
 					} else {
-						callback(error);
+						callback(error, res);
 					}
 				});
 			}
@@ -57,24 +57,32 @@ class User {
 		} = req.body;
 		password = password.toLowerCase();
 		email = email.toLowerCase().replace(/\s+/g, '');
-		const sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
-		const values = [email];
-		this.pool.query(sql, values, (err, res) => {
-			if (err !== undefined) {
-				callback(err, res);
-			} else if (err === undefined) {
-				if (!res.rows[0]) {
-					callback(err, false);
-				} else {
-					const hash = res.rows[0].password;
-					bcryptjs.compare(password, hash, (errOnHash, resOnHash) => {
-						if (resOnHash === true) {
-							callback(err, res);
+		Joi.validate({
+			email, password,
+		}, this.schema, (error) => {
+			if (error) {
+				callback('The email must be a valid email!');
+			} else {
+				const sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
+				const values = [email];
+				this.pool.query(sql, values, (err, res) => {
+					if (err !== undefined) {
+						callback(err, res);
+					} else if (err === undefined) {
+						if (!res.rows[0]) {
+							callback(err, false);
 						} else {
-							callback(err, resOnHash);
+							const hash = res.rows[0].password;
+							bcryptjs.compare(password, hash, (errOnHash, resOnHash) => {
+								if (resOnHash === true) {
+									callback(err, res);
+								} else {
+									callback(err, resOnHash);
+								}
+							});
 						}
-					});
-				}
+					}
+				});
 			}
 		});
 	}
@@ -110,4 +118,4 @@ class User {
 	}
 }
 
-module.exports = User;
+export default User;

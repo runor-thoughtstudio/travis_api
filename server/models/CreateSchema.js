@@ -43,4 +43,4 @@ class CreateSchema {
 	}
 }
 
-module.exports = CreateSchema;
+export default CreateSchema;

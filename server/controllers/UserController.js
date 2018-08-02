@@ -16,7 +16,7 @@ class UserController extends User {
 		} = req.body;
 		if (email === ' ' || dateOfBirth === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
 			res.status(422).json({
-				message: 'Please fill in all the fields properly!',
+				message: 'Please fill all the input fields!',
 				status: 'Failed',
 				data: [],
 			});
@@ -35,7 +35,7 @@ class UserController extends User {
 		} else {
 			req.body.email = req.body.email.toLowerCase().replace(/\s+/g, '');
 			req.body.password = req.body.password.toLowerCase();
-			this.create(req, (error) => {
+			this.create(req, (error, response) => {
 				if (error) {
 					res.status(409).json({
 						message: error,
@@ -43,10 +43,15 @@ class UserController extends User {
 						data: [],
 					});
 				} else {
+					const payload = {
+						email: req.body.email,
+						id: response.rows[0].id,
+					};
+					const token = jwt.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 					res.status(201).json({
-						message: 'You have successfully signed up!',
+						message: 'You have successfully signed up and signed in!',
 						status: 'Success',
-						data: [],
+						data: { token },
 					});
 				}
 			});
@@ -57,7 +62,7 @@ class UserController extends User {
 		const { email, password } = req.body;
 		if (email === ' ' || password === ' ' || password < 6) {
 			res.status(422).json({
-				message: 'Please fill in all the fields properly!',
+				message: 'Please fill all the input fields!',
 				status: 'Failed',
 				data: [],
 			});
@@ -71,7 +76,7 @@ class UserController extends User {
 			this.loginUser(req, (err, response) => {
 				if (err) {
 					res.status(500).json({
-						message: 'Server Error!',
+						message: err,
 						status: 'Failed',
 						data: [],
 					});
@@ -91,7 +96,7 @@ class UserController extends User {
 					delete user.password;
 					const token = jwt.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 					res.status(200).json({
-						message: 'You have successfully signed in!',
+						message: 'You have signed in successfully!',
 						status: 'Success',
 						data: { user, token },
 					});
@@ -130,7 +135,7 @@ class UserController extends User {
 			});
 		} else if (req.body.email === ' ' || req.body.fullName === ' ' || req.body.dateOfBirth === ' ') {
 			res.status(422).json({
-				message: 'Please fill in all the fields properly!',
+				message: 'Please fill all the input fields!',
 				status: 'Failed',
 				data: [],
 			});
@@ -176,7 +181,7 @@ class UserController extends User {
 					});
 				} else {
 					res.status(422).json({
-						message: 'Your notification settings has been updated!',
+						message: 'Your notification setting has been updated!',
 						status: 'Success',
 						data: [],
 					});
@@ -186,4 +191,4 @@ class UserController extends User {
 	}
 }
 
-module.exports = UserController;
+export default UserController;

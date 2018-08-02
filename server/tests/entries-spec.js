@@ -26,7 +26,7 @@ describe('Test Entries Routes', () => {
 			request.postOrPut('POST', url, formData, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject.message).to.be.equal('Please fill in all the fields properly!');
+				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
@@ -58,22 +58,7 @@ describe('Test Entries Routes', () => {
 			request.postOrPut('PUT', url, formData, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject.message).to.be.equal('Please fill in all the fields properly!');
-				expect(jsonObject.status).to.be.equal('Failed');
-				done();
-			});
-		}).timeout(30000);
-
-		it('show error 404 when id does not exist', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries/0`;
-			const formData = {
-				title: 'First Title',
-				description: 'Cool',
-			};
-			request.postOrPut('PUT', url, formData, headers, (error, res, body) => {
-				const jsonObject = JSON.parse(body);
-				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject.message).to.be.equal('This entry does not exist!');
+				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
@@ -95,23 +80,9 @@ describe('Test Entries Routes', () => {
 		}).timeout(30000);
 	});
 
-	describe('allEntries()', () => {
-		it('should show all entries in the app', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries`;
-			request.getOrDelete('GET', url, headers, (error, res, body) => {
-				const jsonObject = JSON.parse(body);
-				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject).to.be.a('object');
-				expect(jsonObject.message).to.be.equal('Retrieved');
-				expect(jsonObject.data).to.be.a('array');
-				done();
-			});
-		}).timeout(30000);
-	});
-
 	describe('deleteEntry()', () => {
 		it('should show error when id doesnt exist', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries/0`;
+			const url = `${process.env.root_url}${process.env.version_url}/entries/700`;
 			request.getOrDelete('DELETE', url, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);

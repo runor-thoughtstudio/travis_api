@@ -24,7 +24,7 @@ class Entry {
 
 	allEntries(req, callback) {
 		const userId = req.userData.id;
-		const sql = 'SELECT * FROM entries WHERE user_id=$1';
+		const sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC';
 		const values = [userId];
 		this.pool.query(sql, values, (error, res) => {
 			if (error) {
@@ -103,7 +103,6 @@ class Entry {
 						callback('This entry does not exist!', 404);
 					} else if (!error) {
 						if (response.rows[0].user_id === userId) {
-							// its my entry
 							const time = Date.now();
 							const timeCreated = moment(response.rows[0].created_at).format('X');
 							const timeNow = moment().format('X');
@@ -115,10 +114,9 @@ class Entry {
 									callback(updateError, 200);
 								});
 							} else if (time !== response.rows[0].created_at) {
-								callback('This entry can no longer be updated!', 403);
+								callback('This entry is old and can no longer be updated!', 403);
 							}
 						} else if (response.rows[0].user_id !== userId) {
-							// its not my entry
 							callback('You do not have permission to edit this entry!', 403);
 						}
 					}
@@ -150,4 +148,4 @@ class Entry {
 	}
 }
 
-module.exports = Entry;
+export default Entry;
