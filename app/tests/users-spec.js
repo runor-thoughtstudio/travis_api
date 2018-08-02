@@ -25,7 +25,7 @@ var expect = _chai2.default.expect;
 
 var request = new _requests2.default();
 var user = {
-	email: 'coolerkamp@gmail.com',
+	email: 'kamp@gmail.com',
 	password: 'password',
 	confirmPassword: 'password',
 	fullName: 'User Name',

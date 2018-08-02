@@ -8,7 +8,7 @@ dotenv.config();
 const { expect } = chai;
 const request = new Request();
 const user = {
-	email: 'coolerkamp@gmail.com',
+	email: 'kamp@gmail.com',
 	password: 'password',
 	confirmPassword: 'password',
 	fullName: 'User Name',
