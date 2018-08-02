@@ -68,7 +68,7 @@ var EntryController = function (_Entry) {
 				} else {
 					res.status(200).json({
 						message: 'Retrieved',
-						status: 'Failed',
+						status: 'Success',
 						data: response.rows[0]
 					});
 				}
@@ -79,7 +79,7 @@ var EntryController = function (_Entry) {
 		value: function create(req, res) {
 			if (req.body.title === ' ' || req.body.description === ' ') {
 				res.status(422).json({
-					message: 'Please fill in all the fields properly!',
+					message: 'Please fill all the input fields!',
 					status: 'Failed',
 					data: []
 				});
@@ -94,7 +94,7 @@ var EntryController = function (_Entry) {
 						});
 					} else {
 						res.status(201).json({
-							message: 'The entry has been created!',
+							message: 'Entry has been created!',
 							status: 'Success',
 							data: []
 						});
@@ -113,7 +113,7 @@ var EntryController = function (_Entry) {
 		value: function update(req, res) {
 			if (req.body.title === ' ' || req.body.description === ' ') {
 				res.status(422).json({
-					message: 'Please fill in all the fields properly!',
+					message: 'Please fill all the input fields!',
 					status: 'Failed',
 					data: []
 				});

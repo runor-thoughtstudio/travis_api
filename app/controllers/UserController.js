@@ -52,7 +52,7 @@ var UserController = function (_User) {
 
 			if (email === ' ' || dateOfBirth === ' ' || fullName === ' ' || password === ' ' || password.length < 6) {
 				res.status(422).json({
-					message: 'Please fill in all the fields properly!',
+					message: 'Please fill all the input fields!',
 					status: 'Failed',
 					data: []
 				});
@@ -71,7 +71,7 @@ var UserController = function (_User) {
 			} else {
 				req.body.email = req.body.email.toLowerCase().replace(/\s+/g, '');
 				req.body.password = req.body.password.toLowerCase();
-				this.create(req, function (error) {
+				this.create(req, function (error, response) {
 					if (error) {
 						res.status(409).json({
 							message: error,
@@ -79,10 +79,15 @@ var UserController = function (_User) {
 							data: []
 						});
 					} else {
+						var payload = {
+							email: req.body.email,
+							id: response.rows[0].id
+						};
+						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 						res.status(201).json({
-							message: 'You have successfully signed up!',
+							message: 'You have successfully signed up and signed in!',
 							status: 'Success',
-							data: []
+							data: { token: token }
 						});
 					}
 				});
@@ -97,7 +102,7 @@ var UserController = function (_User) {
 
 			if (email === ' ' || password === ' ' || password < 6) {
 				res.status(422).json({
-					message: 'Please fill in all the fields properly!',
+					message: 'Please fill all the input fields!',
 					status: 'Failed',
 					data: []
 				});
@@ -131,7 +136,7 @@ var UserController = function (_User) {
 						delete user.password;
 						var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 60000 });
 						res.status(200).json({
-							message: 'You have successfully signed in!',
+							message: 'You have signed in successfully!',
 							status: 'Success',
 							data: { user: user, token: token }
 						});
@@ -172,7 +177,7 @@ var UserController = function (_User) {
 				});
 			} else if (req.body.email === ' ' || req.body.fullName === ' ' || req.body.dateOfBirth === ' ') {
 				res.status(422).json({
-					message: 'Please fill in all the fields properly!',
+					message: 'Please fill all the input fields!',
 					status: 'Failed',
 					data: []
 				});
@@ -219,7 +224,7 @@ var UserController = function (_User) {
 						});
 					} else {
 						res.status(422).json({
-							message: 'Your notification settings has been updated!',
+							message: 'Your notification setting has been updated!',
 							status: 'Success',
 							data: []
 						});

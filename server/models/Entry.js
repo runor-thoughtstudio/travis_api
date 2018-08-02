@@ -114,7 +114,7 @@ class Entry {
 									callback(updateError, 200);
 								});
 							} else if (time !== response.rows[0].created_at) {
-								callback('This entry can no longer be updated!', 403);
+								callback('This entry is old and can no longer be updated!', 403);
 							}
 						} else if (response.rows[0].user_id !== userId) {
 							callback('You do not have permission to edit this entry!', 403);
