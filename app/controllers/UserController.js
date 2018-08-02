@@ -80,6 +80,7 @@ var UserController = function (_User) {
 				this.create(req, function (error, response) {
 					if (error) {
 						console.log(error);
+						console.log(response);
 						res.status(409).json({
 							message: error,
 							status: 'Failed',
