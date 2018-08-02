@@ -83,6 +83,9 @@ var EntryController = function (_Entry) {
 					status: 'Failed',
 					data: []
 				});
+				console.log(req.body);
+				console.log(req.body.title);
+				console.log(req.body.description);
 			} else if (req.body.title && req.body.description) {
 				this.createEntry(req, function (error) {
 					console.log(error);

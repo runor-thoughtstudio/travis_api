@@ -43,14 +43,15 @@ class Entry {
 		Joi.validate({
 			title, description, userId,
 		}, this.schema, (err) => {
+			console.log(err);
 			if (err) {
 				callback(err.details[0].message);
 			} else {
 				console.log(err);
-				console.log('am creating');
 				const sql = 'INSERT INTO entries(title, description, user_id) VALUES($1, $2, $3)';
 				const values = [title, description, userId];
 				this.pool.query(sql, values, (error) => {
+					console.log(error);
 					if (error) {
 						callback(error);
 					} else {

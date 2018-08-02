@@ -74,14 +74,15 @@ var Entry = function () {
 			_joi2.default.validate({
 				title: title, description: description, userId: userId
 			}, this.schema, function (err) {
+				console.log(err);
 				if (err) {
 					callback(err.details[0].message);
 				} else {
 					console.log(err);
-					console.log('am creating');
 					var sql = 'INSERT INTO entries(title, description, user_id) VALUES($1, $2, $3)';
 					var values = [title, description, userId];
 					_this.pool.query(sql, values, function (error) {
+						console.log(error);
 						if (error) {
 							callback(error);
 						} else {

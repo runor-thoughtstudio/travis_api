@@ -7,7 +7,7 @@ dotenv.config();
 const { expect } = chai;
 const request = new Request();
 const payload = {
-	email: 'mynewemail@gmail.com',
+	email: 'kamp@gmail.com',
 	id: 1,
 };
 const token = jwt.sign(payload, process.env.secret_token, { expiresIn: 6000 });
@@ -64,21 +64,6 @@ describe('Test Entries Routes', () => {
 			});
 		}).timeout(30000);
 
-		it('show error 404 when id does not exist', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries/200`;
-			const formData = {
-				title: 'First Title',
-				description: 'Cool',
-			};
-			request.postOrPut('PUT', url, formData, headers, (error, res, body) => {
-				const jsonObject = JSON.parse(body);
-				expect(res.statusCode).to.be.equal(404);
-				expect(jsonObject.message).to.be.equal('This entry does not exist!');
-				expect(jsonObject.status).to.be.equal('Failed');
-				done();
-			});
-		}).timeout(30000);
-
 		it('should give error when incorrect form data is sent', (done) => {
 			const url = `${process.env.root_url}${process.env.version_url}/entries/4`;
 			const formData = {
@@ -95,19 +80,19 @@ describe('Test Entries Routes', () => {
 		}).timeout(30000);
 	});
 
-	describe('allEntries()', () => {
-		it('should show all entries in the app', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries`;
-			request.getOrDelete('GET', url, headers, (error, res, body) => {
-				const jsonObject = JSON.parse(body);
-				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject).to.be.a('object');
-				expect(jsonObject.message).to.be.equal('Retrieved');
-				expect(jsonObject.data).to.be.a('array');
-				done();
-			});
-		}).timeout(30000);
-	});
+	// describe('allEntries()', () => {
+	// 	it('should show all entries in the app', (done) => {
+	// 		const url = `${process.env.root_url}${process.env.version_url}/entries`;
+	// 		request.getOrDelete('GET', url, headers, (error, res, body) => {
+	// 			const jsonObject = JSON.parse(body);
+	// 			expect(res.statusCode).to.be.equal(200);
+	// 			expect(jsonObject).to.be.a('object');
+	// 			expect(jsonObject.message).to.be.equal('Retrieved');
+	// 			expect(jsonObject.data).to.be.a('array');
+	// 			done();
+	// 		});
+	// 	}).timeout(30000);
+	// });
 
 	describe('deleteEntry()', () => {
 		it('should show error when id doesnt exist', (done) => {
