@@ -56,6 +56,7 @@ class Entry {
 				const sql = 'INSERT INTO entries(title, description, user_id) VALUES($1, $2, $3)';
 				const values = [title, description, userId];
 				this.pool.query(sql, values, (error) => {
+					console.log(error);
 					if (error) {
 						callback(error);
 					} else {
