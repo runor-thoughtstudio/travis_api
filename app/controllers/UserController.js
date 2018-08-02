@@ -79,6 +79,7 @@ var UserController = function (_User) {
 				req.body.password = req.body.password.toLowerCase();
 				this.create(req, function (error, response) {
 					if (error) {
+						console.log(error);
 						res.status(409).json({
 							message: error,
 							status: 'Failed',

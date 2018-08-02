@@ -47,7 +47,7 @@ describe('User Tests', () => {
 				password: 'password',
 				confirmPassword: 'password',
 				fullName: 'User Name',
-				dateOfBirth: '2018-04',
+				dateOfBirth: '2018-04-02',
 			};
 			request.postOrPut('POST', url, tempUser, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -65,7 +65,7 @@ describe('User Tests', () => {
 				password: 'password',
 				confirmPassword: 'password',
 				username: 'User Name',
-				dateOfBirth: '2018-04',
+				dateOfBirth: '2018-04-02',
 			};
 			request.postOrPut('POST', url, tempUser, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -185,7 +185,7 @@ describe('User Tests', () => {
 			const formData = {
 				email: ' ',
 				fullName: 'User Name',
-				dateOfBirth: '2018-04',
+				dateOfBirth: '2018-04-02',
 			};
 			request.postOrPut('PUT', url, formData, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
@@ -201,7 +201,7 @@ describe('User Tests', () => {
 			const formData = {
 				email: 'user1@example.com',
 				username: 'User Name',
-				dateOfBirth: '2018-04',
+				dateOfBirth: '2018-04-02',
 			};
 			request.postOrPut('PUT', url, formData, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
