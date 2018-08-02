@@ -51,7 +51,7 @@ var Entry = function () {
 		key: 'allEntries',
 		value: function allEntries(req, callback) {
 			var userId = req.userData.id;
-			var sql = 'SELECT * FROM entries WHERE user_id=$1';
+			var sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC';
 			var values = [userId];
 			this.pool.query(sql, values, function (error, res) {
 				if (error) {

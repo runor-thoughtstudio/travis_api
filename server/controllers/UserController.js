@@ -76,7 +76,7 @@ class UserController extends User {
 			this.loginUser(req, (err, response) => {
 				if (err) {
 					res.status(500).json({
-						message: 'Server Error!',
+						message: err,
 						status: 'Failed',
 						data: [],
 					});

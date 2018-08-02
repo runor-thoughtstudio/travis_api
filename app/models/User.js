@@ -84,30 +84,40 @@ var User = function () {
 	}, {
 		key: 'loginUser',
 		value: function loginUser(req, callback) {
+			var _this2 = this;
+
 			var _req$body2 = req.body,
 			    email = _req$body2.email,
 			    password = _req$body2.password;
 
 			password = password.toLowerCase();
 			email = email.toLowerCase().replace(/\s+/g, '');
-			var sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
-			var values = [email];
-			this.pool.query(sql, values, function (err, res) {
-				if (err !== undefined) {
-					callback(err, res);
-				} else if (err === undefined) {
-					if (!res.rows[0]) {
-						callback(err, false);
-					} else {
-						var hash = res.rows[0].password;
-						_bcryptjs2.default.compare(password, hash, function (errOnHash, resOnHash) {
-							if (resOnHash === true) {
-								callback(err, res);
+			_joi2.default.validate({
+				email: email, password: password
+			}, this.schema, function (error) {
+				if (error) {
+					callback('The email must be a valid email!');
+				} else {
+					var sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
+					var values = [email];
+					_this2.pool.query(sql, values, function (err, res) {
+						if (err !== undefined) {
+							callback(err, res);
+						} else if (err === undefined) {
+							if (!res.rows[0]) {
+								callback(err, false);
 							} else {
-								callback(err, resOnHash);
+								var hash = res.rows[0].password;
+								_bcryptjs2.default.compare(password, hash, function (errOnHash, resOnHash) {
+									if (resOnHash === true) {
+										callback(err, res);
+									} else {
+										callback(err, resOnHash);
+									}
+								});
 							}
-						});
-					}
+						}
+					});
 				}
 			});
 		}

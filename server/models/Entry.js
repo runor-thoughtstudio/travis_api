@@ -24,7 +24,7 @@ class Entry {
 
 	allEntries(req, callback) {
 		const userId = req.userData.id;
-		const sql = 'SELECT * FROM entries WHERE user_id=$1';
+		const sql = 'SELECT * FROM entries WHERE user_id=$1 ORDER BY id DESC';
 		const values = [userId];
 		this.pool.query(sql, values, (error, res) => {
 			if (error) {

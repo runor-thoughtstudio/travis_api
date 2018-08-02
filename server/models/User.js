@@ -57,24 +57,32 @@ class User {
 		} = req.body;
 		password = password.toLowerCase();
 		email = email.toLowerCase().replace(/\s+/g, '');
-		const sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
-		const values = [email];
-		this.pool.query(sql, values, (err, res) => {
-			if (err !== undefined) {
-				callback(err, res);
-			} else if (err === undefined) {
-				if (!res.rows[0]) {
-					callback(err, false);
-				} else {
-					const hash = res.rows[0].password;
-					bcryptjs.compare(password, hash, (errOnHash, resOnHash) => {
-						if (resOnHash === true) {
-							callback(err, res);
+		Joi.validate({
+			email, password,
+		}, this.schema, (error) => {
+			if (error) {
+				callback('The email must be a valid email!');
+			} else {
+				const sql = 'SELECT * FROM users WHERE email=$1 LIMIT 1';
+				const values = [email];
+				this.pool.query(sql, values, (err, res) => {
+					if (err !== undefined) {
+						callback(err, res);
+					} else if (err === undefined) {
+						if (!res.rows[0]) {
+							callback(err, false);
 						} else {
-							callback(err, resOnHash);
+							const hash = res.rows[0].password;
+							bcryptjs.compare(password, hash, (errOnHash, resOnHash) => {
+								if (resOnHash === true) {
+									callback(err, res);
+								} else {
+									callback(err, resOnHash);
+								}
+							});
 						}
-					});
-				}
+					}
+				});
 			}
 		});
 	}

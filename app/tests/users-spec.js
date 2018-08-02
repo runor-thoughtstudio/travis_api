@@ -25,11 +25,11 @@ var expect = _chai2.default.expect;
 
 var request = new _requests2.default();
 var user = {
-	email: 'kamp@gmail.com',
+	email: 'coolerkamp@gmail.com',
 	password: 'password',
 	confirmPassword: 'password',
 	fullName: 'User Name',
-	dateOfBirth: '2018-04'
+	dateOfBirth: '2018-04-02'
 };
 var payload = {
 	email: 'kamp@gmail.com',
@@ -49,9 +49,10 @@ describe('User Tests', function () {
 			process.env.NODE_ENV = 'test';
 			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
 			request.postOrPut('POST', url, user, headers, function (error, res, body) {
+				console.log(error);
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(201);
-				expect(jsonObject.message).to.be.equal('You have successfully signed up!');
+				expect(jsonObject.message).to.be.equal('You have successfully signed up and signed in!');
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
@@ -69,7 +70,7 @@ describe('User Tests', function () {
 			request.postOrPut('POST', url, tempUser, headers, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject.message).to.be.equal('Please fill in all the fields properly!');
+				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
@@ -104,7 +105,7 @@ describe('User Tests', function () {
 			request.postOrPut('POST', url, formData, headers, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(200);
-				expect(jsonObject.message).to.be.equal('You have successfully signed in!');
+				expect(jsonObject.message).to.be.equal('You have signed in successfully!');
 				expect(jsonObject.status).to.be.equal('Success');
 				done();
 			});
@@ -119,7 +120,7 @@ describe('User Tests', function () {
 			request.postOrPut('POST', url, tempUser, headers, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject.message).to.be.equal('Please fill in all the fields properly!');
+				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
@@ -207,7 +208,7 @@ describe('User Tests', function () {
 			request.postOrPut('PUT', url, formData, headers, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(422);
-				expect(jsonObject.message).to.be.equal('Please fill in all the fields properly!');
+				expect(jsonObject.message).to.be.equal('Please fill all the input fields!');
 				expect(jsonObject.status).to.be.equal('Failed');
 				done();
 			});
