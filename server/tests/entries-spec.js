@@ -96,7 +96,7 @@ describe('Test Entries Routes', () => {
 
 	describe('deleteEntry()', () => {
 		it('should show error when id doesnt exist', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries/0`;
+			const url = `${process.env.root_url}${process.env.version_url}/entries/700`;
 			request.getOrDelete('DELETE', url, headers, (error, res, body) => {
 				const jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);

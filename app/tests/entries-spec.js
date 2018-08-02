@@ -112,7 +112,7 @@ describe('Test Entries Routes', function () {
 
 	describe('deleteEntry()', function () {
 		it('should show error when id doesnt exist', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/entries/0';
+			var url = '' + process.env.root_url + process.env.version_url + '/entries/700';
 			request.getOrDelete('DELETE', url, headers, function (error, res, body) {
 				var jsonObject = JSON.parse(body);
 				expect(res.statusCode).to.be.equal(400);
