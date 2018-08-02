@@ -23,7 +23,7 @@ var expect = _chai2.default.expect;
 
 var request = new _requests2.default();
 var payload = {
-	email: 'kampp@gmail.com',
+	email: 'kamp@gmail.com',
 	id: 1
 };
 var token = _jsonwebtoken2.default.sign(payload, process.env.secret_token, { expiresIn: 6000 });

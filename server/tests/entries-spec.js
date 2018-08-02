@@ -7,7 +7,7 @@ dotenv.config();
 const { expect } = chai;
 const request = new Request();
 const payload = {
-	email: 'kampp@gmail.com',
+	email: 'kamp@gmail.com',
 	id: 1,
 };
 const token = jwt.sign(payload, process.env.secret_token, { expiresIn: 6000 });
