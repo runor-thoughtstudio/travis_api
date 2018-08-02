@@ -30,7 +30,7 @@ describe('User Tests', () => {
 	describe('signupUser()', () => {
 		it('should signup a user with correct form details', (done) => {
 			process.env.NODE_ENV = 'test';
-			const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
+			const url = `${process.env.version_url}/auth/signup`;
 			request.postOrPut('POST', url, user, headers, (error, res, body) => {
 				console.log(error);
 				const jsonObject = JSON.parse(body);
@@ -42,7 +42,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('should validate false on submitting empty field', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
+			const url = `${process.env.version_url}/auth/signup`;
 			const tempUser = {
 				email: ' ',
 				password: 'password',
@@ -61,7 +61,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/auth/signup`;
+			const url = `${process.env.version_url}/auth/signup`;
 			const tempUser = {
 				email: 'user1@example.com',
 				password: 'password',
@@ -82,7 +82,7 @@ describe('User Tests', () => {
 
 	describe('signinUser()', () => {
 		it('should signin a user whose email is present', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/auth/login`;
+			const url = `${process.env.version_url}/auth/login`;
 			const formData = {
 				email: 'kamp@gmail.com',
 				password: 'password',
@@ -98,7 +98,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('should validate false on submitting empty field', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/auth/login`;
+			const url = `${process.env.version_url}/auth/login`;
 			const tempUser = {
 				email: ' ',
 				password: 'password',
@@ -114,7 +114,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/auth/login`;
+			const url = `${process.env.version_url}/auth/login`;
 			const tempUser = {
 				username: 'user1@example.com',
 				password: 'password',
@@ -130,7 +130,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('do not signin user whose email is not present', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/auth/login`;
+			const url = `${process.env.version_url}/auth/login`;
 			const tempUser = {
 				email: 'absentuser1@example.com',
 				password: 'password',
@@ -148,7 +148,7 @@ describe('User Tests', () => {
 
 	describe('showProfile()', () => {
 		it('should show a users profile who is signed in', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/user/profile`;
+			const url = `${process.env.version_url}/user/profile`;
 			request.getOrDelete('GET', url, headers, (error, res, body) => {
 				console.log(error);
 				const jsonObject = JSON.parse(body);
@@ -160,7 +160,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('should show error if token is invalid', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/user/profile`;
+			const url = `${process.env.version_url}/user/profile`;
 			request.getOrDelete('GET', url, 'nnuio', (error, res, body) => {
 				console.log(error);
 				const jsonObject = JSON.parse(body);
@@ -174,7 +174,7 @@ describe('User Tests', () => {
 
 	describe('UpdateProfile()', () => {
 		it('should update a users profile who exists', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/user/profile`;
+			const url = `${process.env.version_url}/user/profile`;
 			const formData = {
 				email: 'mynewemail@gmail.com',
 				fullName: 'New User',
@@ -191,7 +191,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('should validate false on submitting empty field', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/user/profile`;
+			const url = `${process.env.version_url}/user/profile`;
 			const formData = {
 				email: ' ',
 				fullName: 'User Name',
@@ -208,7 +208,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/user/profile`;
+			const url = `${process.env.version_url}/user/profile`;
 			const formData = {
 				email: 'user1@example.com',
 				username: 'User Name',
@@ -227,7 +227,7 @@ describe('User Tests', () => {
 
 	describe('saveNotifications()', () => {
 		it('should return error when form field is empty', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/user/notifications`;
+			const url = `${process.env.version_url}/user/notifications`;
 			const formData = {
 				reminderTime: ' ',
 			};
@@ -242,7 +242,7 @@ describe('User Tests', () => {
 		}).timeout(30000);
 
 		it('should return error when wrong form data is sent', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/user/notifications`;
+			const url = `${process.env.version_url}/user/notifications`;
 			const formData = {
 				reminderDay: '10:00',
 			};

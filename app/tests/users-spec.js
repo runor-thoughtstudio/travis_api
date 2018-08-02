@@ -47,7 +47,7 @@ describe('User Tests', function () {
 	describe('signupUser()', function () {
 		it('should signup a user with correct form details', function (done) {
 			process.env.NODE_ENV = 'test';
-			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
+			var url = process.env.version_url + '/auth/signup';
 			request.postOrPut('POST', url, user, headers, function (error, res, body) {
 				console.log(error);
 				var jsonObject = JSON.parse(body);
@@ -59,7 +59,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
+			var url = process.env.version_url + '/auth/signup';
 			var tempUser = {
 				email: ' ',
 				password: 'password',
@@ -78,7 +78,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/auth/signup';
+			var url = process.env.version_url + '/auth/signup';
 			var tempUser = {
 				email: 'user1@example.com',
 				password: 'password',
@@ -99,7 +99,7 @@ describe('User Tests', function () {
 
 	describe('signinUser()', function () {
 		it('should signin a user whose email is present', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
+			var url = process.env.version_url + '/auth/login';
 			var formData = {
 				email: 'kamp@gmail.com',
 				password: 'password'
@@ -115,7 +115,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
+			var url = process.env.version_url + '/auth/login';
 			var tempUser = {
 				email: ' ',
 				password: 'password'
@@ -131,7 +131,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
+			var url = process.env.version_url + '/auth/login';
 			var tempUser = {
 				username: 'user1@example.com',
 				password: 'password'
@@ -147,7 +147,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('do not signin user whose email is not present', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/auth/login';
+			var url = process.env.version_url + '/auth/login';
 			var tempUser = {
 				email: 'absentuser1@example.com',
 				password: 'password'
@@ -165,7 +165,7 @@ describe('User Tests', function () {
 
 	describe('showProfile()', function () {
 		it('should show a users profile who is signed in', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
+			var url = process.env.version_url + '/user/profile';
 			request.getOrDelete('GET', url, headers, function (error, res, body) {
 				console.log(error);
 				var jsonObject = JSON.parse(body);
@@ -177,7 +177,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('should show error if token is invalid', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
+			var url = process.env.version_url + '/user/profile';
 			request.getOrDelete('GET', url, 'nnuio', function (error, res, body) {
 				console.log(error);
 				var jsonObject = JSON.parse(body);
@@ -191,7 +191,7 @@ describe('User Tests', function () {
 
 	describe('UpdateProfile()', function () {
 		it('should update a users profile who exists', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
+			var url = process.env.version_url + '/user/profile';
 			var formData = {
 				email: 'mynewemail@gmail.com',
 				fullName: 'New User',
@@ -208,7 +208,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('should validate false on submitting empty field', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
+			var url = process.env.version_url + '/user/profile';
 			var formData = {
 				email: ' ',
 				fullName: 'User Name',
@@ -225,7 +225,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('should show error on sending incorrect form data', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/user/profile';
+			var url = process.env.version_url + '/user/profile';
 			var formData = {
 				email: 'user1@example.com',
 				username: 'User Name',
@@ -244,7 +244,7 @@ describe('User Tests', function () {
 
 	describe('saveNotifications()', function () {
 		it('should return error when form field is empty', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/user/notifications';
+			var url = process.env.version_url + '/user/notifications';
 			var formData = {
 				reminderTime: ' '
 			};
@@ -259,7 +259,7 @@ describe('User Tests', function () {
 		}).timeout(30000);
 
 		it('should return error when wrong form data is sent', function (done) {
-			var url = '' + process.env.root_url + process.env.version_url + '/user/notifications';
+			var url = process.env.version_url + '/user/notifications';
 			var formData = {
 				reminderDay: '10:00'
 			};

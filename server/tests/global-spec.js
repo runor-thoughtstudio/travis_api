@@ -9,7 +9,7 @@ const request = new Request();
 describe('Test Global Routes', () => {
 	describe('visitInvalidRoute()', () => {
 		it('should show not found when a user visits a mispelt address', (done) => {
-			const url = `${process.env.root_url}/${process.env.version_url}/no_entries`;
+			const url = `${process.env.version_url}/no_entries`;
 			const headers = {
 				'Content-Type': 'application/json',
 			};

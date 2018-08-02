@@ -22,7 +22,7 @@ var request = new _requests2.default();
 describe('Test Global Routes', function () {
 	describe('visitInvalidRoute()', function () {
 		it('should show not found when a user visits a mispelt address', function (done) {
-			var url = process.env.root_url + '/' + process.env.version_url + '/no_entries';
+			var url = process.env.version_url + '/no_entries';
 			var headers = {
 				'Content-Type': 'application/json'
 			};

@@ -18,7 +18,7 @@ const headers = {
 describe('Test Entries Routes', () => {
 	describe('createEntry()', () => {
 		it('validation should fail when any form field is empty', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries`;
+			const url = `${process.env.version_url}/entries`;
 			const formData = {
 				title: ' ',
 				description: 'New Description',
@@ -34,7 +34,7 @@ describe('Test Entries Routes', () => {
 		}).timeout(30000);
 
 		it('should give error on sending incorrect form data', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries`;
+			const url = `${process.env.version_url}/entries`;
 			const formData = {
 				name: ' ',
 				body: 'New Description',
@@ -52,7 +52,7 @@ describe('Test Entries Routes', () => {
 
 	describe('updateEntry()', () => {
 		it('validation should fail when any form field is empty', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries/4`;
+			const url = `${process.env.version_url}/entries/4`;
 			const formData = {
 				title: ' ',
 				description: 'Cool',
@@ -68,7 +68,7 @@ describe('Test Entries Routes', () => {
 		}).timeout(30000);
 
 		it('should give error when incorrect form data is sent', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries/4`;
+			const url = `${process.env.version_url}/entries/4`;
 			const formData = {
 				name: 'First Title',
 				body: 'Cool',
@@ -86,7 +86,7 @@ describe('Test Entries Routes', () => {
 
 	describe('deleteEntry()', () => {
 		it('should show error when id doesnt exist', (done) => {
-			const url = `${process.env.root_url}${process.env.version_url}/entries/700`;
+			const url = `${process.env.version_url}/entries/700`;
 			request.getOrDelete('DELETE', url, headers, (error, res, body) => {
 				console.log(error);
 				const jsonObject = JSON.parse(body);
